@@ -11,7 +11,7 @@
 
     <section id="page">
         <?php
-
+            echo 'render';
         ?>
     </section>
     <?php
