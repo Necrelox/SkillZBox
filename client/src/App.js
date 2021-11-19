@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
 
-import Home from './routes/Home';
+import Layout from './components/Layout';
+import Login from './routes/Login';
 
 export default function App() {
+    const [isLogIn, setIsLogIn] = useState(false);
+
     return (
-        <Layout>
+        <Layout isLogIn={isLogIn ? "" : " log-screen"}>
             <Routes>
-                <Route path='/' element={<Home />} />
+                <Route path='/' element={<Login setIsLogIn={setIsLogIn} />} />
             </Routes>
         </Layout>
     );

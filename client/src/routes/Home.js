@@ -1,5 +1,11 @@
-export default function Home() {
+export default function Home(props) {
+    function changeState() {
+        props.setIsLogIn(oldValue => {
+            return !oldValue;
+        });
+    }
+
     return (
-        <h1></h1>
+        <button onClick={changeState}>Click</button>
     )
 }
