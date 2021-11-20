@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/worker.dir/src/main.c.o CMakeFiles/worker.dir/src/daemon_process.c.o -o worker 

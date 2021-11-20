@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/include/file_manager.h
+file_structure.h
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/include/file_structure.h
+
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/include/file_structure.h
+stdio.h
+-
+
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/src/daemon_process.c
+../include/file_manager.h
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/include/file_manager.h
+../include/file_structure.h
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/include/file_structure.h
+openssl/rand.h
+-
+stdlib.h
+-
+unistd.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+string.h
+-
+sys/syslog.h
+-
+

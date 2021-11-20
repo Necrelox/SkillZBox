@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/workerToken.dir/src/main.c.o CMakeFiles/workerToken.dir/src/daemon_process.c.o -o workerToken  ../lib/libFileManager.a -lssl -lcrypto 

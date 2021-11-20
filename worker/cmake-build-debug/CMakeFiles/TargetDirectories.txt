@@ -1,0 +1,3 @@
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ruby/Documents/PHP/Sandbox/TEMP/worker/cmake-build-debug/CMakeFiles/workerToken.dir
