@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS user
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    hash VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
     status int(1) NOT NULL default 0,
     role enum('admin', 'user', 'moderator') NOT NULL default 'user',
     UNIQUE (username),
