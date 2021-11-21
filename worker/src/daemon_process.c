@@ -22,6 +22,8 @@ static int create_daemon(void)
         exit (EXIT_FAILURE);
     if (pid > 0)
         exit (EXIT_SUCCESS);
+
+
     if (setsid() < 0)
         exit (EXIT_FAILURE);
 
@@ -68,23 +70,20 @@ static char *gen_token(void)
 
 static int generate_and_write_new_token(int frequency_token)
 {
-    struct stat st;
-    if (stat("/var/tmp/ech", &st) == -1)
-        mkdir("/var/tmp/ech", 0700);
-
     file_s *ftoken = NULL;
 
-    if (access("/var/tmp/ech/token.txt", F_OK ) == 0)
-        remove("/var/tmp/ech/token.txt");
+    const char *path = "home/ruby/Documents/PHP/Sandbox/TEMP/api/ech/token.txt";
 
+    if (access(path, F_OK ) == 0)
+        remove(path);
 
     while (1) {
-        if (ftoken && file_check("/var/tmp/ech/token.txt", EXIST) == 0) {
+        if (ftoken && file_check(path, EXIST) == 0) {
             file_struct_destroy(ftoken, 0);
             ftoken = NULL;
         }
-        if (ftoken == NULL && file_check("/var/tmp/ech/token.txt", EXIST) < 0)
-            ftoken = file_create("/var/tmp/ech/token.txt");
+        if (ftoken == NULL && file_check(path, EXIST) < 0)
+            ftoken = file_create(path);
         char *token = gen_token();
         if (token == NULL)
             return EXIT_FAILURE;
@@ -94,13 +93,19 @@ static int generate_and_write_new_token(int frequency_token)
         if (token)
             free(token);
     }
-    if (ftoken && file_check("/var/tmp/ech/token.txt", EXIST) == 0)
+    if (ftoken && file_check(path, EXIST) == 0)
         file_struct_destroy(ftoken, 1);
     return EXIT_SUCCESS;
 }
 
 int process_daemon_generate_token(int frequency_token)
 {
+    struct stat st;
+
+    if (stat("/home/ruby/Documents/PHP/Sandbox/TEMP/api/ech", &st) == -1)
+        mkdir("/home/ruby/Documents/PHP/Sandbox/TEMP/api/ech", 0777);
+
+
     if (create_daemon() == EXIT_SUCCESS) {
         if (generate_and_write_new_token(frequency_token) == EXIT_FAILURE)
             return EXIT_FAILURE;

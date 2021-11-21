@@ -3,19 +3,14 @@
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
 
-    $mainController = new MainController();
-
-//Generate a random string.
-    $token = openssl_random_pseudo_bytes(16);
-
-//Convert the binary data into hexadecimal representation.
-   // $token = bin2hex($token);
-
-//Print it out for example purposes.
-    echo $token;
+//    $mainController = new MainController();
 
 
-//    echo json_encode($name);
+    $myfile = fopen("ech/token.txt", "r") or die("Unable to open file!");
+    echo fread($myfile,filesize("ech/token.txt"));
+    fclose($myfile);
+
+
 /*
  * token_react_server permet de verifier que ce soit que le server react qui a envoyé la requete
  * Ce token changera grace à un worker qui va se charger de générer le token toutes les heures

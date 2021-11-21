@@ -19,7 +19,6 @@ int print_help()
 int main(int ac, char **av)
 {
     int frequency_token = 60;
-    printf("ac : %d\n", ac);
     if (ac == 2) {
         if (verif_if_number(av[1]))
             frequency_token = atoi(av[1]);
