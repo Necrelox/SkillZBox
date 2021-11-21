@@ -1,11 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function Home(props) {
-    function changeState() {
-        props.setIsLogIn(oldValue => {
-            return !oldValue;
-        });
+    let navigate = useNavigate();
+
+    function handleClick() {
+        props.setIsLoginPage(true);
+        navigate('/login');
     }
 
     return (
-        <button onClick={changeState}>Click</button>
+        <button onClick={handleClick}>Login</button>
     )
 }

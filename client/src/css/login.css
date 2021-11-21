@@ -1,7 +1,7 @@
-
 .form-container {
     position: relative;
-    top: 70px;
+    padding-top: 10px;
+    height: 100%;
 	display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,24 +11,30 @@
     display: none;
 }
 
+form {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 input::placeholder {
-    color: rgba(0, 0, 0, 0.40);
+    color: white;
 }
 
 input {
     appearance: none;
     outline: none;
-    width: 250px;
+    width: 200px;
+    height: 40px;
     padding: 10px;
 
-    border: 1px solid rgba(255, 255, 255, 0.40);
+    border: none;
     border-radius: 0 3px 3px 0;
-    border-left: none;
 
     background-color: rgba(255, 255, 255, 0.40);
-    color: black;
+    color: white;
 
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     
     transition-duration: 0.25s;
@@ -40,27 +46,30 @@ input:hover {
 
 input:focus {
     background-color: white;
-    width: 300px;
+    width: 210px;
     color: black;
 }
 
-button {
+.form-btn {
     cursor: pointer;
     outline: none;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 3px;
-    padding: 15px;
-    margin: 1rem;
-    width: 250px;
+    position: absolute;
+    bottom: 0;
+    border: none;
+    padding: 15px 0;
+    margin-top: 1rem;
+    width: 100%;
+    border-radius: 0 0 5px 5px;
     background-color: rgb(105, 26, 26);
     color: white;
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
     transition-duration: 0.25s;
+    letter-spacing: 2px;
 }
 
-button:hover {
+.form-btn:hover {
     background-color: rgb(26, 70, 105);
 }
 
@@ -72,12 +81,11 @@ button:hover {
 }
 
 .icon {
+    height: 40px;
+    width: max-content;
+    padding: 11px;
     color: white;
-    font-size: 18px;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 11.6px;
-    border: 1px solid rgba(255, 255, 255, 0.40);
-    border-right: none;
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 3px 0 0 3px;
 }
 
@@ -90,9 +98,25 @@ button:hover {
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.40);
     transition: background-color .2s;
+    border-radius: 3px;
 }
 
 .--active {
     background-color: rgb(105, 26, 26);
+    color: white;
+}
+
+.form-link {
+    position: relative;
+    left: 30px;
+    display: inline-block;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.5);
+    transition: .2s;
+}
+
+.form-link:hover {
     color: white;
 }
