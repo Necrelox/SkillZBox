@@ -23,7 +23,6 @@ static int create_daemon(void)
     if (pid > 0)
         exit (EXIT_SUCCESS);
 
-
     if (setsid() < 0)
         exit (EXIT_FAILURE);
 
