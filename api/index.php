@@ -2,13 +2,9 @@
     require_once("Controller/MainController.php");
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
+    (new MainController())->run();
 
-//    $mainController = new MainController();
 
-
-    $myfile = fopen("ech/token.txt", "r") or die("Unable to open file!");
-    echo fread($myfile,filesize("ech/token.txt"));
-    fclose($myfile);
 
 
 /*
