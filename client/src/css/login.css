@@ -1,0 +1,97 @@
+.hidden {
+    display: none;
+}
+
+.form-selector {
+    display: flex;
+}
+
+.form-selector__btn {
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.form-selector__btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.--signin {
+    border-radius: 5px 0 0 0;
+}
+
+.--register {
+    border-radius: 0 5px 0 0;
+}
+
+.--active {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.form-field {
+    display: flex;
+}
+
+.form-input {
+    outline: none;
+    padding: 10px;
+    padding-left: 5px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    transition: .2s;
+}
+
+.form-input:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.form-input::placeholder {
+    color: white;
+}
+
+.form-input:focus {
+    background-color: white;
+    color: black;
+}
+
+.icon {
+    width: 42px;
+    height: 100%;
+    padding: 10px;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.form-link {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.form-btn {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 0 0 5px 5px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: white;
+    width: 100%;
+    padding: 1rem;
+    transition: .2s;
+}
+
+.form-btn:hover {
+    background-color: rgb(26, 70, 105);
+}
