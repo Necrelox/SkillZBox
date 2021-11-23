@@ -1,2 +1,5 @@
 .idea
+.vscode
+/worker/.idea
+/worker/.vscode
 /node_modules
