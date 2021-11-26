@@ -2,4 +2,5 @@
 .vscode
 /worker/.idea
 /worker/.vscode
+/api/.idea
 /node_modules

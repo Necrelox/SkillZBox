@@ -8,7 +8,7 @@ require_once ("CError404.php");
 
 class MainController
 {
-    private $subController;
+    private Object $subController;
 
     public function CheckIfUrlIsApi()
     {
