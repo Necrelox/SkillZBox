@@ -1,46 +1,52 @@
 CREATE DATABASE IF NOT EXISTS PasDeNom;
 USE PasDeNom;
 
-CREATE TABLE IF NOT EXISTS user
-(
+CREATE TABLE IF NOT EXISTS user (
     uuid VARCHAR(16) PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255)  NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
     token VARCHAR(255) NOT NULL,
-    status int(1) NOT NULL default 0,
+    status INT NOT NULL DEFAULT 0,
     role enum('admin', 'user', 'moderator') NOT NULL default 'user',
-    UNIQUE (username),
-    UNIQUE (email)
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS category
-(
+CREATE TABLE IF NOT EXISTS room (
     uuid VARCHAR(16) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    owner VARCHAR(16) NOT NULL,
+    user_uuid VARCHAR(16),
+    FOREIGN KEY (user_uuid) REFERENCES user(uuid) ON DELETE CASCADE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS tag
-(
+CREATE TABLE IF NOT EXISTS categorie (
     uuid VARCHAR(16) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    category_uuid VARCHAR(16) NOT NULL,
-    FOREIGN KEY (category_uuid) REFERENCES category(uuid),
-    UNIQUE (name)
+    name TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS room_has_tags
-(
-    tag_uuid VARCHAR(16) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    room_uuid VARCHAR(16) NOT NULL
+CREATE TABLE IF NOT EXISTS tag (
+    uuid VARCHAR(16) PRIMARY KEY,
+    name TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    categorie_uuid VARCHAR(16) NOT NULL,
+    FOREIGN KEY (categorie_uuid) REFERENCES categorie(uuid)
 );
 
-CREATE TABLE IF NOT EXISTS room
-(
-    uuid     VARCHAR(16) PRIMARY KEY,
-    owner    VARCHAR(16)  NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    room_has_tags_uuid  VARCHAR(16) NOT NULL,
-    foreign key (owner) references user (uuid)
+CREATE TABLE room_has_categorie (
+    room_uuid VARCHAR(16) NOT NULL,
+    categorie_uuid VARCHAR(16) NOT NULL,
+    FOREIGN KEY (room_uuid) REFERENCES room(uuid) ON DELETE CASCADE,
+    FOREIGN KEY (categorie_uuid) REFERENCES categorie(uuid) ON DELETE CASCADE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE room_has_tag (
+    room_uuid VARCHAR(16) NOT NULL,
+    tag_uuid VARCHAR(16) NOT NULL,
+    FOREIGN KEY (room_uuid) REFERENCES room(uuid) ON DELETE CASCADE,
+    FOREIGN KEY (tag_uuid) REFERENCES tag(uuid) ON DELETE CASCADE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
