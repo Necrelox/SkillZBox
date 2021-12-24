@@ -35,7 +35,6 @@ static int create_daemon(void)
     if (chdir("/") < 0)
         exit (EXIT_FAILURE);
     umask(777);
-
     for (int fd = sysconf(_SC_OPEN_MAX); fd >= 0; fd--)
         close (fd);
 
@@ -88,6 +87,7 @@ static int generate_and_write_new_token(int frequency_token)
             return EXIT_FAILURE;
         if (file_append(ftoken, token) < 0)
             return EXIT_FAILURE;
+        chmod(path, 0666);
         sleep(frequency_token);
         if (token)
             free(token);

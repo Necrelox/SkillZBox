@@ -8,6 +8,7 @@ class CApiUser
 {
     public array $Error = array(1, "", "");
     private int $ErrorFind = 0;
+    private $JsonView = null;
 
     private function setError($what, $error)
     {
@@ -29,8 +30,6 @@ class CApiUser
     public function render()
     {
         require_once($_SERVER["DOCUMENT_ROOT"] . "View/VApiUser.php");
-        echo $_SERVER["DOCUMENT_ROOT"];
-
     }
 
     private function CheckCreatePost(): bool
@@ -65,13 +64,8 @@ class CApiUser
 
     private function CheckAndPrepareReadRequest()
     {
-        $jsonFlagArray = json_decode(Tools::ParseFlagsApi(), true);
-        echo $jsonFlagArray;
-        /*
-         * parse url
-         *
-         * api user read
-         */
+        $ApiUser = new ApiUser();
+        $this->JsonView = $ApiUser->Read(Tools::ParseFlagsApi(), true);
     }
 
     private function CheckAndPrepareUpdateRequest()

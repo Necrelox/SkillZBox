@@ -2,5 +2,8 @@
 .vscode
 /worker/.idea
 /worker/.vscode
+/worker/cmake-build-debug
+/worker/cmake-build-release
 /api/.idea
+/api/ech/token.txt
 /node_modules
