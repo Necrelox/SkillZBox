@@ -62,12 +62,14 @@ class CApiUser
             ));
             unset($ApiUser);
         }
+        $this->JsonView = json_encode(array("Create" => "Success"));
     }
 
     private function CheckAndPrepareReadRequest()
     {
         $ApiUser = new ApiUser();
         $this->JsonView = $ApiUser->Read(Tools::ParseFlagsApi(), true);
+        unset($ApiUser);
     }
 
     private function CheckAndPrepareUpdateRequest()
@@ -77,7 +79,17 @@ class CApiUser
 
     private function CheckAndPrepareDeleteRequest()
     {
+        $ApiUser = new ApiUser();
 
+        if (array_key_exists("uuid", $_POST) && isset($_POST["uuid"])) {
+            if (count(json_decode($ApiUser->Read(json_encode(array("uuid" => array(htmlspecialchars(strip_tags($_POST['uuid']))))))), true) == 0)
+                throw new ErrorApi("Delete", "Error: User not found");
+            else {
+                $ApiUser->Delete(json_encode(array("uuid" => array(htmlspecialchars(strip_tags($_POST['uuid']))))));
+                $this->JsonView = json_encode(array("Delete" => "Success"));
+            }
+        }
+        unset($ApiUser);
     }
 
     private function CheckPostRequest()

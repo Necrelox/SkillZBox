@@ -45,6 +45,19 @@ class ApiUser extends DBconnect
 
     public function Delete($json)
     {
-        // TODO: Implement Delete() method.
+        $filterValid = array (
+            0 => "uuid",
+            1 => "username",
+            2 => "email",
+            3 => "password",
+            4 => "token",
+            5 => "status",
+            6 => "role",
+            7 => "created_at",
+        );
+        $ArrayToSearch = json_decode($json, true);
+        $request = "DELETE FROM user". Tools::CreateCondionnalSearch($ArrayToSearch, $filterValid);
+        $stmt = $this->db->prepare($request);
+        $stmt->execute();
     }
 }
