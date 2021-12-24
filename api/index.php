@@ -1,7 +1,7 @@
 <?php
-    require_once("Controller/MainController.php");
+    require_once($_SERVER["DOCUMENT_ROOT"] . "Controller/MainController.php");
     header("Access-Control-Allow-Origin: *");
-//    header("Content-Type: application/json; charset=UTF-8");
+    header("Content-Type: application/json; charset=UTF-8");
     (new MainController())->run();
 
 
@@ -51,6 +51,17 @@
  *          "uuid" => "",
  * ]
  */
+
+
+//<!--<form action="/api/600623AFEDFD2B037D8C375B3CE8C323/user" method="post">-->
+//<!--    <input type="hidden" name="Create" value=''/>-->
+//<!--    <input type="text" name="username" placeholder="name">-->
+//<!--    <input type="text" name="email" placeholder="email">-->
+//<!--    <input type="text" name="password" placeholder="password">-->
+//<!--    <input type="number" name="role" placeholder="role">-->
+//<!--    <input type="submit" value="submit">-->
+//<!--</form>-->
+
 
 /*
 

@@ -1,6 +1,8 @@
 <?php
 
-require_once("./Tools/ErrorApi.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "Tools/ErrorApi.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "Tools/Tools.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "Model/ApiUser.php");
 
 class CApiUser
 {
@@ -14,7 +16,7 @@ class CApiUser
         $this->ErrorFind = 1;
     }
 
-    public function getErrorFind()
+    public function getErrorFind(): int
     {
         return $this->ErrorFind;
     }
@@ -26,10 +28,12 @@ class CApiUser
 
     public function render()
     {
-        require_once("View/VApiUser.php");
+        require_once($_SERVER["DOCUMENT_ROOT"] . "View/VApiUser.php");
+        echo $_SERVER["DOCUMENT_ROOT"];
+
     }
 
-    private function CheckCreatePost()
+    private function CheckCreatePost(): bool
     {
         if (array_key_exists("username", $_POST) && isset($_POST["username"]) &&
             array_key_exists("password", $_POST) && isset($_POST["password"]) &&
@@ -38,18 +42,36 @@ class CApiUser
             return true;
         else
             throw new ErrorApi("Create","Error: Missing parameters");
-        return false;
     }
 
-    private function CheckAndPrepareCreateRequest()
+    private function CheckAndPrepareAndUseCreateRequest()
     {
-        if (!($this->CheckCreatePost()))
-            return false;
-        return true;
+        if ($this->CheckCreatePost()) {
+            $ApiUser = new ApiUser();
+
+            /*
+             * verif if the username is already used
+             * */
+
+
+            $ApiUser->Create(json_encode(array("username" => htmlspecialchars(strip_tags($_POST['username']))
+            , "password" => htmlspecialchars(strip_tags($_POST['password']))
+            , "email" => htmlspecialchars(strip_tags($_POST['email']))
+            , "role" => htmlspecialchars(strip_tags($_POST['role']))
+            )));
+            unset($ApiUser);
+        }
     }
 
     private function CheckAndPrepareReadRequest()
     {
+        $jsonFlagArray = json_decode(Tools::ParseFlagsApi(), true);
+        echo $jsonFlagArray;
+        /*
+         * parse url
+         *
+         * api user read
+         */
     }
 
     private function CheckAndPrepareUpdateRequest()
@@ -65,14 +87,13 @@ class CApiUser
     private function CheckPostRequest()
     {
         if (array_key_first($_POST) === 'Create')
-            $this->CheckAndPrepareCreateRequest();
+            $this->CheckAndPrepareAndUseCreateRequest();
         if (array_key_first($_POST) === 'Read')
             $this->CheckAndPrepareReadRequest();
         if (array_key_first($_POST) === 'Update')
             $this->CheckAndPrepareUpdateRequest();
         if (array_key_first($_POST) === 'Delete')
             $this->CheckAndPrepareDeleteRequest();
-
     }
 
     public function __construct()
@@ -82,6 +103,5 @@ class CApiUser
         } catch (ErrorApi $e) {
             $this->setError($e->getWho(), $e->getMessage());
         }
-
     }
 }
