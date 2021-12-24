@@ -1,24 +1,24 @@
 <?php
 
-require_once ("CApiCategory.php");
-require_once ("CApiRoom.php");
-require_once ("CApiTag.php");
-require_once ("CApiUser.php");
-require_once ("CError404.php");
+require_once ($_SERVER["DOCUMENT_ROOT"] . "/api/Controller/CApiCategory.php");
+require_once ($_SERVER["DOCUMENT_ROOT"] . "/api/Controller/CApiRoom.php");
+require_once ($_SERVER["DOCUMENT_ROOT"] . "/api/Controller/CApiTag.php");
+require_once ($_SERVER["DOCUMENT_ROOT"] . "/api/Controller/CApiUser.php");
+require_once ($_SERVER["DOCUMENT_ROOT"] . "/api/Controller/CError404.php");
 
 class MainController
 {
     private Object $subController;
 
-    public function CheckIfUrlIsApi()
+    private function CheckIfUrlIsApi()
     {
         return $url = explode('/', $_SERVER["REQUEST_URI"])[1] == "api";
     }
 
-    public function CheckTokenReactServer()
+    private function CheckTokenReactServer()
     {
-        $myfile = fopen("ech/token.txt", "r") or die("Unable to open file!");
-        $token = fread($myfile,filesize("ech/token.txt"));
+        $myfile = fopen($_SERVER["DOCUMENT_ROOT"] . "/api/ech/token.txt", "r") or die("Unable to open file!");
+        $token = fread($myfile,filesize($_SERVER["DOCUMENT_ROOT"] . "/api/ech/token.txt"));
         fclose($myfile);
         return explode("/", $_SERVER["REQUEST_URI"])[2] == $token;
     }

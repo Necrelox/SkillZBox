@@ -2,7 +2,7 @@
 
 abstract class DBconnect
 {
-    protected $db;
+    protected ?PDO $db;
 
     abstract public function Create($json);
     abstract public function Read($json);
@@ -17,7 +17,7 @@ abstract class DBconnect
         if (isset($_SERVER["DB_NAME"]))
             $DBname = $_SERVER["DB_NAME"];
         if (isset($_SERVER["DB_PASSWORD"]))
-            $password = $_SERVER["DB_NAME"];
+            $password = $_SERVER["DB_PASSWORD"];
 
         try {
             $this->db = new PDO("mysql:$server;dbname=$DBname;charset=utf8", $user, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));

@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS PasDeNom;
 USE PasDeNom;
 
 CREATE TABLE IF NOT EXISTS user (
-    uuid VARCHAR(16) PRIMARY KEY,
+    uuid VARCHAR(38) PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255)  NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -13,30 +13,30 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 CREATE TABLE IF NOT EXISTS room (
-    uuid VARCHAR(16) PRIMARY KEY,
+    uuid VARCHAR(38) PRIMARY KEY,
     owner VARCHAR(16) NOT NULL,
-    user_uuid VARCHAR(16),
+    user_uuid VARCHAR(38),
     FOREIGN KEY (user_uuid) REFERENCES user(uuid) ON DELETE CASCADE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS categorie (
-    uuid VARCHAR(16) PRIMARY KEY,
+    uuid VARCHAR(38) PRIMARY KEY,
     name TEXT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS tag (
-    uuid VARCHAR(16) PRIMARY KEY,
+    uuid VARCHAR(38) PRIMARY KEY,
     name TEXT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    categorie_uuid VARCHAR(16) NOT NULL,
+    categorie_uuid VARCHAR(38) NOT NULL,
     FOREIGN KEY (categorie_uuid) REFERENCES categorie(uuid)
 );
 
 CREATE TABLE room_has_categorie (
-    room_uuid VARCHAR(16) NOT NULL,
-    categorie_uuid VARCHAR(16) NOT NULL,
+    room_uuid VARCHAR(38) NOT NULL,
+    categorie_uuid VARCHAR(38) NOT NULL,
     FOREIGN KEY (room_uuid) REFERENCES room(uuid) ON DELETE CASCADE,
     FOREIGN KEY (categorie_uuid) REFERENCES categorie(uuid) ON DELETE CASCADE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -44,8 +44,8 @@ CREATE TABLE room_has_categorie (
 
 
 CREATE TABLE room_has_tag (
-    room_uuid VARCHAR(16) NOT NULL,
-    tag_uuid VARCHAR(16) NOT NULL,
+    room_uuid VARCHAR(38) NOT NULL,
+    tag_uuid VARCHAR(38) NOT NULL,
     FOREIGN KEY (room_uuid) REFERENCES room(uuid) ON DELETE CASCADE,
     FOREIGN KEY (tag_uuid) REFERENCES tag(uuid) ON DELETE CASCADE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
