@@ -31,8 +31,7 @@ class ApiUser extends DBconnect
             6 => "role",
             7 => "created_at",
         );
-        $request = "SELECT * FROM user";
-        $request .= Tools::CreateCondionnalSearch($arrayWithFilter, $filterValid);
+        $request = "SELECT * FROM user" . Tools::CreateCondionnalSearch($arrayWithFilter, $filterValid);
         $res = $this->db->prepare($request);
         $res->execute();
         $rowFind = $res->fetchAll(PDO::FETCH_NAMED);

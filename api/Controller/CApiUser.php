@@ -47,17 +47,19 @@ class CApiUser
     {
         if ($this->CheckCreatePost()) {
             $ApiUser = new ApiUser();
+            if (count(json_decode($ApiUser->Read(json_encode(array("username" => array(htmlspecialchars(strip_tags($_POST['username']))))))), true) > 0)
+                throw new ErrorApi("Create", "Error: Username already exists");
 
-            /*
-             * verif if the username is already used
-             * */
+            if (count(json_decode($ApiUser->Read(json_encode(array("email" => array(htmlspecialchars(strip_tags($_POST['email'])))))), true)) > 0)
+                throw new ErrorApi("Create", "Error: UserEmail already exists");
 
-
-            $ApiUser->Create(json_encode(array("username" => htmlspecialchars(strip_tags($_POST['username']))
-            , "password" => htmlspecialchars(strip_tags($_POST['password']))
-            , "email" => htmlspecialchars(strip_tags($_POST['email']))
-            , "role" => htmlspecialchars(strip_tags($_POST['role']))
-            )));
+            $ApiUser->Create(json_encode(array(
+                    "username" => htmlspecialchars(strip_tags($_POST['username']))
+                , "password" => htmlspecialchars(strip_tags($_POST['password']))
+                , "email" => htmlspecialchars(strip_tags($_POST['email']))
+                , "role" => htmlspecialchars(strip_tags($_POST['role']))
+                )
+            ));
             unset($ApiUser);
         }
     }
