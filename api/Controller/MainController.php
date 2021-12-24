@@ -26,7 +26,7 @@ class MainController
     public function setSubController()
     {
         if ($this->CheckIfUrlIsApi() && $this->CheckTokenReactServer()) {
-            switch(explode("/", $_SERVER["REQUEST_URL"])[3]) {
+            switch(explode("/", $_SERVER["REDIRECT_URL"])[3]) {
                 case "category":
                     $this->subController = new CApiCategory();
                     break;
