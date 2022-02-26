@@ -2,8 +2,10 @@
   "name": "back",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
+    "install": "npm i",
+    "start": "node src/main.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
