@@ -3,7 +3,8 @@ nav:
   - Vue global:
       - Accueil: index.md
   - Dev:
-      - Base de donnée: dev/database.md
+      - API: dev/API/api.md
+      - Base de donnée: dev/Database/database.md
       - Setup: dev/setupProject.md
 
 theme:
@@ -16,7 +17,7 @@ theme:
     - navigation.instant
     - content.tabs.link
     - content.code.annotate
-    - navigation.tracking
+    - navigation.tracking![](docs/img/Database/database.png)
     - navigation.tabs
     - navigation.indexes
     - toc.follow
@@ -30,13 +31,13 @@ theme:
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/weather-sunny
+        icon: material/toggle-switch-off-outline
         name: Switch to dark mode
     - scheme: slate
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/weather-night
+        icon: material/toggle-switch
         name: Switch to light mode
   font:
     text: Roboto
