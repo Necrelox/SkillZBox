@@ -50,7 +50,7 @@
 ???+ info "User"
     
     ```
-    - /PasDeNom/me (Informations de l'utilisateur)
+    - /PasDeNom/user/me (Informations de l'utilisateur)
         - GET
             - Paramètres Header:
                 - token: string
@@ -71,7 +71,7 @@
                 - user: object
         
 
-    - /PasDeNom/me/logo (Logo de l'utilisateur)
+    - /PasDeNom/user/me/logo (Logo de l'utilisateur)
         - GET
             - Paramètres Header:
                 - token: string
@@ -100,7 +100,7 @@
                 - status: string
                 - message: string
 
-    - /PasDeNom/userFriends (Liste des amis)
+    - /PasDeNom/user/user-friend (Liste des amis)
         - GET
             - Paramètres Header:
                 - token: string
@@ -178,7 +178,7 @@
                 - status: string
                 - message: string
                 - room: object
-       - PUT (à faire)
+       - PUT
            - Paramètre Header :
                 - token: string
            - Paramètre :
@@ -208,19 +208,6 @@
             - Retour :
                 - status: string
                 - message: string
-
-    - /PasDeNom/room/action (TODO) // TODO
-    
-    - /PasDeNom/room/files (Liste des fichiers d'une room)
-        - GET
-            - Paramètre Header :
-                - token: string
-            - Paramètre :
-                - room_uuid: string
-            - Retour :
-                - status: string
-                - message: string
-                - files: array[object]
 
     - /PasDeNom/room/message (Tchat de la room)
         - POST
@@ -252,6 +239,18 @@
                 - user_uuid : string
                 - message_uuid : string
 
+    - /PasDeNom/room/files (Liste des fichiers d'une room)
+        - GET
+            - Paramètre Header :
+                - token: string
+            - Paramètre :
+                - room_uuid: string
+                - ?room_message_uuid: string
+            - Retour :
+                - status: string
+                - message: string
+                - files: array[object]
+
     - /PasDeNom/room/categories (Liste des categories d'une room)
         - GET
             - Paramètre Header :
@@ -274,7 +273,7 @@
                 - message : string
                 - tags : array[object]
 
-    - /PasDeNom/room/report (Signaler un utilisateur
+    - /PasDeNom/room/report (Signaler un utilisateur)
         - POST
             - Paramètre Header :
                 - token : string
@@ -287,3 +286,172 @@
                 - message : string
     ``` 
 
+???+ info "Admin"
+
+    ```
+    - /PasDeNom/admin/user (User)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - users: array[object]
+        - PUT
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - uuid_user: string
+                - ?username: string
+                - ?email: string
+                - ?password: string
+                - ?role: boolean
+                - ?is_verified: boolean
+            - Retour:
+                - status: string
+                - message: string
+        - DELETE
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+
+    - /PasDeNom/admin/report (Report)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - reports: array[object]
+        - DELETE
+            - Paramètre Header:
+                - token: string
+            - Paramètre:
+                - uuid_user: string
+                - reason: string
+            - Retour:
+                - status: string
+                - message: string
+                - reports: array[object]
+
+    - /PasDeNom/admin/user/logo (Logo user)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - logo: array[object]
+        - PUT
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - uuid_user: string
+                - user_log_uuid: string
+                - ?seed: string
+                - ?path: string
+                - ?active: boolean
+            - Retour:
+                - status: string
+                - message: string
+
+    - /PasDeNom/admin/user-ip (User ip)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_ip: array[object]
+
+    - /PasDeNom/admin/user-macadress (User macadress)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_macadress: array[object]
+
+    - /PasDeNom/admin/user-friend (User friend)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_friend: array[object]
+
+    - /PasDeNom/admin/user-device (User device)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_device: array[object]
+    
+    - /PasDeNom/admin/user-history (User history)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - ?uuid_user: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_history: array[object]
+    
+    - /PasDeNom/admin/user-history-message (User history message)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - user_history_uuid: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_history_message: array[object]
+
+    - /PasDeNom/admin/user-history-action (User history action)
+        - GET
+            - Paramètre Header:
+                - token: string
+                - mac_address: string
+            - Paramètre:
+                - user_history_uuid: string
+            - Retour:
+                - status: string
+                - message: string
+                - user_history_action: array[object]
+    ```
