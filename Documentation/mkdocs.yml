@@ -4,6 +4,7 @@ nav:
       - Accueil: index.md
   - Dev:
       - API: dev/API/api.md
+      - Front: dev/Front/front.md
       - Base de donnée: dev/Database/database.md
       - Setup: dev/setupProject.md
 
@@ -17,7 +18,7 @@ theme:
     - navigation.instant
     - content.tabs.link
     - content.code.annotate
-    - navigation.tracking![](docs/img/Database/database.png)
+    - navigation.tracking
     - navigation.tabs
     - navigation.indexes
     - toc.follow
