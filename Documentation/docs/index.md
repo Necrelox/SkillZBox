@@ -30,7 +30,7 @@ Typiquement, si vous vous sentez seul ou que vous avez besoin d’aide ou même 
 
 - Documentation avec le module python mkdocs
 
-- Programme de compression et de chiffrements des données (c ou c++)
+- Librairie Dynamique de compression **sans perte** et de chiffrements des données (c ou c++)
 
 - Programme permettant de clean une partie de la base de donnée si elle devient trop lourde, il aura pour but de déplacer ces données dans un dossier archive qui sera chiffré.
 

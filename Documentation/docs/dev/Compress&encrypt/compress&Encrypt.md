@@ -4,20 +4,22 @@
 
 ???+ info "Choix du langage"
 
-    Le langage n'est pas encore définis.
+    Le langage n'est pas encore définis (C ou C++).
 
 ???+ note "Présentation de compress & encrypt"
     
-    Compress et encrypt est un outil, en language //TODO. 
-    
-    Le but de cet outil, est de compresser les fichier puis de les stocker sous forme de bloc ainsi que de les chiffrer sur le serveur.
-    Ainsi, cela permet de sécuriser les fichiers des clients et de gagner de l'espace de stockage.
+    Compress et encrypt est une librairie dynamique, en language //TODO.
+    Cette librairie permet de récupérer un fichier, d'effectuer une compression **sans perte** et ensuite de le découper en bloc et chiffrer chaque bloc.
+    Le but est de gagner de l'espace de stockage ainsi que de sécuriser les fichiers.
+   
+    La librairie sera ensuite importée comme module NodeJs.
 
-???+ info "Utilisation de la compression sans perte"
+### Fonction Principal de la librairie
 
-    La compression sans perte est une compression de type gzip.
+    La librairie compress & encrypt sera composée de deux fonctions principales :
+        - compressAndEncrypt(filePath)
+        - decryptAndDecompress(dirPath, seed)
 
-    Cela permet de compresser les fichiers sans perte.
 
-### Setup
+### Setup (TODO)
 
