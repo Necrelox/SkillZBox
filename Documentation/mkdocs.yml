@@ -6,7 +6,7 @@ nav:
       - API: dev/API/api.md
       - Front: dev/Front/front.md
       - Base de donnée: dev/Database/database.md
-      - Setup: dev/setupProject.md
+      - Compress & Encrypt: dev/Compress&encrypt/compress&Encrypt.md
 
 theme:
   name: material
