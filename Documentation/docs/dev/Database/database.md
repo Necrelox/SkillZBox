@@ -4,7 +4,7 @@
 
 [ ![](../../img/Database/database.png) ](../../img/Database/database.png)
 
-!!! summary "information"
+???+ summary "information"
     Ce diagramme montre la structure basique de la base de donnée.
 
     La base de donnée est composée de plusieurs tables :

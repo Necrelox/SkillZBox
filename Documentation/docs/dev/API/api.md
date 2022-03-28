@@ -2,7 +2,7 @@
 
 ### Présentation de l'API
 
-!!! note "Definition de l'API"
+???+ note "Definition de l'API"
 
     L'**api** est une interface de communication entre le serveur et le client.
     
