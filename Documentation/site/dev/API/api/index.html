@@ -1,0 +1,989 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>API - PasDeNom documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="PasDeNom documentation" class="md-header__button md-logo" aria-label="PasDeNom documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PasDeNom documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Vue global
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Dev
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="PasDeNom documentation" class="md-nav__button md-logo" aria-label="PasDeNom documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    PasDeNom documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Vue global</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Vue global" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Vue global
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Dev
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Dev" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Dev
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        API
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Front/front/" class="md-nav__link">
+        Front
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Database/database/" class="md-nav__link">
+        Base de donnée
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Compress%26encrypt/compress%26Encrypt/" class="md-nav__link">
+        Compress & Encrypt
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CleanerDatabase/cleanerDatabase/" class="md-nav__link">
+        Cleaner Database
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GeoTracerIp/geoTracerIp/" class="md-nav__link">
+        GeoTracerIp
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>API</h1>
+
+<details class="note" open="open">
+<summary>Definition de l'API</summary>
+<p>L'<strong>api</strong> est une interface de communication entre le serveur et le client.</p>
+<p>Elle permet de faire le lien entre la base de données et le client.</p>
+<p>Selon la route, l'api va effectuer un traitement sur les données récupéré.</p>
+</details>
+<details class="question" open="open">
+<summary>Pourquoi l'api ?</summary>
+<p>Le choix d'une api est très simple, elle permet de pouvoir faire plusieurs type de client qui communiquent avec le serveur.</p>
+<p>On peut aisément, grâce  à des requêtes sur l'api, récupérer des données, et les réutiliser.</p>
+</details>
+<details class="info" open="open">
+<summary>Routes</summary>
+<details class="info" open="open">
+<summary>Account</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>- /PasDeNom/signup (Création d&#39;un compte)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    - POST
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        - Paramètres:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>            - username: string
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>            - password: string
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>            - email: string
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        - Retour:
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>            - status: string
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>            - message: string
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>- /PasDeNom/verify (Vérification d&#39;un compte et connection)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    - POST
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        - Paramètres:
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>            - token: string
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        - Retour:
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>            - status: string
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>            - message: string
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>            - token: string
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>- /PasDeNom/login (Connection)
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    - POST
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>        - Paramètres:
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>            - username: string
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>            - password: string
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>        - Retour:
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>            - status: string
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>            - message: string
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>            - token: string
+</code></pre></div>
+</details>
+<details class="info" open="open">
+<summary>User</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>- /PasDeNom/user/me (Informations de l&#39;utilisateur)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    - GET
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        - Paramètres Header:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>            - token: string
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        - Retour:
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>            - status: string
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>            - message: string
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            - user: object
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    - PUT
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        - Paramètres Header:
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            - token: string
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        - Paramètres:
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>            - username: string
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>            - password: string
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>            - email: string
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        - Retour:
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>            - status: string
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>            - message: string
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>            - user: object
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>- /PasDeNom/user/me/logo (Logo de l&#39;utilisateur)
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>    - GET
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>        - Paramètres Header:
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>            - token: string
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>        - Paramètre:
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>            - uuid_user: string
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>        - Retour:
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>            - status: string
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>            - message: string
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>            - user_logo: array[object]
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    - POST
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>        - Paramètres Header:
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>            - token: string
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>        - Paramètres:
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>            - uuid_user: string
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>            - logo: string
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>        - Retour:
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>            - status: string
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>            - message: string
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>    - PUT
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>        - Paramètres Header:
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>            - token: string
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>        - Paramètres:
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>            - uuid_user: string
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>            - ?user_logo_uuid_delete: boolean
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>        - Retour:
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>            - status: string
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>            - message: string
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>- /PasDeNom/user/user-friend (Liste des amis)
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>    - GET
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>        - Paramètres Header:
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>            - token: string
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>        - Paramètre:
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>            - uuid_user: string
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>            - ?user_friend_uuid: string
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>        - Retour:
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>            - status: string
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>            - message: string
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>            - list user: array[object]
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>    - POST
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>        - Paramètres Header:
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>            - token: string
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>        - Paramètre:
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>            - uuid_user: string
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>            - uuid_user_friend: string
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>        - Retour:
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>            - status: string
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>            - message: string
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>    - DELETE
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>        - Paramètres Header:
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>            - token: string
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>        - Paramètre:
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>            - uuid_user: string
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>            - uuid_user_friend: string
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>        - Retour:
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>            - status: string
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>            - message: string
+</code></pre></div>
+</details>
+<details class="info" open="open">
+<summary>Categories and Tag</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>- /PasDeNom/categorie (Categories)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>   - GET
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        - Paramètre Header:
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>            - token: string
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        - Retour:
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>            - status: string
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>            - message: string
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>            - categories: array[object]
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>- /PasDeNom/tag (Tags)
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    - GET
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        - Paramètre Header:
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>            - token: string
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        - Retour:
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>            - status: string
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>            - message: string
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>            - tags: array[object]
+</code></pre></div>
+</details>
+<details class="info" open="open">
+<summary>Room</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>- /PasDeNom/room (Room)
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    - POST (Création)
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        - Paramètre Header :
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>           - token: string
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        - Paramètre :
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>            - uuid_user: string
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>            - categorie_uuid: string
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>            - tag_uuid: string
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        - Retour :
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>            - status: string
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>            - message: string
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>   - GET
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>       - Paramètre Header :
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>            - token: string
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>       - Paramètre : 
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>            - ?uuid_user: string
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>            - ?categorie_uuid: string
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>            - ?tag_uuid: string
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>       - Retour :
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>            - status: string
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>            - message: string
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>            - room: object
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>   - PUT
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>       - Paramètre Header :
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>            - token: string
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>       - Paramètre :
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>            - room_uuid: string
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>       - Retour :
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>            - status: string
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>            - message: string
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>- /PasDeNom/room/users (Room User)
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>    - GET
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>        - Paramètre Header :
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>            - token: string
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>        - Paramètre :
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>            - room_uuid: string
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>            - ?uuid_user: string
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>        - Retour :
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>            - status: string
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>            - message: string
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>            - users: array[object]
+<a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>   - POST
+<a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>        - Paramètre Header :
+<a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>            - token: string
+<a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>        - Paramètre :
+<a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>            - room_uuid: string
+<a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>            - uuid_user: string
+<a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>            - is_room_master: boolean
+<a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>        - Retour :
+<a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>            - status: string
+<a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>            - message: string
+<a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>
+<a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a>- /PasDeNom/room/message (Tchat de la room)
+<a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>    - POST
+<a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a>        - Paramètre Header :
+<a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>            - token : string
+<a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>        - Paramètre :
+<a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a>            - room_uuid : string 
+<a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a>            - user_uuid : string
+<a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>            - has_files : string
+<a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a>            - file: string
+<a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a>            - message : string
+<a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a>        - Retour :
+<a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a>            - status : string
+<a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a>            - message : string
+<a id="__codelineno-3-67" name="__codelineno-3-67" href="#__codelineno-3-67"></a>    - GET 
+<a id="__codelineno-3-68" name="__codelineno-3-68" href="#__codelineno-3-68"></a>        - Paramètre Header :
+<a id="__codelineno-3-69" name="__codelineno-3-69" href="#__codelineno-3-69"></a>            - token : string
+<a id="__codelineno-3-70" name="__codelineno-3-70" href="#__codelineno-3-70"></a>        - Paramètre :
+<a id="__codelineno-3-71" name="__codelineno-3-71" href="#__codelineno-3-71"></a>            - room_uuid
+<a id="__codelineno-3-72" name="__codelineno-3-72" href="#__codelineno-3-72"></a>        - Retour:
+<a id="__codelineno-3-73" name="__codelineno-3-73" href="#__codelineno-3-73"></a>            - status : string
+<a id="__codelineno-3-74" name="__codelineno-3-74" href="#__codelineno-3-74"></a>            - message : string
+<a id="__codelineno-3-75" name="__codelineno-3-75" href="#__codelineno-3-75"></a>            - tchat : array[object]
+<a id="__codelineno-3-76" name="__codelineno-3-76" href="#__codelineno-3-76"></a>    - POST
+<a id="__codelineno-3-77" name="__codelineno-3-77" href="#__codelineno-3-77"></a>        - Paramètre Header :
+<a id="__codelineno-3-78" name="__codelineno-3-78" href="#__codelineno-3-78"></a>            - token : string
+<a id="__codelineno-3-79" name="__codelineno-3-79" href="#__codelineno-3-79"></a>        - Paramètre :
+<a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a>            - room_uuid : string
+<a id="__codelineno-3-81" name="__codelineno-3-81" href="#__codelineno-3-81"></a>            - user_uuid : string
+<a id="__codelineno-3-82" name="__codelineno-3-82" href="#__codelineno-3-82"></a>            - message_uuid : string
+<a id="__codelineno-3-83" name="__codelineno-3-83" href="#__codelineno-3-83"></a>
+<a id="__codelineno-3-84" name="__codelineno-3-84" href="#__codelineno-3-84"></a>- /PasDeNom/room/files (Liste des fichiers d&#39;une room)
+<a id="__codelineno-3-85" name="__codelineno-3-85" href="#__codelineno-3-85"></a>    - GET
+<a id="__codelineno-3-86" name="__codelineno-3-86" href="#__codelineno-3-86"></a>        - Paramètre Header :
+<a id="__codelineno-3-87" name="__codelineno-3-87" href="#__codelineno-3-87"></a>            - token: string
+<a id="__codelineno-3-88" name="__codelineno-3-88" href="#__codelineno-3-88"></a>        - Paramètre :
+<a id="__codelineno-3-89" name="__codelineno-3-89" href="#__codelineno-3-89"></a>            - room_uuid: string
+<a id="__codelineno-3-90" name="__codelineno-3-90" href="#__codelineno-3-90"></a>            - ?room_message_uuid: string
+<a id="__codelineno-3-91" name="__codelineno-3-91" href="#__codelineno-3-91"></a>        - Retour :
+<a id="__codelineno-3-92" name="__codelineno-3-92" href="#__codelineno-3-92"></a>            - status: string
+<a id="__codelineno-3-93" name="__codelineno-3-93" href="#__codelineno-3-93"></a>            - message: string
+<a id="__codelineno-3-94" name="__codelineno-3-94" href="#__codelineno-3-94"></a>            - files: array[object]
+<a id="__codelineno-3-95" name="__codelineno-3-95" href="#__codelineno-3-95"></a>
+<a id="__codelineno-3-96" name="__codelineno-3-96" href="#__codelineno-3-96"></a>- /PasDeNom/room/categories (Liste des categories d&#39;une room)
+<a id="__codelineno-3-97" name="__codelineno-3-97" href="#__codelineno-3-97"></a>    - GET
+<a id="__codelineno-3-98" name="__codelineno-3-98" href="#__codelineno-3-98"></a>        - Paramètre Header :
+<a id="__codelineno-3-99" name="__codelineno-3-99" href="#__codelineno-3-99"></a>            - token : string
+<a id="__codelineno-3-100" name="__codelineno-3-100" href="#__codelineno-3-100"></a>        - Paramètre :
+<a id="__codelineno-3-101" name="__codelineno-3-101" href="#__codelineno-3-101"></a>            - room_uuid : string
+<a id="__codelineno-3-102" name="__codelineno-3-102" href="#__codelineno-3-102"></a>        - Retour :
+<a id="__codelineno-3-103" name="__codelineno-3-103" href="#__codelineno-3-103"></a>            - status : string
+<a id="__codelineno-3-104" name="__codelineno-3-104" href="#__codelineno-3-104"></a>            - message : string
+<a id="__codelineno-3-105" name="__codelineno-3-105" href="#__codelineno-3-105"></a>            - categories : array[object]
+<a id="__codelineno-3-106" name="__codelineno-3-106" href="#__codelineno-3-106"></a>
+<a id="__codelineno-3-107" name="__codelineno-3-107" href="#__codelineno-3-107"></a>- /PasDeNom/room/tags (Liste des tags d&#39;une room)
+<a id="__codelineno-3-108" name="__codelineno-3-108" href="#__codelineno-3-108"></a>    - GET
+<a id="__codelineno-3-109" name="__codelineno-3-109" href="#__codelineno-3-109"></a>        - Paramètre Header :
+<a id="__codelineno-3-110" name="__codelineno-3-110" href="#__codelineno-3-110"></a>            - token : string
+<a id="__codelineno-3-111" name="__codelineno-3-111" href="#__codelineno-3-111"></a>        - Paramètre :
+<a id="__codelineno-3-112" name="__codelineno-3-112" href="#__codelineno-3-112"></a>            - room_uuid : string
+<a id="__codelineno-3-113" name="__codelineno-3-113" href="#__codelineno-3-113"></a>       - Retour :
+<a id="__codelineno-3-114" name="__codelineno-3-114" href="#__codelineno-3-114"></a>            - status : string
+<a id="__codelineno-3-115" name="__codelineno-3-115" href="#__codelineno-3-115"></a>            - message : string
+<a id="__codelineno-3-116" name="__codelineno-3-116" href="#__codelineno-3-116"></a>            - tags : array[object]
+<a id="__codelineno-3-117" name="__codelineno-3-117" href="#__codelineno-3-117"></a>
+<a id="__codelineno-3-118" name="__codelineno-3-118" href="#__codelineno-3-118"></a>- /PasDeNom/room/report (Signaler un utilisateur)
+<a id="__codelineno-3-119" name="__codelineno-3-119" href="#__codelineno-3-119"></a>    - POST
+<a id="__codelineno-3-120" name="__codelineno-3-120" href="#__codelineno-3-120"></a>        - Paramètre Header :
+<a id="__codelineno-3-121" name="__codelineno-3-121" href="#__codelineno-3-121"></a>            - token : string
+<a id="__codelineno-3-122" name="__codelineno-3-122" href="#__codelineno-3-122"></a>        - Paramètre :
+<a id="__codelineno-3-123" name="__codelineno-3-123" href="#__codelineno-3-123"></a>            - user_send_report_uuid : string
+<a id="__codelineno-3-124" name="__codelineno-3-124" href="#__codelineno-3-124"></a>            - user_reported_uuid : string
+<a id="__codelineno-3-125" name="__codelineno-3-125" href="#__codelineno-3-125"></a>            - reason : string
+<a id="__codelineno-3-126" name="__codelineno-3-126" href="#__codelineno-3-126"></a>        - Retour :
+<a id="__codelineno-3-127" name="__codelineno-3-127" href="#__codelineno-3-127"></a>            - status : string
+<a id="__codelineno-3-128" name="__codelineno-3-128" href="#__codelineno-3-128"></a>            - message : string
+</code></pre></div>
+</details>
+<details class="info" open="open">
+<summary>Admin</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>- /PasDeNom/admin/user (User)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    - GET
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        - Paramètre Header:
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>            - token: string
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>            - mac_address: string
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        - Paramètre:
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>            - ?uuid_user: string
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        - Retour:
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>            - status: string
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>            - message: string
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>            - users: array[object]
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    - PUT
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        - Paramètre Header:
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>            - token: string
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>            - mac_address: string
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        - Paramètre:
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            - uuid_user: string
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>            - ?username: string
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>            - ?email: string
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>            - ?password: string
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>            - ?role: boolean
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>            - ?is_verified: boolean
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        - Retour:
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>            - status: string
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>            - message: string
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    - DELETE
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        - Paramètre Header:
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>            - token: string
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>            - mac_address: string
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>        - Paramètre:
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>            - uuid_user: string
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        - Retour:
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>            - status: string
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>            - message: string
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>- /PasDeNom/admin/report (Report)
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>    - GET
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>        - Paramètre Header:
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>            - token: string
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>            - mac_address: string
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>        - Paramètre:
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>            - ?uuid_user: string
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>        - Retour:
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>            - status: string
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            - message: string
+<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>            - reports: array[object]
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>    - DELETE
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>        - Paramètre Header:
+<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>            - token: string
+<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>        - Paramètre:
+<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>            - uuid_user: string
+<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>            - reason: string
+<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>        - Retour:
+<a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>            - status: string
+<a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>            - message: string
+<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>            - reports: array[object]
+<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>
+<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>- /PasDeNom/admin/user/logo (Logo user)
+<a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>    - GET
+<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a>        - Paramètre Header:
+<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a>            - token: string
+<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a>            - mac_address: string
+<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a>        - Paramètre:
+<a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a>            - uuid_user: string
+<a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a>        - Retour:
+<a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a>            - status: string
+<a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a>            - message: string
+<a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a>            - logo: array[object]
+<a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a>    - PUT
+<a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a>        - Paramètre Header:
+<a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a>            - token: string
+<a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a>            - mac_address: string
+<a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a>        - Paramètre:
+<a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a>            - uuid_user: string
+<a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a>            - user_log_uuid: string
+<a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a>            - ?seed: string
+<a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a>            - ?path: string
+<a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a>            - ?active: boolean
+<a id="__codelineno-4-79" name="__codelineno-4-79" href="#__codelineno-4-79"></a>        - Retour:
+<a id="__codelineno-4-80" name="__codelineno-4-80" href="#__codelineno-4-80"></a>            - status: string
+<a id="__codelineno-4-81" name="__codelineno-4-81" href="#__codelineno-4-81"></a>            - message: string
+<a id="__codelineno-4-82" name="__codelineno-4-82" href="#__codelineno-4-82"></a>
+<a id="__codelineno-4-83" name="__codelineno-4-83" href="#__codelineno-4-83"></a>- /PasDeNom/admin/user-ip (User ip)
+<a id="__codelineno-4-84" name="__codelineno-4-84" href="#__codelineno-4-84"></a>    - GET
+<a id="__codelineno-4-85" name="__codelineno-4-85" href="#__codelineno-4-85"></a>        - Paramètre Header:
+<a id="__codelineno-4-86" name="__codelineno-4-86" href="#__codelineno-4-86"></a>            - token: string
+<a id="__codelineno-4-87" name="__codelineno-4-87" href="#__codelineno-4-87"></a>            - mac_address: string
+<a id="__codelineno-4-88" name="__codelineno-4-88" href="#__codelineno-4-88"></a>        - Paramètre:
+<a id="__codelineno-4-89" name="__codelineno-4-89" href="#__codelineno-4-89"></a>            - ?uuid_user: string
+<a id="__codelineno-4-90" name="__codelineno-4-90" href="#__codelineno-4-90"></a>        - Retour:
+<a id="__codelineno-4-91" name="__codelineno-4-91" href="#__codelineno-4-91"></a>            - status: string
+<a id="__codelineno-4-92" name="__codelineno-4-92" href="#__codelineno-4-92"></a>            - message: string
+<a id="__codelineno-4-93" name="__codelineno-4-93" href="#__codelineno-4-93"></a>            - user_ip: array[object]
+<a id="__codelineno-4-94" name="__codelineno-4-94" href="#__codelineno-4-94"></a>
+<a id="__codelineno-4-95" name="__codelineno-4-95" href="#__codelineno-4-95"></a>- /PasDeNom/admin/user-macadress (User macadress)
+<a id="__codelineno-4-96" name="__codelineno-4-96" href="#__codelineno-4-96"></a>    - GET
+<a id="__codelineno-4-97" name="__codelineno-4-97" href="#__codelineno-4-97"></a>        - Paramètre Header:
+<a id="__codelineno-4-98" name="__codelineno-4-98" href="#__codelineno-4-98"></a>            - token: string
+<a id="__codelineno-4-99" name="__codelineno-4-99" href="#__codelineno-4-99"></a>            - mac_address: string
+<a id="__codelineno-4-100" name="__codelineno-4-100" href="#__codelineno-4-100"></a>        - Paramètre:
+<a id="__codelineno-4-101" name="__codelineno-4-101" href="#__codelineno-4-101"></a>            - ?uuid_user: string
+<a id="__codelineno-4-102" name="__codelineno-4-102" href="#__codelineno-4-102"></a>        - Retour:
+<a id="__codelineno-4-103" name="__codelineno-4-103" href="#__codelineno-4-103"></a>            - status: string
+<a id="__codelineno-4-104" name="__codelineno-4-104" href="#__codelineno-4-104"></a>            - message: string
+<a id="__codelineno-4-105" name="__codelineno-4-105" href="#__codelineno-4-105"></a>            - user_macadress: array[object]
+<a id="__codelineno-4-106" name="__codelineno-4-106" href="#__codelineno-4-106"></a>
+<a id="__codelineno-4-107" name="__codelineno-4-107" href="#__codelineno-4-107"></a>- /PasDeNom/admin/user-friend (User friend)
+<a id="__codelineno-4-108" name="__codelineno-4-108" href="#__codelineno-4-108"></a>    - GET
+<a id="__codelineno-4-109" name="__codelineno-4-109" href="#__codelineno-4-109"></a>        - Paramètre Header:
+<a id="__codelineno-4-110" name="__codelineno-4-110" href="#__codelineno-4-110"></a>            - token: string
+<a id="__codelineno-4-111" name="__codelineno-4-111" href="#__codelineno-4-111"></a>            - mac_address: string
+<a id="__codelineno-4-112" name="__codelineno-4-112" href="#__codelineno-4-112"></a>        - Paramètre:
+<a id="__codelineno-4-113" name="__codelineno-4-113" href="#__codelineno-4-113"></a>            - ?uuid_user: string
+<a id="__codelineno-4-114" name="__codelineno-4-114" href="#__codelineno-4-114"></a>        - Retour:
+<a id="__codelineno-4-115" name="__codelineno-4-115" href="#__codelineno-4-115"></a>            - status: string
+<a id="__codelineno-4-116" name="__codelineno-4-116" href="#__codelineno-4-116"></a>            - message: string
+<a id="__codelineno-4-117" name="__codelineno-4-117" href="#__codelineno-4-117"></a>            - user_friend: array[object]
+<a id="__codelineno-4-118" name="__codelineno-4-118" href="#__codelineno-4-118"></a>
+<a id="__codelineno-4-119" name="__codelineno-4-119" href="#__codelineno-4-119"></a>- /PasDeNom/admin/user-device (User device)
+<a id="__codelineno-4-120" name="__codelineno-4-120" href="#__codelineno-4-120"></a>    - GET
+<a id="__codelineno-4-121" name="__codelineno-4-121" href="#__codelineno-4-121"></a>        - Paramètre Header:
+<a id="__codelineno-4-122" name="__codelineno-4-122" href="#__codelineno-4-122"></a>            - token: string
+<a id="__codelineno-4-123" name="__codelineno-4-123" href="#__codelineno-4-123"></a>            - mac_address: string
+<a id="__codelineno-4-124" name="__codelineno-4-124" href="#__codelineno-4-124"></a>        - Paramètre:
+<a id="__codelineno-4-125" name="__codelineno-4-125" href="#__codelineno-4-125"></a>            - ?uuid_user: string
+<a id="__codelineno-4-126" name="__codelineno-4-126" href="#__codelineno-4-126"></a>        - Retour:
+<a id="__codelineno-4-127" name="__codelineno-4-127" href="#__codelineno-4-127"></a>            - status: string
+<a id="__codelineno-4-128" name="__codelineno-4-128" href="#__codelineno-4-128"></a>            - message: string
+<a id="__codelineno-4-129" name="__codelineno-4-129" href="#__codelineno-4-129"></a>            - user_device: array[object]
+<a id="__codelineno-4-130" name="__codelineno-4-130" href="#__codelineno-4-130"></a>
+<a id="__codelineno-4-131" name="__codelineno-4-131" href="#__codelineno-4-131"></a>- /PasDeNom/admin/user-history (User history)
+<a id="__codelineno-4-132" name="__codelineno-4-132" href="#__codelineno-4-132"></a>    - GET
+<a id="__codelineno-4-133" name="__codelineno-4-133" href="#__codelineno-4-133"></a>        - Paramètre Header:
+<a id="__codelineno-4-134" name="__codelineno-4-134" href="#__codelineno-4-134"></a>            - token: string
+<a id="__codelineno-4-135" name="__codelineno-4-135" href="#__codelineno-4-135"></a>            - mac_address: string
+<a id="__codelineno-4-136" name="__codelineno-4-136" href="#__codelineno-4-136"></a>        - Paramètre:
+<a id="__codelineno-4-137" name="__codelineno-4-137" href="#__codelineno-4-137"></a>            - ?uuid_user: string
+<a id="__codelineno-4-138" name="__codelineno-4-138" href="#__codelineno-4-138"></a>        - Retour:
+<a id="__codelineno-4-139" name="__codelineno-4-139" href="#__codelineno-4-139"></a>            - status: string
+<a id="__codelineno-4-140" name="__codelineno-4-140" href="#__codelineno-4-140"></a>            - message: string
+<a id="__codelineno-4-141" name="__codelineno-4-141" href="#__codelineno-4-141"></a>            - user_history: array[object]
+<a id="__codelineno-4-142" name="__codelineno-4-142" href="#__codelineno-4-142"></a>
+<a id="__codelineno-4-143" name="__codelineno-4-143" href="#__codelineno-4-143"></a>- /PasDeNom/admin/user-history-message (User history message)
+<a id="__codelineno-4-144" name="__codelineno-4-144" href="#__codelineno-4-144"></a>    - GET
+<a id="__codelineno-4-145" name="__codelineno-4-145" href="#__codelineno-4-145"></a>        - Paramètre Header:
+<a id="__codelineno-4-146" name="__codelineno-4-146" href="#__codelineno-4-146"></a>            - token: string
+<a id="__codelineno-4-147" name="__codelineno-4-147" href="#__codelineno-4-147"></a>            - mac_address: string
+<a id="__codelineno-4-148" name="__codelineno-4-148" href="#__codelineno-4-148"></a>        - Paramètre:
+<a id="__codelineno-4-149" name="__codelineno-4-149" href="#__codelineno-4-149"></a>            - user_history_uuid: string
+<a id="__codelineno-4-150" name="__codelineno-4-150" href="#__codelineno-4-150"></a>        - Retour:
+<a id="__codelineno-4-151" name="__codelineno-4-151" href="#__codelineno-4-151"></a>            - status: string
+<a id="__codelineno-4-152" name="__codelineno-4-152" href="#__codelineno-4-152"></a>            - message: string
+<a id="__codelineno-4-153" name="__codelineno-4-153" href="#__codelineno-4-153"></a>            - user_history_message: array[object]
+<a id="__codelineno-4-154" name="__codelineno-4-154" href="#__codelineno-4-154"></a>
+<a id="__codelineno-4-155" name="__codelineno-4-155" href="#__codelineno-4-155"></a>- /PasDeNom/admin/user-history-action (User history action)
+<a id="__codelineno-4-156" name="__codelineno-4-156" href="#__codelineno-4-156"></a>    - GET
+<a id="__codelineno-4-157" name="__codelineno-4-157" href="#__codelineno-4-157"></a>        - Paramètre Header:
+<a id="__codelineno-4-158" name="__codelineno-4-158" href="#__codelineno-4-158"></a>            - token: string
+<a id="__codelineno-4-159" name="__codelineno-4-159" href="#__codelineno-4-159"></a>            - mac_address: string
+<a id="__codelineno-4-160" name="__codelineno-4-160" href="#__codelineno-4-160"></a>        - Paramètre:
+<a id="__codelineno-4-161" name="__codelineno-4-161" href="#__codelineno-4-161"></a>            - user_history_uuid: string
+<a id="__codelineno-4-162" name="__codelineno-4-162" href="#__codelineno-4-162"></a>        - Retour:
+<a id="__codelineno-4-163" name="__codelineno-4-163" href="#__codelineno-4-163"></a>            - status: string
+<a id="__codelineno-4-164" name="__codelineno-4-164" href="#__codelineno-4-164"></a>            - message: string
+<a id="__codelineno-4-165" name="__codelineno-4-165" href="#__codelineno-4-165"></a>            - user_history_action: array[object]
+</code></pre></div>
+</details>
+</details>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Retour en haut de la page
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Pied de page">
+      
+        
+        <a href="../../.." class="md-footer__link md-footer__link--prev" aria-label="Précédent: Accueil" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              Accueil
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../Front/front/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Front" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              Front
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "content.tabs.link", "content.code.annotate", "navigation.tracking", "navigation.tabs", "navigation.indexes", "toc.follow", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "search.share"], "translations": {"clipboard.copy": "Copier dans le presse-papier", "clipboard.copied": "Copi\u00e9 dans le presse-papier", "search.config.lang": "fr", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Rechercher", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.term.missing": "Non trouv\u00e9", "select.version.title": "S\u00e9lectionner la version"}, "search": "../../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>
