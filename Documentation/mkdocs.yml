@@ -3,8 +3,12 @@ nav:
   - Vue global:
       - Accueil: index.md
   - Dev:
-      - Base de donnée: dev/database.md
-      - Setup: dev/setupProject.md
+      - API: dev/API/api.md
+      - Front: dev/Front/front.md
+      - Base de donnée: dev/Database/database.md
+      - Compress & Encrypt: dev/Compress&encrypt/compress&Encrypt.md
+      - Cleaner Database: dev/CleanerDatabase/cleanerDatabase.md
+      - GeoTracerIp: dev/GeoTracerIp/geoTracerIp.md
 
 theme:
   name: material
@@ -30,13 +34,13 @@ theme:
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/weather-sunny
+        icon: material/toggle-switch-off-outline
         name: Switch to dark mode
     - scheme: slate
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/weather-night
+        icon: material/toggle-switch
         name: Switch to light mode
   font:
     text: Roboto
