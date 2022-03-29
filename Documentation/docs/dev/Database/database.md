@@ -1,8 +1,7 @@
 # Base de donnée
 
-## Diagramme de la base de donnée (MySql / MariaDB)
-
-[ ![](../../img/Database/database.png) ](../../img/Database/database.png)
+=== "Diagramme de la base de donnée (MySql / MariaDB)"
+    [ ![](../../img/Database/database.png) ](../../img/Database/database.png)
 
 ???+ summary "information"
     Ce diagramme montre la structure basique de la base de donnée.

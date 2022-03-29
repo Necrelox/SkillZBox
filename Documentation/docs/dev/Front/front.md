@@ -1,7 +1,13 @@
-### Présentation de React
+
+
+???+ info "Definition Front"
+   
+    Le front permet de fournir une interface graphique à l'utilisateur.
+
 
 ???+ react
-    React est une bibliothèque JavaScript libre développée par Facebook depuis 2013. Le but principal de cette bibliothèque est de faciliter la création d'application web monopage, via la création de composants dépendant d'un état et générant une page HTML à chaque changement d'état.
+    React est une bibliothèque JavaScript libre développée par Facebook depuis 2013.
+    Le but principal de cette bibliothèque est de faciliter la création d'application web monopage, via la création de composants dépendant d'un état et générant une page HTML à chaque changement d'état.
 
     [ ![REACTJS](../../img/langages/reactjs.png) ](https://fr.reactjs.org/)
     { align=center}

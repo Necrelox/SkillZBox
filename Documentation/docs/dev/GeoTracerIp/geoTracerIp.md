@@ -1,7 +1,5 @@
 # Geo Tracer Ip
 
-### Présentation
-
 ???+ info "Choix du langage"
 
     Le langage n'est pas encore défini.
@@ -10,6 +8,6 @@
 
     GeoTracerIp est un outil de traçage de la géolocalisation d'un utilisateur, grâce à son ip et qui tournera en arrière plan et lancé par un cron.
     Il permettra d'avoir des statistiques de la provenance des visiteurs.
-    
 
-### Setup
+!!! hint ""
+
