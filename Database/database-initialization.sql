@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `SkillZBox`.`USER` ;
 
 CREATE TABLE IF NOT EXISTS `SkillZBox`.`USER` (
   `email` VARCHAR(255) NOT NULL,
-  `username` VARCHAR(16) COLLATE 'Default Collation' NOT NULL,
+  `username` VARCHAR(16) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `token` VARCHAR(38) NOT NULL,
   `is_verified` TINYINT NOT NULL DEFAULT 0,
