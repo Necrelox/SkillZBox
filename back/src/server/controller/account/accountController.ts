@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {User} from "server/model/user/user";
+import {User} from "../../model/user/user";
 
 export class AccountController {
     private _router = Router();
@@ -13,7 +13,7 @@ export class AccountController {
      * @returns {Promise<void>} void
      */
     private _initializeAccountController() {
-        this._router.post('/signup', (req: any, res: any) => { AccountController.getMethodSignup(req, res) });
+        this._router.post('/signup', (req: any, res: any) => { AccountController.postMethodSignup(req, res) });
     }
 
     /**
@@ -26,6 +26,11 @@ export class AccountController {
         try {
             const { username, password, email } = req.body;
             const user = new User();
+            user.insert({
+                username: username,
+                password: password,
+                email: email
+            })
 
             res.status(200).send({ message: "Account created" });
         } catch (error) {

@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import {MainController} from "./controller/mainController";
-import {SkillzboxDatabase} from "./database/skillzboxDatabase";
+import {SkillzboxDatabaseKnex} from "./database/skillzboxDatabaseKnex";
 require("dotenv").config();
 // const rateLimit = require('express-rate-limit');
 
@@ -26,7 +26,7 @@ export class Server {
         this._app.use(express.json());
         this._app.use(express.urlencoded({ extended: false }));
         this._app.use("/user", new MainController.AccountController().getRouter());
-        SkillzboxDatabase.initializeDatabasePool();
+        SkillzboxDatabaseKnex.initializeDatabasePool();
     }
 
     public run() {

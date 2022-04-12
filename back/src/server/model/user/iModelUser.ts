@@ -5,7 +5,7 @@ export interface IModelUser {
     token?: string;
     is_verified?: boolean;
     role?: string;
-    is_connected?: boolean;
+    isConnected?: boolean;
     created_at?: string;
     uuid?: string;
 }
