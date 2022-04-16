@@ -29,7 +29,8 @@ export class AccountController {
             user.insert({
                 username: username,
                 password: password,
-                email: email
+                email: email,
+                token: '',
             })
 
             res.status(200).send({ message: "Account created" });

@@ -3,9 +3,10 @@ export interface IModelUser {
     username?: string;
     password?: string;
     token?: string;
-    is_verified?: boolean;
+    isVerified?: boolean;
     role?: string;
     isConnected?: boolean;
-    created_at?: string;
+    isBlackListed?: boolean;
+    createdAt?: string;
     uuid?: string;
 }

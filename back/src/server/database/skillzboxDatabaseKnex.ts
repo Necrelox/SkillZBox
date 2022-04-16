@@ -7,7 +7,6 @@ export class SkillzboxDatabaseKnex {
 
 
     public static initializeDatabasePool() {
-        console.log(process.env);
         SkillzboxDatabaseKnex.instance = knex({
             client: 'mysql2',
             connection: {
