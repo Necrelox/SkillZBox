@@ -15,7 +15,7 @@
 
 ???+ info "Routes"
 
-    ???+ info "Account"
+    ??? info "Account"
     
         ```
         - /PasDeNom/signup (Création d'un compte)
@@ -27,7 +27,7 @@
     
                 - Retour:
                     - status: string
-                    - message: string
+                    - content: object
     
         - /PasDeNom/verify (Vérification d'un compte et connection)
             - POST
@@ -50,7 +50,7 @@
                     - token: string
         ```
     
-    ???+ info "User"
+    ??? info "User"
         
         ```
         - /PasDeNom/user/me (Informations de l'utilisateur)
@@ -134,7 +134,7 @@
                     - message: string
         ```
     
-    ???+ info "Categories and Tag"
+    ??? info "Categories and Tag"
     
         ```
         - /PasDeNom/categorie (Categories)
@@ -156,7 +156,7 @@
                     - tags: array[object]
         ```
     
-    ???+ info "Room"
+    ??? info "Room"
     
         ```
         - /PasDeNom/room (Room)
@@ -289,7 +289,7 @@
                     - message : string
         ``` 
     
-    ???+ info "Admin"
+    ??? info "Admin"
     
         ```
         - /PasDeNom/admin/user (User)

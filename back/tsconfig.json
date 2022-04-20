@@ -21,7 +21,7 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
     "allowUmdGlobalAccess": true,
-    "baseUrl": "src/",
+    "baseUrl": "./src/",
     "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node",

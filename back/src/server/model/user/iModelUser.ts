@@ -1,12 +1,11 @@
 export interface IModelUser {
-    email?: string;
-    username?: string;
-    password?: string;
-    token?: string;
+    email: string;
+    username: string;
+    password: string;
     isVerified?: boolean;
     role?: string;
     isConnected?: boolean;
     isBlackListed?: boolean;
-    createdAt?: string;
-    uuid?: string;
+    createdAt?: Date;
+    uuid?: Buffer;
 }
