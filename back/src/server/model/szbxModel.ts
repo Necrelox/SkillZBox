@@ -41,6 +41,18 @@ import {IModelCategorie as _IModelCategorie} from './categorie/iModelCategorie'
  */
 import {Room as _Room} from './room/room'
 import {IModelRoom as _IModelRoom} from './room/iModelRoom'
+import {RoomUser as _RoomUser} from './room/user/roomUser'
+import {IModelRoomUser as _IModelRoomUser} from './room/user/iModelRoomUser'
+import {RoomMessageFile as _RoomMessageFile} from './room/messageFile/roomMessageFile'
+import {IModelRoomMessageFile as _IModelRoomMessageFile} from './room/messageFile/iModelRoomMessageFile'
+import {RoomMessage as _RoomMessage} from './room/message/roomMessage'
+import {IModelRoomMessage as _IModelRoomMessage} from './room/message/iModelRoomMessage'
+import {RoomHasTag as _RoomHasTag} from './room/hasTag/roomHasTag'
+import {IModelRoomHasTag as _IModelRoomHasTag} from './room/hasTag/iModelRoomHasTag'
+import {RoomHasCategorie as _RoomHasCategorie} from './room/hasCategorie/roomHasCategorie'
+import {IModelRoomHasCategorie as _IModelRoomHasCategorie} from './room/hasCategorie/iModelRoomHasCategorie'
+import {RoomAction as _RoomAction} from './room/action/roomAction'
+import {IModelRoomAction as _IModelRoomAction} from './room/action/iModelRoomAction'
 
 
 export namespace SzBxModel {
@@ -80,5 +92,17 @@ export namespace SzBxModel {
     export namespace Room {
         export const Room = _Room;
         export interface IModelRoom extends _IModelRoom {}
+        export const RoomUser = _RoomUser;
+        export interface IModelRoomUser extends _IModelRoomUser {}
+        export const RoomMessageFile = _RoomMessageFile;
+        export interface IModelRoomMessageFile extends _IModelRoomMessageFile {}
+        export const RoomMessage = _RoomMessage;
+        export interface IModelRoomMessage extends _IModelRoomMessage {}
+        export const RoomHasTag = _RoomHasTag;
+        export interface IModelRoomHasTag extends _IModelRoomHasTag {}
+        export const RoomHasCategorie = _RoomHasCategorie;
+        export interface IModelRoomHasCategorie extends _IModelRoomHasCategorie {}
+        export const RoomAction = _RoomAction;
+        export interface IModelRoomAction extends _IModelRoomAction {}
     }
 }
