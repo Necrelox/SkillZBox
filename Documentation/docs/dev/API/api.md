@@ -27,12 +27,12 @@
     
                 - Retour:
                     - status: string
-                    - content: object
+                    - content: object // à détailler
     
         - /PasDeNom/verify (Vérification d'un compte et connection)
             - POST
                 - Paramètres:
-                    - token: string
+                    - code: string
                 - Retour:
                     - status: string
                     - message: string
@@ -42,6 +42,7 @@
             - POST
                 - Paramètres:
                     - username: string
+                    - email: string
                     - password: string
     
                 - Retour:

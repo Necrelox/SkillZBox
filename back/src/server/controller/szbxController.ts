@@ -1,5 +1,5 @@
 import {AccountController as _accountController} from "./account/accountController";
 
-export namespace MainController {
+export namespace SzbxController {
     export const AccountController = _accountController;
 }

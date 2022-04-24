@@ -1,29 +1,37 @@
 import * as nodemailer from 'nodemailer';
 
 export class Mailer {
-    private transporter: nodemailer.Transporter;
 
-    constructor( config: any) {
-        this.transporter = nodemailer.createTransport({
-            host: config.host,
-            port: config.port,
-            secure: config.secure,
-            auth: {
-                user: config.user,
-                pass: config.pass
-            }
-        });
+    // @ts-ignore
+    public static checkEmailSyntaxe(_email: string): boolean {
+
     }
 
-    public send(mailOptions: nodemailer.SendMailOptions): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.transporter.sendMail(mailOptions, (error: any, info: any) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(info);
-                }
-            });
+    // @ts-ignore
+    public static checkIfEmailIsTemporary(_email: string): boolean {
+
+    }
+
+    // @ts-ignore
+    public static checkIfEmailExists(_email: string): boolean {
+
+    }
+
+    public static sendMail(mailOptions: nodemailer.SendMailOptions) {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env['EMAIL_AUTH_USER'],
+                pass: process.env['EMAIL_AUTH_PASSWORD']
+            }
+        });
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
         });
     }
 }
