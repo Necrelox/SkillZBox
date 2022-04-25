@@ -27,20 +27,16 @@ export abstract class AccountUtils {
         });
     }
 
-    protected async createToken(user: SzBxModel.User.IModelUser) {
-        const getUser = await SzBxModel.User.User.select({
-            username: user.username,
-            email: user.email
-        })
+    protected async createToken(user: SzBxModel.User.IModelUser[]) {
         const hashedUserEmail = createHmac('sha256', randomUUID())
-            .update(getUser[0]!.email!)
+            .update(user[0]!.email!)
             .digest('hex');
         const token = randomUUID();
         await SzBxModel.User.Token.insert({
             token: token + '.' + hashedUserEmail + '.' + createHmac('sha256', 'szbx')
-                .update(token + getUser[0]!.password!)
+                .update(token + hashedUserEmail)
                 .digest('hex'),
-            userUuid: getUser[0]!.uuid,
+            userUuid: user[0]!.uuid,
             expireAt: new Date(Date.now() + (1000 * 60 * 60))
         });
 

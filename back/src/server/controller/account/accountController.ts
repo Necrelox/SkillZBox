@@ -23,18 +23,15 @@ export class AccountController extends AccountUtils{
 
     private async postMethodSignup(req: any, res: any) {
         try {
-            console.log(req.body);
             super.checkPostContainMailANDUserANDPassword(req.body);
             SzbxTools.Mailer.emailHasBadSyntaxe(req.body.email);
             SzbxTools.Mailer.emailIsTemporary(req.body.email);
             await super.createUser(req.body);
-            await super.createToken(req.body);
-
-            const user = await SzBxModel.User.User.select({email: req.body.email});
+            const user = await SzBxModel.User.User.select({email: req.body.email, username: req.body.username});
+            await super.createToken(user!);
             const tokenUser = await SzBxModel.User.Token.select({userUuid: user[0]!.uuid});
             await super.sendMail(req.body.email, "Confirmation de votre compte",
                 "Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$" + tokenUser[0]!.token);
-
             res.status(200).send({
                 content: {
                     code: 'OK',
