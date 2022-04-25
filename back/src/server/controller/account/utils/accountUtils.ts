@@ -1,7 +1,7 @@
 import {SzBxModel} from "../../../model/szbxModel";
 import {SzbxTools} from "../../../tools/szbxTools"
 
-import {randomUUID} from 'crypto'
+import {randomUUID, createHmac} from 'crypto'
 
 export abstract class AccountUtils {
     protected checkPostContainMailORUserANDPassword(postData: any) {
@@ -32,8 +32,14 @@ export abstract class AccountUtils {
             username: user.username,
             email: user.email
         })
+        const hashedUserEmail = createHmac('sha256', randomUUID())
+            .update(getUser[0]!.email!)
+            .digest('hex');
+        const token = randomUUID();
         await SzBxModel.User.Token.insert({
-            token: randomUUID(),
+            token: token + '.' + hashedUserEmail + '.' + createHmac('sha256', 'szbx')
+                .update(token + getUser[0]!.password!)
+                .digest('hex'),
             userUuid: getUser[0]!.uuid,
             expireAt: new Date(Date.now() + (1000 * 60 * 60))
         });

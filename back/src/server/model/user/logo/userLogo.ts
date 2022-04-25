@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class UserLogo {
     private static readonly TABLE_NAME: string = "USER_LOGO";
 
-    public select(logo: IModelUserLogo): Promise<IModelUserLogo[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(UserLogo.TABLE_NAME)
+    public static select(logo: IModelUserLogo): Promise<IModelUserLogo[]> {
+        return SkillzboxDatabaseKnex.getInstance()(UserLogo.TABLE_NAME).select()
             .where(logo);
     }
 

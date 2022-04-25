@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class UserToken {
     private static readonly TABLE_NAME: string = "USER_TOKEN";
 
-    public select(token: IModelUserToken): Promise<IModelUserToken[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(UserToken.TABLE_NAME)
+    public static select(token: IModelUserToken): Promise<IModelUserToken[]> {
+        return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).select()
             .where(token);
     }
 

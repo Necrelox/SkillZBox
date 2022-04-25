@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class UserIp {
     private static readonly TABLE_NAME: string = "USER_IP";
 
-    public select(ip: IModelUserIp): Promise<IModelUserIp[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(UserIp.TABLE_NAME)
+    public static select(ip: IModelUserIp): Promise<IModelUserIp[]> {
+        return SkillzboxDatabaseKnex.getInstance()(UserIp.TABLE_NAME).select()
             .where(ip);
     }
 

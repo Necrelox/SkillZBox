@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class UserMacadress {
     private static readonly TABLE_NAME: string = "USER_MACADDRESS";
 
-    public select(macaddress: IModelUserMacAdress): Promise<IModelUserMacAdress[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(UserMacadress.TABLE_NAME)
+    public static select(macaddress: IModelUserMacAdress): Promise<IModelUserMacAdress[]> {
+        return SkillzboxDatabaseKnex.getInstance()(UserMacadress.TABLE_NAME).select()
             .where(macaddress);
     }
 

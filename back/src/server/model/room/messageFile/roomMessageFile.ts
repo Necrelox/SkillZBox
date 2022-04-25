@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class RoomMessageFile {
     private static readonly TABLE_NAME: string = "ROOM_MESSAGE_FILE";
 
-    public select(roomMessageFile: IModelRoomMessageFile): Promise<IModelRoomMessageFile[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(RoomMessageFile.TABLE_NAME)
+    public static select(roomMessageFile: IModelRoomMessageFile): Promise<IModelRoomMessageFile[]> {
+        return SkillzboxDatabaseKnex.getInstance()(RoomMessageFile.TABLE_NAME).select()
             .where(roomMessageFile);
     }
 

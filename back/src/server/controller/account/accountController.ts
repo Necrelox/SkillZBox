@@ -1,4 +1,5 @@
 import {AccountUtils} from "./utils/accountUtils";
+import {SzBxModel} from "../../model/szbxModel";
 
 import {Router} from "express";
 import {SzbxTools} from "../../tools/szbxTools";
@@ -29,6 +30,11 @@ export class AccountController extends AccountUtils{
             await super.createUser(req.body);
             await super.createToken(req.body);
 
+            const user = await SzBxModel.User.User.select({email: req.body.email});
+            const tokenUser = await SzBxModel.User.Token.select({userUuid: user[0]!.uuid});
+            await super.sendMail(req.body.email, "Confirmation de votre compte",
+                "Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$" + tokenUser[0]!.token);
+
             res.status(200).send({
                 content: {
                     code: 'OK',
@@ -47,7 +53,13 @@ export class AccountController extends AccountUtils{
 
     private async postMethodVerify(_req: any, res: any) {
         try {
-            // const {code} = req.body;
+            // const {code} = req.body.code;
+            // vérifier le code si il appartient à un user
+            // si oui, vérifier si le user est déjà confirmé
+            // si oui, renvoyer un message d'erreur
+            // si non, verifier le code si il est expiré
+            // si oui, renvoyer un message d'erreur
+            // si non, valider le compte, supprimer le token et en recréer un nouveau puis renvoyer le tokenz
 
 
         } catch (error: any) {

@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class UserAction {
     private static readonly TABLE_NAME: string = "USER_ACTION";
 
-    public select(action: IModelUserAction): Promise<IModelUserAction[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(UserAction.TABLE_NAME)
+    public static select(action: IModelUserAction): Promise<IModelUserAction[]> {
+        return SkillzboxDatabaseKnex.getInstance()(UserAction.TABLE_NAME).select()
             .where(action);
     }
 

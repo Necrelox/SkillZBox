@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class RoomUser {
     private static readonly TABLE_NAME: string = "ROOM_USER";
 
-    public select(roomUser: IModelRoomUser): Promise<IModelRoomUser[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(RoomUser.TABLE_NAME)
+    public static select(roomUser: IModelRoomUser): Promise<IModelRoomUser[]> {
+        return SkillzboxDatabaseKnex.getInstance()(RoomUser.TABLE_NAME).select()
             .where(roomUser);
     }
 

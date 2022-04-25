@@ -26,7 +26,6 @@
                     - email: string
     
                 - Retour:
-                    - status: string
                     - content: object // à détailler
     
         - /PasDeNom/verify (Vérification d'un compte et connection)

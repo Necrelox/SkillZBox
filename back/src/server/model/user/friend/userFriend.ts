@@ -4,8 +4,8 @@ import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 export class UserFriend {
     private static readonly TABLE_NAME: string = "USER_FRIEND";
 
-    public select(friend: IModelUserFriend): Promise<IModelUserFriend[]> {
-        return SkillzboxDatabaseKnex.getInstance().select(UserFriend.TABLE_NAME)
+    public static select(friend: IModelUserFriend): Promise<IModelUserFriend[]> {
+        return SkillzboxDatabaseKnex.getInstance()(UserFriend.TABLE_NAME).select()
             .where(friend);
     }
 
