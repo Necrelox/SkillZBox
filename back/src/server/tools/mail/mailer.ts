@@ -1,20 +1,25 @@
+import * as emailTempo from "./emailTempo.json";
 import * as nodemailer from 'nodemailer';
+// import * as fs from "fs";
+
 
 export class Mailer {
 
-    // @ts-ignore
-    public static checkEmailSyntaxe(_email: string): boolean {
-
+    public static emailHasBadSyntaxe(email: string) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(email))
+            throw {
+            code: "MailerError",
+            message: "Email has bad syntax"
+        };
     }
 
-    // @ts-ignore
-    public static checkIfEmailIsTemporary(_email: string): boolean {
-
-    }
-
-    // @ts-ignore
-    public static checkIfEmailExists(_email: string): boolean {
-
+    public static emailIsTemporary(email: string) {
+        if ((emailTempo['default']).includes(email.split("@")[1]))
+            throw {
+            code: "MailerError",
+            message: "Email is mail temporary"
+        };
     }
 
     public static sendMail(mailOptions: nodemailer.SendMailOptions) {

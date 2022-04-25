@@ -21,13 +21,15 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
     "allowUmdGlobalAccess": true,
+    "suppressImplicitAnyIndexErrors": true,
     "baseUrl": "./src/",
     "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "ES2021",
-    "outDir": "prod/"
+    "outDir": "prod/",
+    "resolveJsonModule": true
   },
   "lib": ["es2021"]
 }

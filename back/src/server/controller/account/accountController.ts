@@ -1,6 +1,7 @@
 import {AccountUtils} from "./utils/accountUtils";
 
 import {Router} from "express";
+import {SzbxTools} from "../../tools/szbxTools";
 
 export class AccountController extends AccountUtils{
     private _router = Router();
@@ -22,29 +23,11 @@ export class AccountController extends AccountUtils{
     private async postMethodSignup(req: any, res: any) {
         try {
             console.log(req.body);
-            super.checkPostContainMailANDUserANDPassword(req.body)
-            await super.createUser(req.body)
-
-
-            //
-            // const user = await SzBxModel.User.User.select({
-            //     username: username,
-            //     password: password,
-            //     email: email
-            // })
-            //
-            // await SzBxModel.User.Token.insert({
-            //     token: randomUUID(),
-            //     userUuid: user[0]!.uuid,
-            //     expireAt: new Date(Date.now() + (1000 * 60 * 60))
-            // });
-
-            // await SzbxTools.Mailer.sendMail({
-            //     from: process.env['EMAIL_AUTH_USER'],
-            //     to: 'fesgsgd@gmail.com',
-            //     subject: 'Sending Email using Node.js',
-            //     text: 'That was easy!'
-            // });
+            super.checkPostContainMailANDUserANDPassword(req.body);
+            SzbxTools.Mailer.emailHasBadSyntaxe(req.body.email);
+            SzbxTools.Mailer.emailIsTemporary(req.body.email);
+            await super.createUser(req.body);
+            await super.createToken(req.body);
 
             res.status(200).send({
                 content: {
@@ -53,7 +36,6 @@ export class AccountController extends AccountUtils{
                 }
             });
         } catch (error: any) {
-            console.log(error);
             res.status(500).send({
                 content: {
                     code: error?.code,

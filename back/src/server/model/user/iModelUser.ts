@@ -1,7 +1,7 @@
 export interface IModelUser {
-    email: string;
-    username: string;
-    password: string;
+    email?: string;
+    username?: string;
+    password?: string;
     isVerified?: boolean;
     role?: string;
     isConnected?: boolean;
