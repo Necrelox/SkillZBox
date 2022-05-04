@@ -19,5 +19,14 @@ export class User {
                 throw err;
             });
     }
-
+    public static update(where : IModelUser, user: IModelUser) : IModelUser | never {
+        return SkillzboxDatabaseKnex.getInstance()(User.TABLE_NAME).update(user)
+            .where(where)
+            .then(() => {
+                return user;
+            })
+            .catch((err: any) => {
+                throw err;
+            });
+    }
 }

@@ -1,5 +1,4 @@
 import {AccountUtils} from "./utils/accountUtils";
-import {SzBxModel} from "../../model/szbxModel";
 
 import {Router} from "express";
 import {SzbxTools} from "../../tools/szbxTools";
@@ -31,7 +30,7 @@ export class AccountController extends AccountUtils{
             SzbxTools.Mailer.emailIsTemporary(req.body.email);
             await super.createUser(req.body);
             await super.createToken({email: req.body.email, username: req.body.username});
-            await super.sendEmailVerification(req.body.email);
+            await super.sendEmailVerification({email: req.body.email});
 
             res.status(200).send({
                 content: {
@@ -54,24 +53,12 @@ export class AccountController extends AccountUtils{
             const code = req.body.code;
             await super.verifyTokenSignature(code);
             await super.verifyTokenExpiration(code);
-
-
-            // vérifier le code si il appartient à un user
-            // const user = await SzBxModel.User.User.select({uuid: token[0]!.userUuid});
-
-            // await super.verifyUser(code);
-
-
-            // si oui, vérifier si le user est déjà confirmé
-            // si oui, renvoyer un message d'erreur
-            // si non, verifier le code si il est expiré
-            // si oui, renvoyer un message d'erreur
-            // si non, valider le compte,
+            await super.verifyUser(code);
 
             res.status(200).send({
                 content: {
                     code: 'OK',
-                    message: ''
+                    message: 'User verified successfully.'
                 }
             });
         } catch (error: any) {

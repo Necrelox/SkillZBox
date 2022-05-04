@@ -43,7 +43,6 @@ export abstract class AccountUtils {
     }
 
     protected async sendEmailVerification(searchUser: SzBxModel.User.IModelUser) {
-
         const user = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
@@ -55,7 +54,7 @@ export abstract class AccountUtils {
         if (!token || token.length === 0)
             throw {
                 code: "AccountUtilsError",
-                message: "Invalid user"
+                message: "sendEmailVerification : Invalid user"
             };
 
         await SzbxTools.Mailer.sendMail({
@@ -107,16 +106,24 @@ export abstract class AccountUtils {
         if (!token || token.length === 0)
             throw {
                 code: "AccountUtilsError",
-                message: "verifyTokenExpiration : Token not exist after generation."
+                message: "verifyUser : Token not exist after generation."
             };
 
         const user = await SzBxModel.User.User.select({uuid: token[0]!.userUuid});
-
         if (!user || user.length === 0)
             throw {
                 code: "AccountUtilsError",
-                message: "Invalid user"
+                message: "verifyUser : Invalid user."
             };
+        if (user[0]!.isVerified)
+            throw {
+                code: "AccountUtilsError",
+                message: "verifyUser : User already verified."
+            };
+        else {
+            await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isVerified: true});
+            await SzBxModel.User.Token.delete({token: code});
+        }
     }
 
 }
