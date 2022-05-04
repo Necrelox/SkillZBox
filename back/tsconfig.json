@@ -22,7 +22,7 @@
     "useUnknownInCatchVariables": true,
     "allowUmdGlobalAccess": true,
     "suppressImplicitAnyIndexErrors": true,
-    "baseUrl": "./src/",
+    "baseUrl": "./src",
     "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node",

@@ -1,5 +1,6 @@
-import {IModelUserToken} from "./iModelUserToken";
 import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
+import {SzBxModel} from "../../szbxModel";
+import IModelUserToken = SzBxModel.User.IModelUserToken;
 
 export class UserToken {
     private static readonly TABLE_NAME: string = "USER_TOKEN";
@@ -10,11 +11,19 @@ export class UserToken {
     }
 
     public static insert(token: IModelUserToken) : IModelUserToken | never {
-        console.log(token);
         return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).insert(token)
             .then(() => {
                 return token;
             })
+            .catch((err: any) => {
+                throw err;
+            });
+    }
+
+    public static delete(token: IModelUserToken) {
+        return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).delete()
+            .where(token)
+            .then(() => {})
             .catch((err: any) => {
                 throw err;
             });

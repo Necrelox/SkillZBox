@@ -12,8 +12,7 @@ export class User {
 
     public static insert(user: IModelUser) : IModelUser | never {
         return SkillzboxDatabaseKnex.getInstance()(User.TABLE_NAME).insert(user)
-            .then((check: any) => {
-                console.log(check);
+            .then(() => {
                 return user;
             })
             .catch((err: any) => {

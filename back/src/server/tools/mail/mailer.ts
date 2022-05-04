@@ -1,7 +1,5 @@
 import * as emailTempo from "./emailTempo.json";
 import * as nodemailer from 'nodemailer';
-// import * as fs from "fs";
-
 
 export class Mailer {
 
@@ -31,13 +29,7 @@ export class Mailer {
             }
         });
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
+        return transporter.sendMail(mailOptions);
     }
 }
 
