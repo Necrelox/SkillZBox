@@ -76,11 +76,18 @@ export class AccountController extends AccountUtils{
         return this._router;
     }
 
-    private async postMethodLogin(_req: any, res: any) {
+    private async postMethodLogin(req: any, res: any) {
         try {
-            // post username or email and password
-            // verify post
+            super.checkPostContainMailORUserANDPassword(req.body);
+            await super.verifyLogin({
+                email: req.body.email || null,
+                username: req.body.username || null,
+                password: req.body.password
+            });
+
+
             // select le user
+            // check if user is verified
             // delete old token
             // create new token
             // send token

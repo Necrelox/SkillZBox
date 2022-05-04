@@ -9,6 +9,7 @@ export abstract class AccountUtils {
                 message: "checkPostContainMailORUserANDPassword : Missing parameters" + (postData.email ? " email" : "") + (postData.username ? " username" : "") + (postData.password ? " password" : "") + "."
             };
     }
+
     protected checkPostContainMailANDUserANDPassword(postData: any) {
         if (!postData.email || !postData.username || !postData.password)
             throw {
@@ -124,6 +125,21 @@ export abstract class AccountUtils {
             await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isVerified: true});
             await SzBxModel.User.Token.delete({token: code});
         }
+
+    }
+
+    protected async verifyLogin(searchUser: SzBxModel.User.IModelUser) {
+        const user = await SzBxModel.User.User.select({uuid: this.userUuid});
+        if (!user || user.length === 0)
+            throw {
+                code: "AccountUtilsError",
+                message: "verifyLogin : Invalid user."
+            };
+        if (!user[0]!.isVerified)
+            throw {
+                code: "AccountUtilsError",
+                message: "verifyLogin : User not verified."
+            };
     }
 
 }
