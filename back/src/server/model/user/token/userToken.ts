@@ -23,7 +23,6 @@ export class UserToken {
     public static delete(token: IModelUserToken) {
         return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).delete()
             .where(token)
-            .then(() => {})
             .catch((err: any) => {
                 throw err;
             });

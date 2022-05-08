@@ -54,7 +54,6 @@ import {IModelRoomHasCategorie as _IModelRoomHasCategorie} from './room/hasCateg
 import {RoomAction as _RoomAction} from './room/action/roomAction'
 import {IModelRoomAction as _IModelRoomAction} from './room/action/iModelRoomAction'
 
-
 export namespace SzBxModel {
     export namespace User {
         export const User = _User;
