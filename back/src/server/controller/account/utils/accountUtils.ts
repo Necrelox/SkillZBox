@@ -4,7 +4,7 @@ import {SzbxTools} from "../../../tools/szbxTools"
 export abstract class AccountUtils {
 
     protected async createSearchUserWithPostBody(postBody: any): Promise<SzBxModel.User.IModelUser> {
-        let searchUser: SzBxModel.User.IModelUser = {};
+        const searchUser: SzBxModel.User.IModelUser = {};
         if (postBody.email)
             searchUser.email = postBody.email;
         if (postBody.username)
