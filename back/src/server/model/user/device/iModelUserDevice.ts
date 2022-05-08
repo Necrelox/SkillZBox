@@ -3,5 +3,4 @@ export interface IModelUserDevice {
     createdAt?: Date;
     active?: boolean;
     userUuid?: Buffer;
-    uuid?: Buffer;
 }

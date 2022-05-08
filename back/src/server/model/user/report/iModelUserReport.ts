@@ -3,5 +3,4 @@ export interface IModelUserReport {
     reason: string;
     userSendReport: string;
     userReported: string;
-    uuid?: string;
 }

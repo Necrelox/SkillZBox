@@ -7,5 +7,4 @@ export interface IModelUser {
     isConnected?: boolean;
     isBlackListed?: boolean;
     createdAt?: Date;
-    uuid?: Buffer;
 }

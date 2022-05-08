@@ -57,51 +57,51 @@ import {IModelRoomAction as _IModelRoomAction} from './room/action/iModelRoomAct
 export namespace SzBxModel {
     export namespace User {
         export const User = _User;
-        export interface IModelUser extends _IModelUser {}
+        export interface IModelUser extends _IModelUser {uuid?: Buffer}
         export const Token = _Token;
-        export interface IModelUserToken extends _IModelUserToken {}
+        export interface IModelUserToken extends _IModelUserToken {uuid?: Buffer}
         export const Report = _Report;
-        export interface IModelUserReport extends _IModelUserReport {}
+        export interface IModelUserReport extends _IModelUserReport {uuid?: Buffer}
         export const Message = _Message;
-        export interface IModelUserMessage extends _IModelUserMessage {}
+        export interface IModelUserMessage extends _IModelUserMessage {uuid?: Buffer}
         export const MacAddress = _MacAddress;
-        export interface IModelUserMacAddress extends _IModelUserMacAddress {}
+        export interface IModelUserMacAddress extends _IModelUserMacAddress {uuid?: Buffer}
         export const Logo = _Logo;
-        export interface IModelUserLogo extends _IModelUserLogo {}
+        export interface IModelUserLogo extends _IModelUserLogo {uuid?: Buffer}
         export const Ip = _Ip;
-        export interface IModelUserIp extends _IModelUserIp {}
+        export interface IModelUserIp extends _IModelUserIp {uuid?: Buffer}
         export const History = _History;
-        export interface IModelUserHistory extends _IModelUserHistory {}
+        export interface IModelUserHistory extends _IModelUserHistory {uuid?: Buffer}
         export const Friend = _Friend;
-        export interface IModelUserFriend extends _IModelUserFriend {}
+        export interface IModelUserFriend extends _IModelUserFriend {uuid?: Buffer}
         export const Device = _Device;
-        export interface IModelUserDevice extends _IModelUserDevice {}
+        export interface IModelUserDevice extends _IModelUserDevice {uuid?: Buffer}
         export const Action = _Action;
-        export interface IModelUserAction extends _IModelUserAction {}
+        export interface IModelUserAction extends _IModelUserAction {uuid?: Buffer}
     }
     export namespace Tag {
         export const Tag = _Tag;
-        export interface IModelTag extends _IModelTag {}
+        export interface IModelTag extends _IModelTag {uuid?: Buffer}
     }
     export namespace Categorie {
         export const Categorie = _Categorie;
-        export interface IModelCategorie extends _IModelCategorie {}
+        export interface IModelCategorie extends _IModelCategorie {uuid?: Buffer}
     }
 
     export namespace Room {
         export const Room = _Room;
-        export interface IModelRoom extends _IModelRoom {}
+        export interface IModelRoom extends _IModelRoom {uuid?: Buffer}
         export const RoomUser = _RoomUser;
-        export interface IModelRoomUser extends _IModelRoomUser {}
+        export interface IModelRoomUser extends _IModelRoomUser {uuid?: Buffer}
         export const RoomMessageFile = _RoomMessageFile;
-        export interface IModelRoomMessageFile extends _IModelRoomMessageFile {}
+        export interface IModelRoomMessageFile extends _IModelRoomMessageFile {uuid?: Buffer}
         export const RoomMessage = _RoomMessage;
-        export interface IModelRoomMessage extends _IModelRoomMessage {}
+        export interface IModelRoomMessage extends _IModelRoomMessage {uuid?: Buffer}
         export const RoomHasTag = _RoomHasTag;
-        export interface IModelRoomHasTag extends _IModelRoomHasTag {}
+        export interface IModelRoomHasTag extends _IModelRoomHasTag {uuid?: Buffer}
         export const RoomHasCategorie = _RoomHasCategorie;
-        export interface IModelRoomHasCategorie extends _IModelRoomHasCategorie {}
+        export interface IModelRoomHasCategorie extends _IModelRoomHasCategorie {uuid?: Buffer}
         export const RoomAction = _RoomAction;
-        export interface IModelRoomAction extends _IModelRoomAction {}
+        export interface IModelRoomAction extends _IModelRoomAction {uuid?: Buffer}
     }
 }

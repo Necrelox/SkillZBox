@@ -3,5 +3,4 @@ export interface IModelUserHistory {
     isMessage?: boolean;
     isAction?: boolean;
     userUuid: string;
-    uuid?: string;
 }

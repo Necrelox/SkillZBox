@@ -3,5 +3,4 @@ export interface IModelUserToken {
     expireAt?: Date;
     token?: string;
     userUuid?: Buffer;
-    uuid?: Buffer;
 }

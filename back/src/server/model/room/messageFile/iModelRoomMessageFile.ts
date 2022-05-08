@@ -4,5 +4,4 @@ export interface IModelRoomMessageFile {
     createdAt?: Date;
     sizeMod: number;
     roomMessageUuid: string;
-    uuid?: string;
 }

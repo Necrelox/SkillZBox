@@ -3,5 +3,4 @@ export interface IModelRoomMessage {
     createdAt?: Date;
     hasFile?: boolean;
     roomUserUuid: string;
-    uuid?: string;
 }

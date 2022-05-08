@@ -3,5 +3,4 @@ export interface IModelUserIp {
     createdAt?: Date;
     active?: boolean;
     userUuid?: Buffer;
-    uuid?: Buffer;
 }

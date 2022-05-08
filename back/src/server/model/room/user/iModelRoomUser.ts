@@ -3,5 +3,4 @@ export interface IModelRoomUser {
     isRoomMaster?: boolean;
     userUuid: string;
     roomUuid: string;
-    uuid?: string;
 }

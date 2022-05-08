@@ -5,5 +5,4 @@ export interface IModelUserLogo {
     sizeMo: number;
     active?: boolean;
     userUuid: string;
-    uuid?: string;
 }

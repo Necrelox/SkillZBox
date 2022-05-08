@@ -3,5 +3,4 @@ export interface IModelUserFriend {
     createdAt?: Date;
     userUuid: string;
     friendUuid: string;
-    uuid?: string;
 }

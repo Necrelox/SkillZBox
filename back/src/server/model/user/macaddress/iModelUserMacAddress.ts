@@ -3,5 +3,4 @@ export interface IModelUserMacAddress {
     createdAt?: Date;
     active?: boolean;
     userUuid?: Buffer;
-    uuid?: Buffer;
 }
