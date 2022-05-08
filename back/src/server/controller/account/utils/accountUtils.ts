@@ -206,18 +206,18 @@ export abstract class AccountUtils {
                 message: "addNewIpOrUpdate : Invalid user."
             };
         const userIP: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.Ip.select({
-            ip: ip,
+            ip,
             userUuid: user[0]!.uuid
         });
         if (!userIP || userIP.length === 0) {
             await SzBxModel.User.Ip.insert({
-                ip: ip,
+                ip,
                 userUuid: user[0]!.uuid,
                 active: true
             });
         } else {
             await SzBxModel.User.Ip.update({
-                ip: ip,
+                ip,
                 userUuid: user[0]!.uuid,
             }, {active: true});
         }
@@ -231,18 +231,18 @@ export abstract class AccountUtils {
                 message: "addNewIpOrUpdate : Invalid user."
             };
         const userMacAddress: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.MacAddress.select({
-            macAddress: macAddress,
+            macAddress,
             userUuid: user[0]!.uuid
         });
         if (!userMacAddress || userMacAddress.length === 0) {
             await SzBxModel.User.MacAddress.insert({
-                macAddress: macAddress,
+                macAddress,
                 userUuid: user[0]!.uuid,
                 active: true
             });
         } else {
             await SzBxModel.User.MacAddress.update({
-                macAddress: macAddress,
+                macAddress,
                 userUuid: user[0]!.uuid,
             }, {active: true});
         }
@@ -256,18 +256,18 @@ export abstract class AccountUtils {
                 message: "addNewIpOrUpdate : Invalid user."
             };
         const userDevice: SzBxModel.User.IModelUserDevice[] = await SzBxModel.User.Device.select({
-            device: device,
+            device,
             userUuid: user[0]!.uuid
         });
         if (!userDevice || userDevice.length === 0) {
             await SzBxModel.User.Device.insert({
-                device: device,
+                device,
                 userUuid: user[0]!.uuid,
                 active: true
             });
         } else {
             await SzBxModel.User.Device.update({
-                device: device,
+                device,
                 userUuid: user[0]!.uuid,
             }, {active: true});
         }
