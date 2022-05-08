@@ -50,7 +50,7 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error: error
+                    error
                 }
             });
         }
@@ -74,7 +74,7 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error: error,
+                    error,
                 }
             });
         }
@@ -101,7 +101,7 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error: error
+                    error
                 }
             });
         }
@@ -131,7 +131,7 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error: error
+                    error
                 }
             });
         }
