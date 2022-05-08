@@ -1,5 +1,5 @@
-export interface IModelUserIp {
-    ip?: string;
+export interface IModelUserMacAddress {
+    macAddress?: string;
     createdAt?: Date;
     active?: boolean;
     userUuid?: Buffer;

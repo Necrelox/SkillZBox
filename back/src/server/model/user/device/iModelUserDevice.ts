@@ -1,7 +1,7 @@
 export interface IModelUserDevice {
-    device: string;
+    device?: string;
     createdAt?: Date;
     active?: boolean;
-    userUuid: string;
-    uuid?: string;
+    userUuid?: Buffer;
+    uuid?: Buffer;
 }

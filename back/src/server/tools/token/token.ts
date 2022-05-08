@@ -7,22 +7,18 @@ export class Token {
         const hashedUserEmail = createHmac('sha256', randomUUID())
             .update(body)
             .digest('hex');
-        const token = randomUUID();
+        const token: string = randomUUID();
         return token + '.' + hashedUserEmail + '.' + createHmac('sha256', 'szbx')
             .update(token + hashedUserEmail)
             .digest('hex');
     }
 
     public static tockenChecker(token: string) {
-        const [header, body, signature] = token.split('.');
+        const [header, body, signature]: string[] = token.split('.');
 
         const recreateSignature = createHmac('sha256', 'szbx')
             .update(header! + body!)
             .digest('hex');
-        // console.log("recreateSignature :"); // todo
-        // console.log(recreateSignature);
-        // console.log("signature :");
-        // console.log(signature);
         return recreateSignature === signature;
     }
 }

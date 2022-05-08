@@ -1,4 +1,4 @@
-# Bienvenue sur PasDeNom
+# Bienvenue sur SkillZBox
 
 ### But du projet :
 
@@ -16,7 +16,7 @@ Le but du projet, est de pouvoir sélectionner une catégorie et tag(s), puis fa
     - Possibilité de paramétrer la room, par exemple en limitant le nombre de personne qui peuvent y accéder.
     - vous pouvez aussi, si vous le voulez inviter des amis à la room.
 
-**PasDeNom** a pour objectif de vous aider à faire de nouvelles rencontres avec des personnes qui pourraient avoir des intérêts communs.
+**SkillZBox** a pour objectif de vous aider à faire de nouvelles rencontres avec des personnes qui pourraient avoir des intérêts communs.
     
 Typiquement, si vous vous sentez seul ou que vous avez besoin d’aide ou même que vous souhaitez vous faire des amis, vous pouvez créer une room et ainsi faire de nouvelles rencontres que vous pourrez rajouter en amis.
 

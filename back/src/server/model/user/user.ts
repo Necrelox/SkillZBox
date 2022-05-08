@@ -1,5 +1,7 @@
-import {IModelUser} from "./iModelUser";
 import {SkillzboxDatabaseKnex} from "../../database/skillzboxDatabaseKnex";
+import {SzBxModel} from "../szbxModel";
+import IModelUser = SzBxModel.User.IModelUser;
+
 
 export class User {
     private static readonly TABLE_NAME: string = "USER";

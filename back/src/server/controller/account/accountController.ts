@@ -1,10 +1,11 @@
 import {AccountUtils} from "./utils/accountUtils";
 
-import {Router} from "express";
+import {Router, IRouter} from "express";
 import {SzbxTools} from "../../tools/szbxTools";
+import {SzBxModel} from "../../model/szbxModel";
 
 export class AccountController extends AccountUtils{
-    private _router = Router();
+    private _router: IRouter = Router();
 
     constructor() {
         super();
@@ -21,14 +22,21 @@ export class AccountController extends AccountUtils{
         this._router.post('/login', async (req: any, res: any) => {
             await this.postMethodLogin(req, res);
         });
+        this._router.post('/login-cli', async (req: any, res: any) => {
+            await this.postMethodLoginCli(req, res);
+        });
     }
 
     private async postMethodSignup(req: any, res: any) {
         try {
-            super.checkPostContainMailANDUserANDPassword(req.body);
+            await super.checkPostContainMailANDUserANDPassword(req.body);
             SzbxTools.Mailer.emailHasBadSyntaxe(req.body.email);
             SzbxTools.Mailer.emailIsTemporary(req.body.email);
-            await super.createUser(req.body);
+            await super.createUser({
+                email: req.body.email,
+                username: req.body.username,
+                password: SzbxTools.PasswordEncrypt.encrypt(req.body.password)
+            });
             await super.createToken({email: req.body.email, username: req.body.username});
             await super.sendEmailVerification({email: req.body.email});
 
@@ -72,35 +80,65 @@ export class AccountController extends AccountUtils{
         }
     }
 
-    public getRouter() {
-        return this._router;
-    }
-
     private async postMethodLogin(req: any, res: any) {
         try {
-            super.checkPostContainMailORUserANDPassword(req.body);
-            await super.verifyLogin({
-                email: req.body.email || null,
-                username: req.body.username || null,
-                password: req.body.password
+            await super.checkPostContainMailORUsernameANDPassword(req.body);
+            const searchUser: SzBxModel.User.IModelUser = await super.createSearchUserWithPostBody(req.body);
+
+            await super.verifyLogin(searchUser, req.body.password);
+            await super.verifyIfBlacklisted(searchUser);
+            await super.updateUserIsConnected(searchUser);
+
+            res.status(200).send({
+                content: {
+                    code: 'OK',
+                    message: 'User logged successfully.',
+                    token : (await super.createTokenAndReturn(searchUser))[0]!.token
+                }
             });
-
-
-            // select le user
-            // check if user is verified
-            // delete old token
-            // create new token
-            // send token
 
         } catch (error: any) {
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    sqlMessage: error?.sqlMessage,
+                    error: error
                 }
             });
         }
     }
 
+    private async postMethodLoginCli(req: any, res: any) {
+        try {
+            await super.checkPostContainMailORUsernameANDPassword(req.body);
+            await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
+            const searchUser: SzBxModel.User.IModelUser = await super.createSearchUserWithPostBody(req.body);
+            await super.verifyLogin(searchUser, req.body.password);
+            await super.verifyIfBlacklisted(searchUser);
+            await super.addNewIpOrUpdate(searchUser, req.body.ip);
+            await super.addNewMacAddressOrUpdate(searchUser, req.body.macAddress);
+            await super.addNewDeviceOrUpdate(searchUser, req.body.deviceType);
+            await super.updateUserIsConnected(searchUser);
+
+            res.status(200).send({
+                content: {
+                    code: 'OK',
+                    message: 'User logged successfully.',
+                    token : (await super.createTokenAndReturn(searchUser))[0]!.token
+                }
+            });
+
+        } catch (error: any) {
+            res.status(500).send({
+                content: {
+                    code: error?.code,
+                    error: error
+                }
+            });
+        }
+    }
+
+    public getRouter() {
+        return this._router;
+    }
 }
 

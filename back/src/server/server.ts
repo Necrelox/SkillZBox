@@ -8,7 +8,7 @@ require("dotenv").config();
 // const rateLimit = require('express-rate-limit');
 
 export class Server {
-    private _app = express();
+    private _app: express.Express = express();
 
     constructor() {
         this._initializeServer();

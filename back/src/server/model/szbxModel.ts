@@ -9,8 +9,8 @@ import {UserReport as _Report} from './user/report/userReport'
 import {IModelUserReport as _IModelUserReport} from './user/report/iModelUserReport'
 import {UserMessage as _Message} from './user/message/userMessage'
 import {IModelUserMessage as _IModelUserMessage} from './user/message/iModelUserMessage'
-import {UserMacadress as _Macadress} from './user/macadress/userMacadress'
-import {IModelUserMacAdress as _IModelUserMacAdress} from './user/macadress/iModelUserMacAdress'
+import {UserMacAddress as _MacAddress} from './user/macaddress/userMacaddress'
+import {IModelUserMacAddress as _IModelUserMacAddress} from './user/macaddress/iModelUserMacAddress'
 import {UserLogo as _Logo} from './user/logo/userLogo'
 import {IModelUserLogo as _IModelUserLogo} from './user/logo/iModelUserLogo'
 import {UserIp as _Ip} from './user/ip/userIp'
@@ -65,8 +65,8 @@ export namespace SzBxModel {
         export interface IModelUserReport extends _IModelUserReport {}
         export const Message = _Message;
         export interface IModelUserMessage extends _IModelUserMessage {}
-        export const Macadress = _Macadress;
-        export interface IModelUserMacAdress extends _IModelUserMacAdress {}
+        export const MacAddress = _MacAddress;
+        export interface IModelUserMacAddress extends _IModelUserMacAddress {}
         export const Logo = _Logo;
         export interface IModelUserLogo extends _IModelUserLogo {}
         export const Ip = _Ip;

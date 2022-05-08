@@ -5,7 +5,6 @@ import {knex} from 'knex';
 export class SkillzboxDatabaseKnex {
     private static instance: any;
 
-
     public static initializeDatabasePool() {
         SkillzboxDatabaseKnex.instance = knex({
             client: 'mysql2',
