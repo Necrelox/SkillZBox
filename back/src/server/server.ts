@@ -1,10 +1,10 @@
 import {SkillzboxDatabaseKnex} from "./database/skillzboxDatabaseKnex";
 import {SzbxController} from "./controller/szbxController";
-
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-require("dotenv").config();
+import {config} from 'dotenv';
+
 // const rateLimit = require('express-rate-limit');
 
 export class Server {
@@ -15,6 +15,7 @@ export class Server {
     }
 
     private _initializeServer() {
+        config();
         this._app.use(cors(
             {
                 origin: '*', // Temporary
