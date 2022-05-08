@@ -31,8 +31,8 @@ export class Server {
     }
 
     public run() {
-        this._app.listen(process.env['PORT'] || 3001, () => {
-            console.log("\x1b[31m", "Server is running on port " + (process.env['PORT'] || 3001) + "\x1b[0m");
+        this._app.listen(process.env.PORT || 3001, () => {
+            console.log("\x1b[31m", "Server is running on port " + (process.env.PORT || 3001) + "\x1b[0m");
         })
     }
 }

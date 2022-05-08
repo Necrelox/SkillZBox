@@ -70,7 +70,6 @@ export class AccountController extends AccountUtils{
                 }
             });
         } catch (error: any) {
-            console.log(error);
             res.status(500).send({
                 content: {
                     code: error?.code,

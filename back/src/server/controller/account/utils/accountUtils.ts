@@ -87,7 +87,7 @@ export abstract class AccountUtils {
             };
 
         await SzbxTools.Mailer.sendMail({
-            from: process.env['EMAIL_AUTH_USER'],
+            from: process.env.EMAIL_AUTH_USER,
             to: user[0]!.email!,
             subject: "Confirmation de votre compte",
             text: "Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$ " + token[0]!.token
