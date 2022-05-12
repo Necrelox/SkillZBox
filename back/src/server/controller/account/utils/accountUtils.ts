@@ -16,7 +16,7 @@ export abstract class AccountUtils {
         if ((!postData.email && !postData.username) || !postData.password)
             throw {
                 code: "AccountUtilsError",
-                message: "checkPostContainMailORUserANDPassword : Missing parameters" + (postData.email ? " email" : "") + (postData.username ? " username" : "") + (postData.password ? " password" : "") + "."
+                message: "checkPostContainMailORUserANDPassword : Missing parameters" + (postData.email && " email") + (postData.username && " username") + (postData.password && " password") + "."
             };
     }
 
@@ -24,7 +24,7 @@ export abstract class AccountUtils {
         if (!postData.email || !postData.username || !postData.password)
             throw {
                 code: "AccountUtilsError",
-                message: "checkPostContainMailANDUserANDPassword : Missing parameters" + (postData.email ? "" : " email") + (postData.username ? "" : " username") + (postData.password ? "" : " password") + "."
+                message: "checkPostContainMailANDUserANDPassword : Missing parameters" + (postData.email && " email") + (postData.username && " username") + (postData.password && " password") + "."
             };
     }
 
@@ -32,7 +32,7 @@ export abstract class AccountUtils {
         if (!postData.ip || !postData.macAddress || !postData.deviceType)
             throw {
                 code: "AccountUtilsError",
-                message: "checkPostContainIpANDMacAddressANDDeviceType : Missing parameters" + (postData.ip ? "" : " ip") + (postData.macAddress ? "" : " macAddress") + (postData.deviceType ? "" : " deviceType") + "."
+                message: "checkPostContainIpANDMacAddressANDDeviceType : Missing parameters" + (postData.ip && " ip") + (postData.macAddress && " macAddress") + (postData.deviceType && " deviceType") + "."
             }
     }
 
