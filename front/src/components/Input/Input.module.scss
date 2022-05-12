@@ -1,0 +1,57 @@
+@import 'src/styles/vars.scss';
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  height: max-content;
+  background-color: $gunPowder;
+  border-radius: 15px;
+
+  .label {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+
+    font-family: 'Euclid Medium', sans-serif;
+    font-size: 14px;
+
+    color: $grey;
+    user-select: none;
+  }
+
+  .input:focus + .label {
+    color: $blue;
+  }
+
+  .input {
+    width: 100%;
+    height: 30px;
+    padding: 40px 40px 25px 20px;
+
+    font-family: 'Euclid Semi-Bold', sans-serif;
+    font-size: 18px;
+    color: $white;
+
+    border: none;
+    border-radius: 15px;
+
+    background-color: transparent;
+
+    &:focus {
+      outline: 2px solid $blue;
+    }
+
+    &::placeholder {
+      font-family: 'Euclid Light', sans-serif;
+      font-size: 14px;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    right: 15px;
+    top: 22px;
+    font-size: 20px;
+    color: $grey;
+  }
+}

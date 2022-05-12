@@ -1,0 +1,80 @@
+@import 'src/styles/vars.scss';
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .textContainer {
+    width: 90%;
+    margin: 0 auto;
+
+    @media screen and (min-width: $tablet) {
+      width: 70%;
+    }
+
+    @media screen and (min-width: $large) {
+      width: 40%;
+    }
+
+    .subtitle {
+      font-family: 'Euclid Semi-Bold';
+      color: $grey;
+    }
+
+    .title {
+      font-family: 'Euclid Semi-Bold';
+      color: $white;
+
+      @media screen and (min-width: $tablet) {
+        font-size: 3rem;
+      }
+
+      .coloredDot {
+        color: $blue;
+      }
+    }
+  }
+
+  .formContainer {
+    width: 90%;
+    margin: 0 auto;
+
+    @media screen and (min-width: $tablet) {
+      width: 70%;
+    }
+
+    @media screen and (min-width: $large) {
+      width: 40%;
+    }
+
+    .passwordContainer {
+      @media screen and (min-width: $tablet) {
+        display: flex;
+        justify-content: space-between;
+
+        & div {
+          margin: 0;
+          flex: 0.47;
+        }
+      }
+    }
+
+    .buttonContainer {
+      margin: 10px auto;
+      display: flex;
+      justify-content: space-between;
+
+      @media screen and (min-width: $mobile) {
+        justify-content: space-around;
+      }
+    }
+  }
+
+  .inputContainer {
+    margin: 20px auto;
+  }
+}

@@ -9,7 +9,7 @@ import { storeCommonServerSideData } from 'helpers/store';
 import { wrapper } from 'redux/store';
 
 // styles
-import styles from 'styles/Home.module.scss';
+import styles from 'styles/pages/Home.module.scss';
 
 const Home: NextPage = () => {
   return (
