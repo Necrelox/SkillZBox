@@ -1,0 +1,83 @@
+@import 'src/styles/vars.scss';
+
+.button {
+  margin: 10px 0;
+  padding: 20px;
+
+  border: none;
+  border-radius: 30px;
+
+  color: white;
+
+  font-family: 'Euclid Semi-Bold', sans-serif;
+
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.filled {
+  background-color: $blue;
+
+  &:hover {
+    background-color: $lightBlue;
+  }
+
+  &:active {
+    background-color: $darkBlue;
+  }
+
+  &:disabled {
+    background-color: $lightGrey;
+    cursor: not-allowed;
+  }
+}
+
+.outline {
+  background-color: $white;
+  color: $black;
+  border: 1px solid $darkGrey;
+
+  &:hover:not([disabled]) {
+    background-color: $lightGrey;
+  }
+
+  &:active:not([disabled]) {
+    background-color: $darkGrey;
+    color: $white;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.text {
+  background-color: transparent;
+  color: $blue;
+
+  &:hover:not([disabled]) {
+    background-color: $transparantBlue;
+  }
+
+  &:active:not([disabled]) {
+    background-color: $veryLightBlue;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.small {
+  font-size: 12px;
+}
+
+.medium {
+  font-size: 16px;
+}
+
+.large {
+  font-size: 20px;
+}
