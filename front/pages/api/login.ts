@@ -20,7 +20,17 @@ export default async function handler(
             headers: {
               [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
             },
-            body: JSON.stringify(req.body),
+            body: JSON.stringify(
+              req.body.username.includes('@')
+                ? {
+                    email: req.body.username,
+                    password: req.body.password,
+                  }
+                : {
+                    username: req.body.username,
+                    password: req.body.password,
+                  },
+            ),
           },
         );
 

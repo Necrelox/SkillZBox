@@ -18,3 +18,7 @@ export enum ApiHeader {
   AUTHORIZATION = 'Authorization',
   USER_AGENT = 'User-Agent',
 }
+
+export enum ApiResponseCode {
+  OK = 'OK',
+}

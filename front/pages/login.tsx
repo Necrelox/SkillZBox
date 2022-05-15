@@ -7,13 +7,13 @@ import Router from 'next/router';
 import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
-import Modal, { fillModal } from 'components/Modal/Modal';
+import Modal from 'components/Modal/Modal';
 
 // enums
 import { InputType, InputValue } from 'enums/input.enum';
 import { ButtonSize, ButtonStyle } from 'enums/button.enum';
 import { ModalTypes } from 'enums/modal.enum';
-import { ApiHeader, ApiMethod } from 'enums/protocol.enum';
+import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 
 // interfaces
 import { IModal } from 'interfaces/Modal.interface';
@@ -32,10 +32,13 @@ import styles from 'styles/pages/Login.module.scss';
 const Login: NextPage = () => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<IModal[]>([]);
+  const [modalContent, setModalContent] = useState<IModal>({
+    message: '',
+    type: ModalTypes.UNKNOWN,
+  });
 
   const [userInfos, setUserInfos] = useState({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -52,7 +55,7 @@ const Login: NextPage = () => {
 
   const resetUserInfos = () => {
     setUserInfos({
-      email: '',
+      username: '',
       password: '',
     });
   };
@@ -63,7 +66,7 @@ const Login: NextPage = () => {
   };
 
   const resetModalContent = () => {
-    setModalContent([]);
+    setModalContent({ message: '', type: ModalTypes.UNKNOWN });
     closeModal();
   };
 
@@ -79,31 +82,18 @@ const Login: NextPage = () => {
     openModal();
     setTimeout(() => {
       closeModal();
-    }, 3000);
+    }, 5000);
   };
 
-  const fillAndOpenModalContent = (content: IModal[]) => {
+  const fillAndOpenModalContent = (modalContent: IModal) => {
     resetModalContent();
-    fillModal(setModalContent, content);
-    showModal();
-  };
-
-  const fillAndOpenModalContentWithErrors = (errors: string[]) => {
-    resetModalContent();
-
-    errors.forEach((error) => {
-      setModalContent((oldValues) => [
-        ...oldValues,
-        { type: ModalTypes.ERROR, message: error },
-      ]);
-    });
-
+    setModalContent(modalContent);
     showModal();
   };
 
   const isUserInfosValid = () => {
-    const { email, password } = userInfos;
-    return !email || !password;
+    const { username, password } = userInfos;
+    return !username || !password;
   };
 
   const checkPasswordLength = () => {
@@ -112,17 +102,13 @@ const Login: NextPage = () => {
   };
 
   const checkUserInfos = () => {
-    const errors: string[] = [];
-
     if (isUserInfosValid()) {
-      errors.push('Remplissez tous les champs');
+      throw new Error('Veuillez remplir tous les champs');
     }
 
     if (!checkPasswordLength()) {
-      errors.push('Le mot de passe doit contenir au moins 8 caractères');
+      throw new Error('Le mot de passe doit contenir au moins 8 caractères');
     }
-
-    return errors;
   };
 
   const submitUserInfos = async () => {
@@ -133,55 +119,38 @@ const Login: NextPage = () => {
       },
       body: JSON.stringify(userInfos),
     });
-
     const { content } = await response.json();
+
     resetUserInfos();
+
+    if (!content.code || (!content.message && !content.token)) {
+      throw new Error("Une erreur s'est produite lors de l'authentification");
+    }
 
     return content;
   };
 
-  const ApiResponseHandler = (code: string, token: string, error: string) => {
-    switch (code) {
-      case 'OK':
-        dispatch(setUserTokenAction(token));
-        fillAndOpenModalContent([
-          {
-            type: ModalTypes.SUCCESS,
-            message: 'Vous êtes connecté. Token : ' + token,
-          },
-        ]);
-        break;
-
-      default:
-        fillAndOpenModalContent([
-          {
-            type: ModalTypes.ERROR,
-            message: error,
-          },
-        ]);
-        break;
+  const ApiResponseHandler = (code: string, token: string, message: string) => {
+    fillAndOpenModalContent({
+      message: code === ApiResponseCode.OK ? token : message,
+      type: code === ApiResponseCode.OK ? ModalTypes.SUCCESS : ModalTypes.ERROR,
+    });
+    if (token) {
+      dispatch(setUserTokenAction(token));
     }
   };
 
   const onFormSubmit = async (event: FormEvent) => {
     try {
       event.preventDefault();
-
-      const errors = checkUserInfos();
-      if (errors.length > 0) {
-        fillAndOpenModalContentWithErrors(errors);
-        return;
-      }
-
-      const { code, token, error } = await submitUserInfos();
-      ApiResponseHandler(code, token, error?.message);
+      checkUserInfos();
+      const { code, token, message } = await submitUserInfos();
+      ApiResponseHandler(code, token, message);
     } catch (error: any) {
-      fillAndOpenModalContent([
-        {
-          type: ModalTypes.ERROR,
-          message: error,
-        },
-      ]);
+      fillAndOpenModalContent({
+        message: error.message,
+        type: ModalTypes.ERROR,
+      });
     }
   };
 
@@ -201,11 +170,11 @@ const Login: NextPage = () => {
         <form className={styles.formContainer} onSubmit={onFormSubmit}>
           <div className={styles.inputContainer}>
             <Input
-              value={userInfos.email}
-              type={InputType.EMAIL}
-              label="Email"
+              value={userInfos.username}
+              type={InputType.TEXT}
+              label="Email ou pseudo"
               onChange={(event: FormEvent<HTMLInputElement>) =>
-                onUserInfosChange(event, InputValue.EMAIL)
+                onUserInfosChange(event, InputValue.USERNAME)
               }
               hasIcon
             />

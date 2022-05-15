@@ -6,12 +6,12 @@ import Router from 'next/router';
 import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
-import Modal, { fillModal } from 'components/Modal/Modal';
+import Modal from 'components/Modal/Modal';
 
 // enums
 import { InputType, InputValue } from 'enums/input.enum';
 import { ButtonSize, ButtonStyle } from 'enums/button.enum';
-import { ApiHeader, ApiMethod } from 'enums/protocol.enum';
+import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 import { ModalTypes } from 'enums/modal.enum';
 
 // interfaces
@@ -29,7 +29,10 @@ import styles from 'styles/pages/Register.module.scss';
 
 const Register: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<IModal[]>([]);
+  const [modalContent, setModalContent] = useState<IModal>({
+    message: '',
+    type: ModalTypes.UNKNOWN,
+  });
 
   const [userInfos, setUserInfos] = useState({
     username: '',
@@ -64,7 +67,7 @@ const Register: NextPage = () => {
   };
 
   const resetModalContent = () => {
-    setModalContent([]);
+    setModalContent({ message: '', type: ModalTypes.UNKNOWN });
     closeModal();
   };
 
@@ -80,31 +83,23 @@ const Register: NextPage = () => {
     openModal();
     setTimeout(() => {
       closeModal();
-    }, 3000);
+    }, 5000);
   };
 
-  const fillAndOpenModalContent = (content: IModal[]) => {
+  const fillAndOpenModalContent = (modalContent: IModal) => {
     resetModalContent();
-    fillModal(setModalContent, content);
+    setModalContent(modalContent);
     showModal();
-  };
-
-  const fillAndOpenModalContentWithErrors = (errors: string[]) => {
-    resetModalContent();
-
-    errors.forEach((error) => {
-      setModalContent((oldValues) => [
-        ...oldValues,
-        { type: ModalTypes.ERROR, message: error },
-      ]);
-    });
-
-    setIsModalOpen(true);
   };
 
   const isUserInfosValid = () => {
     const { username, email, password, passwordConfirm } = userInfos;
     return !username || !email || !password || !passwordConfirm;
+  };
+
+  const hasForbidenCharacters = (value: string) => {
+    const forbidenCharacter = '@';
+    return value.includes(forbidenCharacter);
   };
 
   const comparePassword = () => {
@@ -118,21 +113,23 @@ const Register: NextPage = () => {
   };
 
   const checkUserInfos = () => {
-    const errors: string[] = [];
-
     if (isUserInfosValid()) {
-      errors.push('Remplissez tous les champs');
+      throw new Error('Veuillez remplir tous les champs');
+    }
+
+    if (hasForbidenCharacters(userInfos.username)) {
+      throw new Error(
+        "Le nom d'utilisateur ne peut pas contenir le caractère @",
+      );
     }
 
     if (!checkPasswordLength()) {
-      errors.push('Le mot de passe doit contenir au moins 8 caractères');
+      throw new Error('Le mot de passe doit contenir au moins 8 caractères');
     }
 
     if (!comparePassword()) {
-      errors.push('Les mots de passe ne correspondent pas');
+      throw new Error('Les mots de passe ne correspondent pas');
     }
-
-    return errors;
   };
 
   const submitUserInfos = async () => {
@@ -143,54 +140,35 @@ const Register: NextPage = () => {
       },
       body: JSON.stringify(userInfos),
     });
-
     const { content } = await response.json();
+
     resetUserInfos();
+
+    if (!content.code || !content.message) {
+      throw new Error("Une erreur s'est produite lors de l'inscription");
+    }
 
     return content;
   };
 
-  const ApiResponseHandler = (code: string, message: string, error: string) => {
-    switch (code) {
-      case 'OK':
-        fillAndOpenModalContent([
-          {
-            type: ModalTypes.SUCCESS,
-            message,
-          },
-        ]);
-        break;
-
-      default:
-        fillAndOpenModalContent([
-          {
-            type: ModalTypes.ERROR,
-            message: error,
-          },
-        ]);
-        break;
-    }
+  const ApiResponseHandler = (code: string, message: string) => {
+    fillAndOpenModalContent({
+      message,
+      type: code === ApiResponseCode.OK ? ModalTypes.SUCCESS : ModalTypes.ERROR,
+    });
   };
 
   const onFormSubmit = async (event: FormEvent) => {
     try {
       event.preventDefault();
-
-      const errors = checkUserInfos();
-      if (errors.length > 0) {
-        fillAndOpenModalContentWithErrors(errors);
-        return;
-      }
-
-      const { code, message, error } = await submitUserInfos();
-      ApiResponseHandler(code, message, error?.message);
+      checkUserInfos();
+      const { code, message } = await submitUserInfos();
+      ApiResponseHandler(code, message);
     } catch (error: any) {
-      fillAndOpenModalContent([
-        {
-          type: ModalTypes.ERROR,
-          message: error.message,
-        },
-      ]);
+      fillAndOpenModalContent({
+        message: error.message,
+        type: ModalTypes.ERROR,
+      });
     }
   };
 
