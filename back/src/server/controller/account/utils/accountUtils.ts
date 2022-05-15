@@ -1,5 +1,6 @@
-import {SzBxModel} from "../../../model/szbxModel";
-import {SzbxTools} from "../../../tools/szbxTools"
+import {SzBxModel} from '../../../model/szbxModel';
+import {SzbxTools} from '../../../tools/szbxTools';
+import {CodeError} from './enum/codeError';
 
 export abstract class AccountUtils {
 
@@ -15,23 +16,23 @@ export abstract class AccountUtils {
     protected async checkPostContainMailORUsernameANDPassword(postData: any) {
         if ((!postData.email && !postData.username) || !postData.password)
             throw {
-                code: "AccountUtilsError",
-                message: "checkPostContainMailORUserANDPassword : Missing parameters" + (postData.email && " email") + (postData.username && " username") + (postData.password && " password") + "."
+                code: CodeError.ACCOUNT_UTILS_CHECK_POST_CONTAIN_MAIL_OR_USERNAME_AND_PASSWORD,
+                message: "checkPostContainMailORUserANDPassword : Missing parameters" + (postData.email ? '':   ' email') + (postData.username ? '' :  ' username') + (postData.password ? '' : ' password') + '.'
             };
     }
 
     protected async checkPostContainMailANDUserANDPassword(postData: any) {
         if (!postData.email || !postData.username || !postData.password)
             throw {
-                code: "AccountUtilsError",
-                message: "checkPostContainMailANDUserANDPassword : Missing parameters" + (postData.email && " email") + (postData.username && " username") + (postData.password && " password") + "."
+                code: CodeError.ACCOUNT_UTILS_CHECK_POST_CONTAIN_MAIL_AND_USERNAME_AND_PASSWORD,
+                message: "checkPostContainMailANDUserANDPassword : Missing parameters" + (postData.email ? '' :  " email") + (postData.username ? '' : ' username') + (postData.password ? '' : ' password') + '.'
             };
     }
 
     protected async checkPostContainIpANDMacAddressANDDeviceType(postData: any) {
         if (!postData.ip || !postData.macAddress || !postData.deviceType)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_CHECK_POST_CONTAIN_IP_AND_MACADDRESS_AND_DEVICE_TYPE,
                 message: "checkPostContainIpANDMacAddressANDDeviceType : Missing parameters" + (postData.ip && " ip") + (postData.macAddress && " macAddress") + (postData.deviceType && " deviceType") + "."
             }
     }
@@ -157,19 +158,20 @@ export abstract class AccountUtils {
 
     protected async verifyLogin(searchUser: SzBxModel.User.IModelUser, password: string) {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
+
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "verifyLogin : Invalid" + searchUser.username ? "username" : "email"
+                code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
+                message: searchUser?.username ? "verifyLogin : Invalid username" : "verifyLogin : Invalid email"
             };
         if (!SzbxTools.PasswordEncrypt.compare(password, user[0]!.password!))
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
                 message: "verifyLogin : Invalid password."
             };
         if (!user[0]!.isVerified)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
                 message: "verifyLogin : User not verified."
             };
     }
@@ -178,12 +180,12 @@ export abstract class AccountUtils {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_VERIFY_BLACKLIST,
                 message: "verifyIfBlacklisted : Invalid user."
             };
         if (user[0]!.isBlackListed)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_VERIFY_BLACKLIST,
                 message: "verifyIfBlacklisted : User is blacklisted."
             };
     }
@@ -192,7 +194,7 @@ export abstract class AccountUtils {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_UPDATE_USER_IS_CONNECTED,
                 message: "updateUserIsConnected : Invalid user."
             };
         await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isConnected: true});
@@ -202,7 +204,7 @@ export abstract class AccountUtils {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_ADD_NEW_IP_OR_UPDATE,
                 message: "addNewIpOrUpdate : Invalid user."
             };
         const userIP: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.Ip.select({
@@ -227,7 +229,7 @@ export abstract class AccountUtils {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_ADD_NEW_MACADDRESS_OR_UPDATE,
                 message: "addNewIpOrUpdate : Invalid user."
             };
         const userMacAddress: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.MacAddress.select({
@@ -252,7 +254,7 @@ export abstract class AccountUtils {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
+                code: CodeError.ACCOUNT_UTILS_ADD_NEW_DEVICE_OR_UPDATE,
                 message: "addNewIpOrUpdate : Invalid user."
             };
         const userDevice: SzBxModel.User.IModelUserDevice[] = await SzBxModel.User.Device.select({
