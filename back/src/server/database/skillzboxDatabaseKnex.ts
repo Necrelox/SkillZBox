@@ -1,5 +1,14 @@
 import {knex} from 'knex';
 
+export interface ErrorDatabase extends Error {
+    code?: string;
+    errno?: number;
+    sqlState?: string;
+    sqlMessage?: string;
+    sql?: string;
+    stack?: string;
+}
+
 export class SkillzboxDatabaseKnex {
     private static instance: any;
 

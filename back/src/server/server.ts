@@ -8,15 +8,15 @@ import {config} from 'dotenv';
 // const rateLimit = require('express-rate-limit');
 
 export class Server {
-    private _app: express.Express = express();
+    private app: express.Express = express();
 
     constructor() {
-        this._initializeServer();
+        this.initializeServer();
     }
 
-    private _initializeServer() {
+    private initializeServer() {
         config();
-        this._app.use(cors(
+        this.app.use(cors(
             {
                 origin: '*', // Temporary
                 methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -24,14 +24,19 @@ export class Server {
                 credentials: true,
             }
         ));
-        this._app.use(helmet());
-        this._app.use(express.json());
-        this._app.use(express.urlencoded({ extended: false }));
-        this._app.use("/account", new SzbxController.AccountController().getRouter());
+        this.app.use(helmet());
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: false }));
+        this.initializeRoutes();
         SkillzboxDatabaseKnex.initializeDatabasePool();
     }
 
+    private initializeRoutes() {
+        this.app.use("/account", new SzbxController.AccountController().getRouter());
+
+    }
+
     public run() {
-        this._app.listen(process.env.PORT || 3001);
+        this.app.listen(process.env.PORT || 3001);
     }
 }

@@ -1,37 +1,39 @@
 import {AccountUtils} from "./utils/accountUtils";
 
-import {Router, IRouter} from "express";
+import {Router, IRouter, Request, Response} from "express";
 import {SzbxTools} from "../../tools/szbxTools";
 import {SzBxModel} from "../../model/szbxModel";
+import {ErrorController} from "../interface/ErrorController";
 
 export class AccountController extends AccountUtils{
     private _router: IRouter = Router();
 
     constructor() {
         super();
-        this._initializeAccountController();
+        this.initializeAccountController();
     }
 
-    private _initializeAccountController() {
-        this._router.post('/signup', async (req: any, res: any) => {
+    private initializeAccountController() {
+        this._router.post('/signup', async (req: Request, res: Response) => {
             await this.postMethodSignup(req, res);
         });
-        this._router.post('/verify', async (req: any, res: any) => {
+        this._router.post('/verify', async (req: Request, res: Response) => {
             await this.postMethodVerify(req, res);
         });
-        this._router.post('/login', async (req: any, res: any) => {
+        this._router.post('/login', async (req: Request, res: Response) => {
             await this.postMethodLogin(req, res);
         });
-        this._router.post('/login-cli', async (req: any, res: any) => {
+        this._router.post('/login-cli', async (req: Request, res: Response) => {
             await this.postMethodLoginCli(req, res);
         });
     }
 
-    private async postMethodSignup(req: any, res: any) {
+    private async postMethodSignup(req: Request, res: Response) {
         try {
             await super.checkPostContainMailANDUserANDPassword(req.body);
             SzbxTools.Mailer.emailHasBadSyntaxe(req.body.email);
             SzbxTools.Mailer.emailIsTemporary(req.body.email);
+            await super.checkSyntaxeUsername(req.body.username);
             await super.createUser({
                 email: req.body.email,
                 username: req.body.username,
@@ -50,13 +52,13 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error
+                    message: error?.message
                 }
             });
         }
     }
 
-    private async postMethodVerify(req: any, res: any) {
+    private async postMethodVerify(req: Request, res: Response) {
         try {
             const code = req.body.code;
             await super.verifyTokenSignature(code);
@@ -73,13 +75,13 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error,
+                    message: error?.message,
                 }
             });
         }
     }
 
-    private async postMethodLogin(req: any, res: any) {
+    private async postMethodLogin(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             const searchUser: SzBxModel.User.IModelUser = await super.createSearchUserWithPostBody(req.body);
@@ -91,8 +93,8 @@ export class AccountController extends AccountUtils{
             res.status(200).send({
                 content: {
                     code: 'OK',
-                    message: 'User logged successfully.',
-                    token : (await super.createTokenAndReturn(searchUser))[0]!.token
+                    message: !'User logged successfully.',
+                    token : (await super.createTokenAndReturn(searchUser))![0]!.token
                 }
             });
 
@@ -100,13 +102,13 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error
+                    message: error?.message,
                 }
             });
         }
     }
 
-    private async postMethodLoginCli(req: any, res: any) {
+    private async postMethodLoginCli(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
@@ -122,7 +124,7 @@ export class AccountController extends AccountUtils{
                 content: {
                     code: 'OK',
                     message: 'User logged successfully.',
-                    token : (await super.createTokenAndReturn(searchUser))[0]!.token
+                    token : (await super.createTokenAndReturn(searchUser))[0]!.token!
                 }
             });
 
@@ -130,7 +132,7 @@ export class AccountController extends AccountUtils{
             res.status(500).send({
                 content: {
                     code: error?.code,
-                    error
+                    message: error?.message,
                 }
             });
         }

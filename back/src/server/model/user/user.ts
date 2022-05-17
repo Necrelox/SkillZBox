@@ -1,15 +1,22 @@
-import {SkillzboxDatabaseKnex} from "../../database/skillzboxDatabaseKnex";
+import {SkillzboxDatabaseKnex, ErrorDatabase} from "../../database/skillzboxDatabaseKnex";
 import {SzBxModel} from "../szbxModel";
 import IModelUser = SzBxModel.User.IModelUser;
 
 
 export class User {
     private static readonly TABLE_NAME: string = "USER";
-    // private static instance = SkillzboxDatabaseKnex.getInstance();
 
     public static select(user: IModelUser): Promise<IModelUser[]> {
         return SkillzboxDatabaseKnex.getInstance()(User.TABLE_NAME).select()
-            .where(user);
+            .where(user)
+            .then((users: IModelUser[]) => {
+                return users;
+            }).catch((err: ErrorDatabase) => {
+                throw {
+                    code: err?.code,
+                    message: err?.message,
+                }
+            });
     }
 
     public static insert(user: IModelUser) : IModelUser | never {
@@ -17,8 +24,11 @@ export class User {
             .then(() => {
                 return user;
             })
-            .catch((err: any) => {
-                throw err;
+            .catch((err: ErrorDatabase) => {
+                throw {
+                    code: err?.code,
+                    message: err?.message,
+                }
             });
     }
     public static update(where : IModelUser, user: IModelUser) : IModelUser | never {
@@ -27,8 +37,11 @@ export class User {
             .then(() => {
                 return user;
             })
-            .catch((err: any) => {
-                throw err;
+            .catch((err: ErrorDatabase) => {
+                throw {
+                    code: err?.code,
+                    message: err?.message,
+                }
             });
     }
 }

@@ -1,10 +1,11 @@
 import {SzBxModel} from '../../../model/szbxModel';
 import {SzbxTools} from '../../../tools/szbxTools';
 import {CodeError} from './enum/codeError';
+import {MessageError} from "./enum/messageError";
 
 export abstract class AccountUtils {
 
-    protected async createSearchUserWithPostBody(postBody: any): Promise<SzBxModel.User.IModelUser> {
+    protected async createSearchUserWithPostBody(postBody: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUser> {
         const searchUser: SzBxModel.User.IModelUser = {};
         if (postBody.email)
             searchUser.email = postBody.email;
@@ -17,7 +18,7 @@ export abstract class AccountUtils {
         if ((!postData.email && !postData.username) || !postData.password)
             throw {
                 code: CodeError.ACCOUNT_UTILS_CHECK_POST_CONTAIN_MAIL_OR_USERNAME_AND_PASSWORD,
-                message: "checkPostContainMailORUserANDPassword : Missing parameters" + (postData.email ? '':   ' email') + (postData.username ? '' :  ' username') + (postData.password ? '' : ' password') + '.'
+                message: MessageError.MISSING_PARAMETER + (postData.email ? '':   ' email') + (postData.username ? '' :  ' username') + (postData.password ? '' : ' password') + '.'
             };
     }
 
@@ -25,7 +26,7 @@ export abstract class AccountUtils {
         if (!postData.email || !postData.username || !postData.password)
             throw {
                 code: CodeError.ACCOUNT_UTILS_CHECK_POST_CONTAIN_MAIL_AND_USERNAME_AND_PASSWORD,
-                message: "checkPostContainMailANDUserANDPassword : Missing parameters" + (postData.email ? '' :  " email") + (postData.username ? '' : ' username') + (postData.password ? '' : ' password') + '.'
+                message: MessageError.MISSING_PARAMETER + (postData.email ? '' :  " email") + (postData.username ? '' : ' username') + (postData.password ? '' : ' password') + '.'
             };
     }
 
@@ -33,7 +34,17 @@ export abstract class AccountUtils {
         if (!postData.ip || !postData.macAddress || !postData.deviceType)
             throw {
                 code: CodeError.ACCOUNT_UTILS_CHECK_POST_CONTAIN_IP_AND_MACADDRESS_AND_DEVICE_TYPE,
-                message: "checkPostContainIpANDMacAddressANDDeviceType : Missing parameters" + (postData.ip && " ip") + (postData.macAddress && " macAddress") + (postData.deviceType && " deviceType") + "."
+                message: MessageError.MISSING_PARAMETER + (postData.ip && " ip") + (postData.macAddress && " macAddress") + (postData.deviceType && " deviceType") + "."
+            }
+    }
+
+    protected async checkSyntaxeUsername(username: string) {
+        const regex: RegExp = /^\w+$/;
+
+        if (!regex.test(username))
+            throw {
+                code: CodeError.ACCOUNT_UTILS_CHECK_SYNTAXE_USERNAME,
+                message: MessageError.USERNAME_BAD_SYNTAX
             }
     }
 
@@ -49,8 +60,8 @@ export abstract class AccountUtils {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(newUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "verifyTokenExpiration : User not exist."
+                code: CodeError.ACCOUNT_UTILS_CREATE_TOKEN,
+                message: MessageError.USER_NOT_FOUND
             };
 
         const token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select({
@@ -59,7 +70,7 @@ export abstract class AccountUtils {
         if (token && token.length > 0)
             await SzBxModel.User.Token.delete({userUuid: user[0]!.uuid});
 
-        await SzBxModel.User.Token.insert({
+        SzBxModel.User.Token.insert({
             token: SzbxTools.Token.generateToken(user[0]!.uuid!),
             userUuid: user[0]!.uuid,
             expireAt: new Date(Date.now() + (1000 * 60 * 60))
@@ -76,15 +87,15 @@ export abstract class AccountUtils {
         const user:  SzBxModel.User.IModelUser[] = await SzBxModel.User.User.select(searchUser);
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "sendConfirmationMail : User not find."
+                code: CodeError.ACCOUNT_UTILS_SEND_EMAIL_VERIFICATION,
+                message: MessageError.USER_NOT_FOUND
             };
 
         const token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select({userUuid: user[0]!.uuid});
         if (!token || token.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "sendEmailVerification : Invalid user"
+                code: CodeError.ACCOUNT_UTILS_SEND_EMAIL_VERIFICATION,
+                message: MessageError.TOKEN_NOT_FOUND
             };
 
         await SzbxTools.Mailer.sendMail({
@@ -98,8 +109,8 @@ export abstract class AccountUtils {
     protected async verifyTokenSignature(token: string) {
         if (!SzbxTools.Token.tockenChecker(token))
             throw {
-                code: "AccountUtilsError",
-                message: "verifyTokenSignature : Invalid signature."
+                code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_SIGNATURE,
+                message: MessageError.TOKEN_INVALID_SIGNATURE
             };
     }
 
@@ -107,8 +118,8 @@ export abstract class AccountUtils {
         let token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select({token: code});
         if (!token || token.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "verifyTokenExpiration : Token not exist."
+                code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_EXPIRATION,
+                message: MessageError.TOKEN_NOT_FOUND
             };
 
         if (token[0]!.expireAt! < new Date()) {
@@ -117,15 +128,15 @@ export abstract class AccountUtils {
             token = await SzBxModel.User.Token.select({userUuid: token[0]!.userUuid});
             if (!token || token.length === 0)
                 throw {
-                    code: "AccountUtilsError",
-                    message: "verifyTokenExpiration : Token not exist after generation."
+                    code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_EXPIRATION,
+                    message: MessageError.TOKEN_NOT_FOUND_AFTER_GENERATE
                 };
 
             await this.sendEmailVerification({uuid: token[0]!.userUuid});
 
             throw {
-                code: "AccountUtilsError",
-                message: "verifyTokenExpiration : Token expired, new token generated"
+                code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_EXPIRATION,
+                message: MessageError.TOKEN_EXPIRED
             };
         }
     }
@@ -134,26 +145,25 @@ export abstract class AccountUtils {
         const token: SzBxModel.User.IModelUserToken[]  = await SzBxModel.User.Token.select({token: code});
         if (!token || token.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "verifyUser : Token not exist after generation."
+                code: CodeError.ACCOUNT_UTILS_VERIFY_USER,
+                message: MessageError.TOKEN_NOT_FOUND
             };
 
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select({uuid: token[0]!.userUuid});
         if (!user || user.length === 0)
             throw {
-                code: "AccountUtilsError",
-                message: "verifyUser : Invalid user."
+                code: CodeError.ACCOUNT_UTILS_VERIFY_USER,
+                message: MessageError.USER_NOT_FOUND
             };
         if (user[0]!.isVerified)
             throw {
-                code: "AccountUtilsError",
-                message: "verifyUser : User already verified."
+                code: CodeError.ACCOUNT_UTILS_VERIFY_USER,
+                message: MessageError.USER_ALREADY_VERIFIED
             };
         else {
             await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isVerified: true});
             await SzBxModel.User.Token.delete({token: code});
         }
-
     }
 
     protected async verifyLogin(searchUser: SzBxModel.User.IModelUser, password: string) {
@@ -167,12 +177,12 @@ export abstract class AccountUtils {
         if (!SzbxTools.PasswordEncrypt.compare(password, user[0]!.password!))
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
-                message: "verifyLogin : Invalid password."
+                message: MessageError.LOGIN_INVALID_PASSWORD
             };
         if (!user[0]!.isVerified)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
-                message: "verifyLogin : User not verified."
+                message: MessageError.USER_NOT_VERIFIED
             };
     }
 
@@ -181,12 +191,12 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_BLACKLIST,
-                message: "verifyIfBlacklisted : Invalid user."
+                message: MessageError.USER_NOT_FOUND
             };
         if (user[0]!.isBlackListed)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_BLACKLIST,
-                message: "verifyIfBlacklisted : User is blacklisted."
+                message: MessageError.USER_IS_BLACKLISTED
             };
     }
 
@@ -195,7 +205,7 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_UPDATE_USER_IS_CONNECTED,
-                message: "updateUserIsConnected : Invalid user."
+                message: MessageError.USER_NOT_FOUND
             };
         await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isConnected: true});
     }
@@ -205,7 +215,7 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_ADD_NEW_IP_OR_UPDATE,
-                message: "addNewIpOrUpdate : Invalid user."
+                message: MessageError.USER_NOT_FOUND
             };
         const userIP: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.Ip.select({
             ip,
@@ -230,7 +240,7 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_ADD_NEW_MACADDRESS_OR_UPDATE,
-                message: "addNewIpOrUpdate : Invalid user."
+                message: MessageError.USER_NOT_FOUND
             };
         const userMacAddress: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.MacAddress.select({
             macAddress,
@@ -255,7 +265,7 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_ADD_NEW_DEVICE_OR_UPDATE,
-                message: "addNewIpOrUpdate : Invalid user."
+                message: MessageError.USER_NOT_FOUND
             };
         const userDevice: SzBxModel.User.IModelUserDevice[] = await SzBxModel.User.Device.select({
             device,
