@@ -3,7 +3,6 @@ import {AccountUtils} from "./utils/accountUtils";
 import {Router, IRouter, Request, Response} from "express";
 import {SzbxTools} from "../../tools/szbxTools";
 import {SzBxModel} from "../../model/szbxModel";
-import {ErrorController} from "../interface/ErrorController";
 
 export class AccountController extends AccountUtils{
     private _router: IRouter = Router();
