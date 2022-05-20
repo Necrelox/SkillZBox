@@ -8,4 +8,10 @@ export const Endpoint = {
     REGISTER: 'api/register',
     LOGIN: 'api/login',
   },
+
+  routes: {
+    HOME: '/',
+    LOGIN: '/login',
+    REGISTER: '/register',
+  },
 };

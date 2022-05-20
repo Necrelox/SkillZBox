@@ -6,7 +6,7 @@ import { FaAddressCard } from 'react-icons/fa';
 import { HiMail, HiEye, HiEyeOff } from 'react-icons/hi';
 
 // enums
-import { InputType } from 'enums/input.enum';
+import { InputName, InputType } from 'enums/input.enum';
 
 // styles
 import styles from './Input.module.scss';
@@ -19,6 +19,7 @@ interface Props {
   hasIcon?: boolean;
   isRequired?: boolean;
   onChange: (event: FormEvent<HTMLInputElement>) => void;
+  inputName: InputName;
 }
 
 const Input: FC<Props> = ({
@@ -29,6 +30,7 @@ const Input: FC<Props> = ({
   hasIcon,
   onChange,
   isRequired,
+  inputName,
 }) => {
   const [isIconVisible, setIsIconVisible] = useState(false);
   const [inputType, setInputType] = useState<InputType>(type);
@@ -77,6 +79,7 @@ const Input: FC<Props> = ({
         onChange={onChange}
         placeholder={placeholder}
         required={isRequired}
+        name={inputName}
       />
 
       <label className={styles.label}>{label}</label>

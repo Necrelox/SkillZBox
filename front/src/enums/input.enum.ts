@@ -4,7 +4,7 @@ export enum InputType {
   EMAIL = 'email',
 }
 
-export enum InputValue {
+export enum InputName {
   USERNAME = 'username',
   EMAIL = 'email',
   PASSWORD = 'password',

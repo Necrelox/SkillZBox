@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Router from 'next/router';
 
 // components
 import Layout from 'components/Layout/Layout';
@@ -10,21 +9,25 @@ import Input from 'components/Input/Input';
 import Modal from 'components/Modal/Modal';
 
 // enums
-import { InputType, InputValue } from 'enums/input.enum';
+import { InputName, InputType } from 'enums/input.enum';
 import { ButtonSize, ButtonStyle } from 'enums/button.enum';
 import { ModalTypes } from 'enums/modal.enum';
-import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 
 // interfaces
 import { IModal } from 'interfaces/Modal.interface';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';
-import { Endpoint } from 'helpers/endpoints';
 
 // redux
 import { wrapper } from 'redux/store';
-import { setUserTokenAction } from 'redux/user/user.actions';
+
+// functions
+import {
+  onRegisterButtonClick,
+  submitLoginForm,
+  userInfosHandler,
+} from 'functions/login/login';
 
 // styles
 import styles from 'styles/pages/Login.module.scss';
@@ -42,116 +45,19 @@ const Login: NextPage = () => {
     password: '',
   });
 
-  const onUserInfosChange = (
-    event: FormEvent<HTMLInputElement>,
-    inputValue: InputValue,
-  ) => {
-    const { value } = event.currentTarget;
-    setUserInfos((prevState) => ({
-      ...prevState,
-      [inputValue]: value,
-    }));
+  const onUserInfosChange = (event: FormEvent<HTMLInputElement>) => {
+    userInfosHandler(event, setUserInfos);
   };
 
-  const resetUserInfos = () => {
-    setUserInfos({
-      username: '',
-      password: '',
-    });
-  };
-
-  const onRegisterButtonClick = (event: MouseEvent) => {
-    event.preventDefault();
-    Router.push('/register');
-  };
-
-  const resetModalContent = () => {
-    setModalContent({ message: '', type: ModalTypes.UNKNOWN });
-    closeModal();
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const showModal = () => {
-    openModal();
-    setTimeout(() => {
-      closeModal();
-    }, 5000);
-  };
-
-  const fillAndOpenModalContent = (modalContent: IModal) => {
-    resetModalContent();
-    setModalContent(modalContent);
-    showModal();
-  };
-
-  const isUserInfosValid = () => {
-    const { username, password } = userInfos;
-    return !username || !password;
-  };
-
-  const checkPasswordLength = () => {
-    const { password } = userInfos;
-    return password.length >= 8;
-  };
-
-  const checkUserInfos = () => {
-    if (isUserInfosValid()) {
-      throw new Error('Veuillez remplir tous les champs');
-    }
-
-    if (!checkPasswordLength()) {
-      throw new Error('Le mot de passe doit contenir au moins 8 caractères');
-    }
-  };
-
-  const submitUserInfos = async () => {
-    const response = await fetch(Endpoint.local.LOGIN, {
-      method: ApiMethod.POST,
-      headers: {
-        [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
-      },
-      body: JSON.stringify(userInfos),
-    });
-    const { content } = await response.json();
-
-    resetUserInfos();
-
-    if (!content.code || (!content.message && !content.token)) {
-      throw new Error("Une erreur s'est produite lors de l'authentification");
-    }
-
-    return content;
-  };
-
-  const ApiResponseHandler = (code: string, token: string, message: string) => {
-    fillAndOpenModalContent({
-      message: code === ApiResponseCode.OK ? token : message,
-      type: code === ApiResponseCode.OK ? ModalTypes.SUCCESS : ModalTypes.ERROR,
-    });
-    if (token) {
-      dispatch(setUserTokenAction(token));
-    }
-  };
-
-  const onFormSubmit = async (event: FormEvent) => {
-    try {
-      event.preventDefault();
-      checkUserInfos();
-      const { code, token, message } = await submitUserInfos();
-      ApiResponseHandler(code, token, message);
-    } catch (error: any) {
-      fillAndOpenModalContent({
-        message: error.message,
-        type: ModalTypes.ERROR,
-      });
-    }
+  const onFormSubmit = (event: FormEvent) => {
+    submitLoginForm(
+      event,
+      setIsModalOpen,
+      setModalContent,
+      setUserInfos,
+      userInfos,
+      dispatch,
+    );
   };
 
   return (
@@ -173,9 +79,8 @@ const Login: NextPage = () => {
               value={userInfos.username}
               type={InputType.TEXT}
               label="Email ou pseudo"
-              onChange={(event: FormEvent<HTMLInputElement>) =>
-                onUserInfosChange(event, InputValue.USERNAME)
-              }
+              onChange={onUserInfosChange}
+              inputName={InputName.USERNAME}
               hasIcon
             />
           </div>
@@ -185,9 +90,8 @@ const Login: NextPage = () => {
               value={userInfos.password}
               type={InputType.PASSWORD}
               label="Mot de passe"
-              onChange={(event: FormEvent<HTMLInputElement>) =>
-                onUserInfosChange(event, InputValue.PASSWORD)
-              }
+              onChange={onUserInfosChange}
+              inputName={InputName.PASSWORD}
               hasIcon
             />
           </div>
@@ -209,11 +113,7 @@ const Login: NextPage = () => {
           </div>
         </form>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        modalContent={modalContent}
-        onClose={closeModal}
-      />
+      <Modal isOpen={isModalOpen} modalContent={modalContent} />
     </Layout>
   );
 };

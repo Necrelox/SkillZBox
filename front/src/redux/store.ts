@@ -11,9 +11,11 @@ import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 
 // redux
 import commonReducer from 'redux/common/common.reducer';
+import userReducer from './user/user.reducer';
 
 const rootReducer = combineReducers({
   common: commonReducer,
+  user: userReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
