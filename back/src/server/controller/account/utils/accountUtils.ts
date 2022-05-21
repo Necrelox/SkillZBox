@@ -5,7 +5,7 @@ import {MessageError} from "./enum/messageError";
 
 export abstract class AccountUtils {
 
-    public async TranformPostToUserSearch(postBody: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUser> {
+    public async tranformPostBodyToUserSearch(postBody: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUser> {
         const searchUser: SzBxModel.User.IModelUser = {};
         if (postBody.email)
             searchUser.email = postBody.email;

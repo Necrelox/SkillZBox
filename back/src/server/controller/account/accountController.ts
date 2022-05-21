@@ -83,7 +83,7 @@ export class AccountController extends AccountUtils{
     private async postMethodLogin(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
-            const searchUser: SzBxModel.User.IModelUser = await super.TranformPostToUserSearch(req.body);
+            const searchUser: SzBxModel.User.IModelUser = await super.tranformPostBodyToUserSearch(req.body);
 
             await super.verifyLogin(searchUser, req.body.password);
             await super.verifyIfBlacklisted(searchUser);
@@ -111,7 +111,7 @@ export class AccountController extends AccountUtils{
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
-            const searchUser: SzBxModel.User.IModelUser = await super.TranformPostToUserSearch(req.body);
+            const searchUser: SzBxModel.User.IModelUser = await super.tranformPostBodyToUserSearch(req.body);
             await super.verifyLogin(searchUser, req.body.password);
             await super.verifyIfBlacklisted(searchUser);
             await super.addNewIpOrUpdate(searchUser, req.body.ip);
