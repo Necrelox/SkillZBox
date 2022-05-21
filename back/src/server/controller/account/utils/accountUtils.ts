@@ -172,7 +172,7 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
-                message: searchUser?.username ? " Invalid username" : " Invalid email"
+                message: searchUser?.username ? "Invalid username" : "Invalid email"
             };
         if (!SzbxTools.PasswordEncrypt.compare(password, user[0]!.password!))
             throw {
