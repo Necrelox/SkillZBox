@@ -27,7 +27,8 @@ export class User {
             .catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: err?.message,
+                    message: err?.sqlMessage,
+                    sql: err?.sql,
                 }
             });
     }
