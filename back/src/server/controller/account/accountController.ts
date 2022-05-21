@@ -83,7 +83,7 @@ export class AccountController extends AccountUtils{
     private async postMethodLogin(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
-            const searchUser: SzBxModel.User.IModelUser = await super.createSearchUserWithPostBody(req.body);
+            const searchUser: SzBxModel.User.IModelUser = await super.TranformPostToUserSearch(req.body);
 
             await super.verifyLogin(searchUser, req.body.password);
             await super.verifyIfBlacklisted(searchUser);
@@ -92,7 +92,7 @@ export class AccountController extends AccountUtils{
             res.status(200).send({
                 content: {
                     code: 'OK',
-                    message: !'User logged successfully.',
+                    message: 'User logged successfully.',
                     token : (await super.createTokenAndReturn(searchUser))![0]!.token
                 }
             });
@@ -111,7 +111,7 @@ export class AccountController extends AccountUtils{
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
-            const searchUser: SzBxModel.User.IModelUser = await super.createSearchUserWithPostBody(req.body);
+            const searchUser: SzBxModel.User.IModelUser = await super.TranformPostToUserSearch(req.body);
             await super.verifyLogin(searchUser, req.body.password);
             await super.verifyIfBlacklisted(searchUser);
             await super.addNewIpOrUpdate(searchUser, req.body.ip);

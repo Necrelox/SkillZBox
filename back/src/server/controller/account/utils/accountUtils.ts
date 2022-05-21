@@ -5,7 +5,7 @@ import {MessageError} from "./enum/messageError";
 
 export abstract class AccountUtils {
 
-    protected async createSearchUserWithPostBody(postBody: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUser> {
+    public async TranformPostToUserSearch(postBody: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUser> {
         const searchUser: SzBxModel.User.IModelUser = {};
         if (postBody.email)
             searchUser.email = postBody.email;
@@ -172,7 +172,7 @@ export abstract class AccountUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
-                message: searchUser?.username ? "verifyLogin : Invalid username" : "verifyLogin : Invalid email"
+                message: searchUser?.username ? " Invalid username" : " Invalid email"
             };
         if (!SzbxTools.PasswordEncrypt.compare(password, user[0]!.password!))
             throw {
