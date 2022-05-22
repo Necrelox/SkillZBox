@@ -35,5 +35,8 @@ export default async function handler(
       } catch (error: any) {
         return res.status(500).json({ content: error.message });
       }
+
+    default:
+      break;
   }
 }
