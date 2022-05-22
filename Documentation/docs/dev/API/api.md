@@ -15,10 +15,10 @@
 
 ???+ info "Routes"
 
-    ???+ info "Account"
+    ??? info "Account"
     
         ```
-        - /PasDeNom/signup (Création d'un compte)
+        - /SkillZBox/signup (Création d'un compte)
             - POST
                 - Paramètres:
                     - username: string
@@ -26,34 +26,50 @@
                     - email: string
     
                 - Retour:
-                    - status: string
-                    - message: string
+                    - content: object // à détailler
     
-        - /PasDeNom/verify (Vérification d'un compte et connection)
+        - /SkillZBox/verify (Vérification d'un compte et connection)
             - POST
                 - Paramètres:
-                    - token: string
+                    - code: string
                 - Retour:
                     - status: string
                     - message: string
                     - token: string
     
-        - /PasDeNom/login (Connection)
+        - /SkillZBox/login-cli (Connection)
             - POST
                 - Paramètres:
                     - username: string
+                    - email: string
                     - password: string
+                    - ip: string
+                    - macAddress: string
+                    - deviceType: string
     
+                - Retour:
+                    - status: string
+                    - message: string
+                    - token: string
+
+    
+        - /SkillZBox/login (Connection)
+            - POST
+                - Paramètres:
+                    - username: string
+                    - email: string
+                    - password: string
+                    - 
                 - Retour:
                     - status: string
                     - message: string
                     - token: string
         ```
     
-    ???+ info "User"
+    ??? info "User"
         
         ```
-        - /PasDeNom/user/me (Informations de l'utilisateur)
+        - /SkillZBox/user/me (Informations de l'utilisateur)
             - GET
                 - Paramètres Header:
                     - token: string
@@ -74,7 +90,7 @@
                     - user: object
             
     
-        - /PasDeNom/user/me/logo (Logo de l'utilisateur)
+        - /SkillZBox/user/me/logo (Logo de l'utilisateur)
             - GET
                 - Paramètres Header:
                     - token: string
@@ -103,7 +119,7 @@
                     - status: string
                     - message: string
     
-        - /PasDeNom/user/user-friend (Liste des amis)
+        - /SkillZBox/user/user-friend (Liste des amis)
             - GET
                 - Paramètres Header:
                     - token: string
@@ -134,10 +150,10 @@
                     - message: string
         ```
     
-    ???+ info "Categories and Tag"
+    ??? info "Categories and Tag"
     
         ```
-        - /PasDeNom/categorie (Categories)
+        - /SkillZBox/categorie (Categories)
            - GET
                 - Paramètre Header:
                     - token: string
@@ -146,7 +162,7 @@
                     - message: string
                     - categories: array[object]
     
-        - /PasDeNom/tag (Tags)
+        - /SkillZBox/tag (Tags)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -156,10 +172,10 @@
                     - tags: array[object]
         ```
     
-    ???+ info "Room"
+    ??? info "Room"
     
         ```
-        - /PasDeNom/room (Room)
+        - /SkillZBox/room (Room)
             - POST (Création)
                 - Paramètre Header :
                    - token: string
@@ -190,7 +206,7 @@
                     - status: string
                     - message: string
         
-        - /PasDeNom/room/users (Room User)
+        - /SkillZBox/room/users (Room User)
             - GET
                 - Paramètre Header :
                     - token: string
@@ -212,7 +228,7 @@
                     - status: string
                     - message: string
     
-        - /PasDeNom/room/message (Tchat de la room)
+        - /SkillZBox/room/message (Tchat de la room)
             - POST
                 - Paramètre Header :
                     - token : string
@@ -242,7 +258,7 @@
                     - user_uuid : string
                     - message_uuid : string
     
-        - /PasDeNom/room/files (Liste des fichiers d'une room)
+        - /SkillZBox/room/files (Liste des fichiers d'une room)
             - GET
                 - Paramètre Header :
                     - token: string
@@ -254,7 +270,7 @@
                     - message: string
                     - files: array[object]
     
-        - /PasDeNom/room/categories (Liste des categories d'une room)
+        - /SkillZBox/room/categories (Liste des categories d'une room)
             - GET
                 - Paramètre Header :
                     - token : string
@@ -265,7 +281,7 @@
                     - message : string
                     - categories : array[object]
     
-        - /PasDeNom/room/tags (Liste des tags d'une room)
+        - /SkillZBox/room/tags (Liste des tags d'une room)
             - GET
                 - Paramètre Header :
                     - token : string
@@ -276,7 +292,7 @@
                     - message : string
                     - tags : array[object]
     
-        - /PasDeNom/room/report (Signaler un utilisateur)
+        - /SkillZBox/room/report (Signaler un utilisateur)
             - POST
                 - Paramètre Header :
                     - token : string
@@ -289,10 +305,10 @@
                     - message : string
         ``` 
     
-    ???+ info "Admin"
+    ??? info "Admin"
     
         ```
-        - /PasDeNom/admin/user (User)
+        - /SkillZBox/admin/user (User)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -327,7 +343,7 @@
                     - status: string
                     - message: string
     
-        - /PasDeNom/admin/report (Report)
+        - /SkillZBox/admin/report (Report)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -349,7 +365,7 @@
                     - message: string
                     - reports: array[object]
     
-        - /PasDeNom/admin/user/logo (Logo user)
+        - /SkillZBox/admin/user/logo (Logo user)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -374,7 +390,7 @@
                     - status: string
                     - message: string
     
-        - /PasDeNom/admin/user-ip (User ip)
+        - /SkillZBox/admin/user-ip (User ip)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -386,7 +402,7 @@
                     - message: string
                     - user_ip: array[object]
     
-        - /PasDeNom/admin/user-macadress (User macadress)
+        - /SkillZBox/admin/user-macadress (User macadress)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -398,7 +414,7 @@
                     - message: string
                     - user_macadress: array[object]
     
-        - /PasDeNom/admin/user-friend (User friend)
+        - /SkillZBox/admin/user-friend (User friend)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -410,7 +426,7 @@
                     - message: string
                     - user_friend: array[object]
     
-        - /PasDeNom/admin/user-device (User device)
+        - /SkillZBox/admin/user-device (User device)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -422,7 +438,7 @@
                     - message: string
                     - user_device: array[object]
         
-        - /PasDeNom/admin/user-history (User history)
+        - /SkillZBox/admin/user-history (User history)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -434,7 +450,7 @@
                     - message: string
                     - user_history: array[object]
         
-        - /PasDeNom/admin/user-history-message (User history message)
+        - /SkillZBox/admin/user-history-message (User history message)
             - GET
                 - Paramètre Header:
                     - token: string
@@ -446,7 +462,7 @@
                     - message: string
                     - user_history_message: array[object]
     
-        - /PasDeNom/admin/user-history-action (User history action)
+        - /SkillZBox/admin/user-history-action (User history action)
             - GET
                 - Paramètre Header:
                     - token: string
