@@ -3,21 +3,24 @@ import Router from 'next/router';
 
 // components
 import { fillAndOpenModalContent } from 'components/Modal/Modal';
+import { ModalTypes } from 'components/Modal/modal.enum';
 
 // enums
-import { ModalTypes } from 'enums/modal.enum';
 import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 
 // helpers
 import { Endpoint } from 'helpers/endpoints';
-import { checkPasswordLength, comparePassword } from 'helpers/utils';
+import {
+  checkPasswordLength,
+  hasLowercaseInPassword,
+  hasUppercaseInPassword,
+  comparePassword,
+  hasNumberInPassword,
+} from 'helpers/utils';
 
 // interfaces
-import { IModal } from 'interfaces/Modal.interface';
-import {
-  UserInfosLogin,
-  UserInfosRegister,
-} from 'interfaces/UserInfos.interface';
+import { IModal } from 'components/Modal/Modal.interface';
+import { UserInfosRegister } from 'interfaces/UserInfos.interface';
 
 export const userInfosHandler = (
   event: FormEvent<HTMLInputElement>,
@@ -52,8 +55,8 @@ const isUserInfosValid = (userInfos: UserInfosRegister) => {
 };
 
 const hasForbidenCharacters = (value: string) => {
-  const forbidenCharacter = '@';
-  return value.includes(forbidenCharacter);
+  const regex: RegExp = /^\w+$/;
+  return !regex.test(value);
 };
 
 export const checkUserInfos = (userInfos: UserInfosRegister) => {
@@ -62,11 +65,25 @@ export const checkUserInfos = (userInfos: UserInfosRegister) => {
   }
 
   if (hasForbidenCharacters(userInfos.username)) {
-    throw new Error("Le nom d'utilisateur ne peut pas contenir le caractère @");
+    throw new Error(
+      "Le nom d'utilisateur ne peut pas contenir de caractère spéciaux",
+    );
   }
 
   if (!checkPasswordLength(userInfos.password)) {
     throw new Error('Le mot de passe doit contenir au moins 8 caractères');
+  }
+
+  if (!hasUppercaseInPassword(userInfos.password)) {
+    throw new Error('Le mot de passe doit contenir au moins une majuscule');
+  }
+
+  if (!hasLowercaseInPassword(userInfos.password)) {
+    throw new Error('Le mot de passe doit contenir au moins une minuscule');
+  }
+
+  if (!hasNumberInPassword(userInfos.password)) {
+    throw new Error('Le mot de passe doit contenir au moins un chiffre');
   }
 
   if (!comparePassword(userInfos.password, userInfos.passwordConfirm)) {
@@ -75,7 +92,7 @@ export const checkUserInfos = (userInfos: UserInfosRegister) => {
 };
 
 export const submitRegisterFormUserInfos = async (
-  userInfos: UserInfosLogin,
+  userInfos: UserInfosRegister,
   setUserInfos: Dispatch<SetStateAction<UserInfosRegister>>,
 ) => {
   const response = await fetch(Endpoint.local.REGISTER, {

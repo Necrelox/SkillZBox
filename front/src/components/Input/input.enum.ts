@@ -5,6 +5,7 @@ export enum InputType {
 }
 
 export enum InputName {
+  USERNAME_OR_EMAIL = 'usernameOrEmail',
   USERNAME = 'username',
   EMAIL = 'email',
   PASSWORD = 'password',

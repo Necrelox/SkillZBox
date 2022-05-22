@@ -3,13 +3,13 @@ import Router from 'next/router';
 
 // components
 import { fillAndOpenModalContent } from 'components/Modal/Modal';
+import { ModalTypes } from 'components/Modal/modal.enum';
 
 // redux
 import { AnyAction } from 'redux';
 import { setUserTokenAction } from 'redux/user/user.actions';
 
 // enums
-import { ModalTypes } from 'enums/modal.enum';
 import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 
 // helpers
@@ -17,7 +17,7 @@ import { Endpoint } from 'helpers/endpoints';
 import { checkPasswordLength } from 'helpers/utils';
 
 // interfaces
-import { IModal } from 'interfaces/Modal.interface';
+import { IModal } from 'components/Modal/Modal.interface';
 import { UserInfosLogin } from 'interfaces/UserInfos.interface';
 
 export const userInfosHandler = (
@@ -35,7 +35,7 @@ export const resetUserInfos = (
   setUserInfos: Dispatch<SetStateAction<UserInfosLogin>>,
 ) => {
   setUserInfos({
-    username: '',
+    usernameOrEmail: '',
     password: '',
   });
 };
@@ -46,8 +46,8 @@ export const onRegisterButtonClick = (event: MouseEvent) => {
 };
 
 export const isUserInfosValid = (userInfos: UserInfosLogin) => {
-  const { username, password } = userInfos;
-  return !username || !password;
+  const { usernameOrEmail, password } = userInfos;
+  return !usernameOrEmail || !password;
 };
 
 export const checkUserInfos = (userInfos: UserInfosLogin) => {
@@ -69,7 +69,17 @@ export const submitLoginFormUserInfos = async (
     headers: {
       [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
     },
-    body: JSON.stringify(userInfos),
+    body: JSON.stringify(
+      userInfos.usernameOrEmail.includes('@')
+        ? {
+            email: userInfos.usernameOrEmail,
+            password: userInfos.password,
+          }
+        : {
+            username: userInfos.usernameOrEmail,
+            password: userInfos.password,
+          },
+    ),
   });
   const { content } = await response.json();
 

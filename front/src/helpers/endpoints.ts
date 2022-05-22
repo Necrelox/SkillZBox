@@ -1,6 +1,6 @@
 export const Endpoint = {
   api: {
-    ACCOUNT_SIGNUP: 'account/signup',
+    ACCOUNT_REGISTER: 'account/signup',
     ACCOUNT_LOGIN: 'account/login',
   },
 

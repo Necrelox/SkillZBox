@@ -8,12 +8,12 @@ import Input from 'components/Input/Input';
 import Modal from 'components/Modal/Modal';
 
 // enums
-import { InputName, InputType } from 'enums/input.enum';
-import { ButtonSize, ButtonStyle } from 'enums/button.enum';
-import { ModalTypes } from 'enums/modal.enum';
+import { InputName, InputType } from 'components/Input/input.enum';
+import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
+import { ModalTypes } from 'components/Modal/modal.enum';
 
 // interfaces
-import { IModal } from 'interfaces/Modal.interface';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';

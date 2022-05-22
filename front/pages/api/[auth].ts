@@ -10,27 +10,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  let { auth } = req.query;
+  auth = `/${auth}`;
+
   switch (req.method) {
     case ApiMethod.POST:
       try {
         const response = await fetch(
-          `${process.env.API_ROUTE}${Endpoint.api.ACCOUNT_LOGIN}`,
+          `${process.env.API_ROUTE}${
+            (auth === Endpoint.routes.LOGIN && Endpoint.api.ACCOUNT_LOGIN) ||
+            (auth === Endpoint.routes.REGISTER && Endpoint.api.ACCOUNT_REGISTER)
+          }`,
           {
             method: ApiMethod.POST,
             headers: {
               [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
             },
-            body: JSON.stringify(
-              req.body.username.includes('@')
-                ? {
-                    email: req.body.username,
-                    password: req.body.password,
-                  }
-                : {
-                    username: req.body.username,
-                    password: req.body.password,
-                  },
-            ),
+            body: JSON.stringify(req.body),
           },
         );
 
@@ -39,8 +35,5 @@ export default async function handler(
       } catch (error: any) {
         return res.status(500).json({ content: error.message });
       }
-
-    default:
-      break;
   }
 }

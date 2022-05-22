@@ -1,5 +1,5 @@
 export interface UserInfosLogin {
-  username: string;
+  usernameOrEmail: string;
   password: string;
 }
 

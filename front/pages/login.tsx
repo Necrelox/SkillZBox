@@ -7,14 +7,12 @@ import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
 import Modal from 'components/Modal/Modal';
-
-// enums
-import { InputName, InputType } from 'enums/input.enum';
-import { ButtonSize, ButtonStyle } from 'enums/button.enum';
-import { ModalTypes } from 'enums/modal.enum';
+import { InputName, InputType } from 'components/Input/input.enum';
+import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
+import { ModalTypes } from 'components/Modal/modal.enum';
 
 // interfaces
-import { IModal } from 'interfaces/Modal.interface';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';
@@ -31,6 +29,7 @@ import {
 
 // styles
 import styles from 'styles/pages/Login.module.scss';
+import { UserInfosLogin } from 'interfaces/UserInfos.interface';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
@@ -40,8 +39,8 @@ const Login: NextPage = () => {
     type: ModalTypes.UNKNOWN,
   });
 
-  const [userInfos, setUserInfos] = useState({
-    username: '',
+  const [userInfos, setUserInfos] = useState<UserInfosLogin>({
+    usernameOrEmail: '',
     password: '',
   });
 
@@ -76,12 +75,13 @@ const Login: NextPage = () => {
         <form className={styles.formContainer} onSubmit={onFormSubmit}>
           <div className={styles.inputContainer}>
             <Input
-              value={userInfos.username}
+              value={userInfos.usernameOrEmail}
               type={InputType.TEXT}
               label="Email ou pseudo"
               onChange={onUserInfosChange}
-              inputName={InputName.USERNAME}
+              inputName={InputName.USERNAME_OR_EMAIL}
               hasIcon
+              isRequired
             />
           </div>
 
@@ -93,6 +93,7 @@ const Login: NextPage = () => {
               onChange={onUserInfosChange}
               inputName={InputName.PASSWORD}
               hasIcon
+              isRequired
             />
           </div>
 

@@ -2,10 +2,10 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import classNames from 'classnames';
 
 // interfaces
-import { IModal } from 'interfaces/Modal.interface';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // enums
-import { ModalTypes } from 'enums/modal.enum';
+import { ModalTypes } from './modal.enum';
 
 // styles
 import styles from './Modal.module.scss';

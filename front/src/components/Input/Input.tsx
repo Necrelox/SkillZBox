@@ -6,7 +6,7 @@ import { FaAddressCard } from 'react-icons/fa';
 import { HiMail, HiEye, HiEyeOff } from 'react-icons/hi';
 
 // enums
-import { InputName, InputType } from 'enums/input.enum';
+import { InputName, InputType } from './input.enum';
 
 // styles
 import styles from './Input.module.scss';
