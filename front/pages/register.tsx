@@ -11,23 +11,26 @@ import Modal from 'components/Modal/Modal';
 import { InputName, InputType } from 'components/Input/input.enum';
 import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
 import { ModalTypes } from 'components/Modal/modal.enum';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // interfaces
-import { IModal } from 'components/Modal/Modal.interface';
+import { UserInfosRegister } from 'interfaces/UserInfos.interface';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';
+
+// functions
+import {
+  onLoginButtonClick,
+  submitRegisterForm,
+  userInfosHandler,
+} from 'functions/register/register';
 
 // redux
 import { wrapper } from 'redux/store';
 
 // styles
 import styles from 'styles/pages/Register.module.scss';
-import {
-  onLoginButtonClick,
-  submitRegisterForm,
-  userInfosHandler,
-} from 'functions/register/register';
 
 const Register: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +39,7 @@ const Register: NextPage = () => {
     type: ModalTypes.UNKNOWN,
   });
 
-  const [userInfos, setUserInfos] = useState({
+  const [userInfos, setUserInfos] = useState<UserInfosRegister>({
     username: '',
     email: '',
     password: '',

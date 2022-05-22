@@ -4,6 +4,7 @@ import Router from 'next/router';
 // components
 import { fillAndOpenModalContent } from 'components/Modal/Modal';
 import { ModalTypes } from 'components/Modal/modal.enum';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // redux
 import { AnyAction } from 'redux';
@@ -17,7 +18,6 @@ import { Endpoint } from 'helpers/endpoints';
 import { checkPasswordLength } from 'helpers/utils';
 
 // interfaces
-import { IModal } from 'components/Modal/Modal.interface';
 import { UserInfosLogin } from 'interfaces/UserInfos.interface';
 
 export const userInfosHandler = (

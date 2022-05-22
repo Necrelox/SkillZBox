@@ -4,6 +4,7 @@ import Router from 'next/router';
 // components
 import { fillAndOpenModalContent } from 'components/Modal/Modal';
 import { ModalTypes } from 'components/Modal/modal.enum';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // enums
 import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
@@ -19,7 +20,6 @@ import {
 } from 'helpers/utils';
 
 // interfaces
-import { IModal } from 'components/Modal/Modal.interface';
 import { UserInfosRegister } from 'interfaces/UserInfos.interface';
 
 export const userInfosHandler = (
@@ -66,7 +66,7 @@ export const checkUserInfos = (userInfos: UserInfosRegister) => {
 
   if (hasForbidenCharacters(userInfos.username)) {
     throw new Error(
-      "Le nom d'utilisateur ne peut pas contenir de caractère spéciaux",
+      "Le nom d'utilisateur ne peut pas contenir de caractères spéciaux",
     );
   }
 

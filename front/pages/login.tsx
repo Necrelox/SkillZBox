@@ -10,9 +10,10 @@ import Modal from 'components/Modal/Modal';
 import { InputName, InputType } from 'components/Input/input.enum';
 import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
 import { ModalTypes } from 'components/Modal/modal.enum';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // interfaces
-import { IModal } from 'components/Modal/Modal.interface';
+import { UserInfosLogin } from 'interfaces/UserInfos.interface';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';
@@ -29,7 +30,6 @@ import {
 
 // styles
 import styles from 'styles/pages/Login.module.scss';
-import { UserInfosLogin } from 'interfaces/UserInfos.interface';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
