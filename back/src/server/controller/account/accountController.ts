@@ -49,10 +49,7 @@ export class AccountController extends AccountUtils{
             });
         } catch (error: any) {
             res.status(500).send({
-                content: {
-                    code: error?.code,
-                    message: error?.message
-                }
+                content: error
             });
         }
     }
@@ -72,10 +69,7 @@ export class AccountController extends AccountUtils{
             });
         } catch (error: any) {
             res.status(500).send({
-                content: {
-                    code: error?.code,
-                    message: error?.message,
-                }
+                content: error
             });
         }
     }
@@ -99,10 +93,7 @@ export class AccountController extends AccountUtils{
 
         } catch (error: any) {
             res.status(500).send({
-                content: {
-                    code: error?.code,
-                    message: error?.message,
-                }
+                content: error
             });
         }
     }
@@ -129,10 +120,7 @@ export class AccountController extends AccountUtils{
 
         } catch (error: any) {
             res.status(500).send({
-                content: {
-                    code: error?.code,
-                    message: error?.message,
-                }
+                content: error
             });
         }
     }

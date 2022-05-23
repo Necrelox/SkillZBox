@@ -27,7 +27,7 @@ export class User {
             .catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: err?.sqlMessage,
+                    message: SkillzboxDatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
                 }
             });
