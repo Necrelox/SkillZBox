@@ -1,8 +1,7 @@
 Présentation du projet SkillZBox sur la Documentation
 
-On travail essentiellement sur des branches hésitez pas à check.
+On travaille essentiellement sur des branches, n'hésitez pas à check.
 
-Sur le [Dashboard](https://github.com/Necrelox/SkillZBox/projects/2), vous y retrouverai les différents issues, en cours et à faire.
-Les issues seront rajoutée au fur et à mesure de l'avancement du projet.
+Sur le  [Dashboard](https://github.com/Necrelox/SkillZBox/projects/2), vous retrouverez les différentes issues, en cours et à faire. Les issues seront rajoutées au fur et à mesure de l'avancement du projet.
 
-Nous avons un proposition du livrable qui sera mis à disposition sur la doc.
+Nous avons une proposition du livrable qui sera mise à disposition sur la doc.
