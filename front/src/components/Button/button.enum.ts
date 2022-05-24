@@ -9,3 +9,8 @@ export enum ButtonSize {
   MEDIUM = 'medium',
   LARGE = 'large',
 }
+
+export enum ButtonType {
+  SUBMIT = 'submit',
+  BUTTON = 'button',
+}

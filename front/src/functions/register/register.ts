@@ -135,16 +135,20 @@ export const submitRegisterForm = async (
   setModalContent: Dispatch<SetStateAction<IModal>>,
   setUserInfos: Dispatch<SetStateAction<UserInfosRegister>>,
   userInfos: UserInfosRegister,
+  setIsButtonDisabled: Dispatch<SetStateAction<boolean>>,
 ) => {
   try {
     event.preventDefault();
+    setIsButtonDisabled(true);
     checkUserInfos(userInfos);
     const { code, message } = await submitRegisterFormUserInfos(
       userInfos,
       setUserInfos,
     );
     ApiResponseHandler(code, message, setIsModalOpen, setModalContent);
+    setIsButtonDisabled(false);
   } catch (error: any) {
+    setIsButtonDisabled(false);
     fillAndOpenModalContent(
       {
         message: error.message,
