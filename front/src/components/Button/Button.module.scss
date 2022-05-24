@@ -69,10 +69,6 @@
 .filled {
   background-color: $blue;
 
-  .loader {
-    border-top-color: $grey;
-  }
-
   &:hover {
     background-color: $lightBlue;
   }

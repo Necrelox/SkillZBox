@@ -31,8 +31,7 @@ const Button: FC<Props> = ({
       onClick={onClick}
       className={classNames(styles.button, styles[style], styles[size])}
     >
-      {isDisabled && <div className={styles.loader} />}
-      {!isDisabled && text}
+      {isDisabled ? <div className={styles.loader} /> : text}
     </button>
   );
 };
