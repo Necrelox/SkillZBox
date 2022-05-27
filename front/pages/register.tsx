@@ -33,6 +33,7 @@ import { wrapper } from 'redux/store';
 import styles from 'styles/pages/Register.module.scss';
 
 const Register: NextPage = () => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<IModal>({
     message: '',
@@ -57,6 +58,7 @@ const Register: NextPage = () => {
       setModalContent,
       setUserInfos,
       userInfos,
+      setIsButtonDisabled,
     );
   };
 
@@ -138,6 +140,7 @@ const Register: NextPage = () => {
               size={ButtonSize.MEDIUM}
               style={ButtonStyle.FILLED}
               isSubmitButton
+              isDisabled={isButtonDisabled}
             />
           </div>
         </form>

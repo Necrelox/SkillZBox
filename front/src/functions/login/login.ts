@@ -115,9 +115,11 @@ export const submitLoginForm = async (
   setUserInfos: Dispatch<SetStateAction<UserInfosLogin>>,
   userInfos: UserInfosLogin,
   dispatch: Dispatch<AnyAction>,
+  setIsButtonDisabled: Dispatch<SetStateAction<boolean>>,
 ) => {
   try {
     event.preventDefault();
+    setIsButtonDisabled(true);
     checkUserInfos(userInfos);
     const { code, token, message } = await submitLoginFormUserInfos(
       userInfos,
@@ -127,7 +129,9 @@ export const submitLoginForm = async (
     if (token) {
       dispatch(setUserTokenAction(token));
     }
+    setIsButtonDisabled(false);
   } catch (error: any) {
+    setIsButtonDisabled(false);
     fillAndOpenModalContent(
       {
         message: error.message,
