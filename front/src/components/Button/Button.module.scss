@@ -29,20 +29,20 @@
 
 @keyframes shadowRolling {
   0% {
-    box-shadow: 0px 0 rgba($blue, 0), 0px 0 rgba($blue, 0), 0px 0 rgba($blue, 0),
-      0px 0 rgba($blue, 0);
+    box-shadow: 0 0 rgba($blue, 0), 0 0 rgba($blue, 0), 0 0 rgba($blue, 0),
+      0 0 rgba($blue, 0);
   }
   12% {
-    box-shadow: 100px 0 rgba($blue, 1), 0px 0 rgba($blue, 0),
-      0px 0 rgba($blue, 0), 0px 0 rgba($blue, 0);
+    box-shadow: 100px 0 rgba($blue, 1), 0 0 rgba($blue, 0), 0 0 rgba($blue, 0),
+      0 0 rgba($blue, 0);
   }
   25% {
     box-shadow: 110px 0 rgba($blue, 1), 100px 0 rgba($blue, 1),
-      0px 0 rgba($blue, 0), 0px 0 rgba($blue, 0);
+      0 0 rgba($blue, 0), 0 0 rgba($blue, 0);
   }
   36% {
     box-shadow: 120px 0 rgba($blue, 1), 110px 0 rgba($blue, 1),
-      100px 0 rgba($blue, 1), 0px 0 rgba($blue, 0);
+      100px 0 rgba($blue, 1), 0 0 rgba($blue, 0);
   }
   50% {
     box-shadow: 130px 0 rgba($blue, 1), 120px 0 rgba($blue, 1),
