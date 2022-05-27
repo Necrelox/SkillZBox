@@ -6,6 +6,7 @@ import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
 import Modal from 'components/Modal/Modal';
+import InputFile from 'components/InputFile/InputFile';
 
 // enums
 import { InputName, InputType } from 'components/Input/input.enum';
@@ -125,6 +126,10 @@ const Register: NextPage = () => {
                 isRequired
               />
             </div>
+          </div>
+
+          <div className={styles.inputContainer}>
+            <InputFile label="Choisissez une photo de profil" />
           </div>
 
           <div className={styles.buttonContainer}>

@@ -2,6 +2,7 @@ export enum InputType {
   TEXT = 'text',
   PASSWORD = 'password',
   EMAIL = 'email',
+  FILE = 'file',
 }
 
 export enum InputName {
