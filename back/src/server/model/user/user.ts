@@ -7,20 +7,21 @@ export class User {
     private static readonly TABLE_NAME: string = "USER";
 
     public static select(user: IModelUser): Promise<IModelUser[]> {
-        return SkillzboxDatabaseKnex.getInstance()(User.TABLE_NAME).select()
+        return SkillzboxDatabaseKnex.getInstance().select().into(User.TABLE_NAME)
             .where(user)
             .then((users: IModelUser[]) => {
                 return users;
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: err?.message,
+                    message: SkillzboxDatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    sql: err?.sql,
                 }
             });
     }
 
     public static insert(user: IModelUser) : IModelUser | never {
-        return SkillzboxDatabaseKnex.getInstance()(User.TABLE_NAME).insert(user)
+        return SkillzboxDatabaseKnex.getInstance().insert(user).into(User.TABLE_NAME)
             .then(() => {
                 return user;
             })
@@ -33,7 +34,7 @@ export class User {
             });
     }
     public static update(where : IModelUser, user: IModelUser) : IModelUser | never {
-        return SkillzboxDatabaseKnex.getInstance()(User.TABLE_NAME).update(user)
+        return SkillzboxDatabaseKnex.getInstance().update(user).into(User.TABLE_NAME)
             .where(where)
             .then(() => {
                 return user;
@@ -41,7 +42,8 @@ export class User {
             .catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: err?.message,
+                    message: SkillzboxDatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    sql: err?.sql,
                 }
             });
     }

@@ -3,6 +3,8 @@ export enum CodeError {
     ACCOUNT_UTILS_CHECK_POST_CONTAIN_MAIL_AND_USERNAME_AND_PASSWORD = 'AccountUtils:checkPostContainMailANDUserANDPassword',
     ACCOUNT_UTILS_CHECK_POST_CONTAIN_IP_AND_MACADDRESS_AND_DEVICE_TYPE = 'AccountUtils::checkPostContainIpANDMacAddressANDDeviceType',
     ACCOUNT_UTILS_CHECK_SYNTAXE_USERNAME = 'AccountUtils::checkSyntaxeUsername',
+    ACCOUNT_UTILS_GET_USER_BY_SEARCH = 'AccountUtils::getUserBySearch',
+    ACCOUNT_UTILS_GET_TOKEN_BY_USER = 'AccountUtils::getTokenByUser',
     ACCOUNT_UTILS_CREATE_TOKEN = 'AccountUtils::createToken',
     ACCOUNT_UTILS_SEND_EMAIL_VERIFICATION = 'AccountUtils::sendMailVerification',
     ACCOUNT_UTILS_VERIFY_TOKEN_SIGNATURE = 'AccountUtils::verifyTokenSignature',

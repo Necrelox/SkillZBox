@@ -27,12 +27,14 @@ export class Server {
         this.app.use(helmet());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
+        this.app.set('title', 'Skillzbox - API');
         this.initializeRoutes();
         SkillzboxDatabaseKnex.initializeDatabasePool();
     }
 
     private initializeRoutes() {
         this.app.use("/account", new SzbxController.AccountController().getRouter());
+        // this.app.use("/user", new SzbxController.UserController().getRouter());
 
     }
 

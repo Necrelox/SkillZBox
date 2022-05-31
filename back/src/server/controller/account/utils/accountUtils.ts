@@ -38,14 +38,33 @@ export abstract class AccountUtils {
             }
     }
 
-    protected async checkSyntaxeUsername(username: string) {
+    protected async checkSyntaxUsername(username: string) {
         const regex: RegExp = /^\w+$/;
-
         if (!regex.test(username))
             throw {
                 code: CodeError.ACCOUNT_UTILS_CHECK_SYNTAXE_USERNAME,
                 message: MessageError.USERNAME_BAD_SYNTAX
             }
+    }
+
+    protected async getUserBySearch(searchUser: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUser[]> {
+        const user: SzBxModel.User.IModelUser[] = await SzBxModel.User.User.select(searchUser);
+        if (!user || user.length === 0)
+            throw {
+                code: CodeError.ACCOUNT_UTILS_GET_USER_BY_SEARCH,
+                message: MessageError.USER_NOT_FOUND
+            }
+        return user;
+    }
+
+    protected async getTokenBySearch(tokenSearch: SzBxModel.User.IModelUserToken): Promise<SzBxModel.User.IModelUserToken[]> {
+        const token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select(tokenSearch);
+        if (!token || token.length === 0)
+            throw {
+                code: CodeError.ACCOUNT_UTILS_GET_TOKEN_BY_USER,
+                message: MessageError.TOKEN_NOT_FOUND
+            }
+        return token;
     }
 
     protected async createUser(user: SzBxModel.User.IModelUser) {
@@ -56,23 +75,12 @@ export abstract class AccountUtils {
         });
     }
 
-    protected async createToken(newUser: SzBxModel.User.IModelUser) {
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(newUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_CREATE_TOKEN,
-                message: MessageError.USER_NOT_FOUND
-            };
+    protected async createToken(user: SzBxModel.User.IModelUser) {
+        await SzBxModel.User.Token.delete({userUuid: user?.uuid});
 
-        const token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select({
-            userUuid: user[0]!.uuid
-        })
-        if (token && token.length > 0)
-            await SzBxModel.User.Token.delete({userUuid: user[0]!.uuid});
-
-        SzBxModel.User.Token.insert({
-            token: SzbxTools.Token.generateToken(user[0]!.uuid!),
-            userUuid: user[0]!.uuid,
+        await SzBxModel.User.Token.insert({
+            token: SzbxTools.Token.generateToken(user?.uuid!),
+            userUuid: user?.uuid,
             expireAt: new Date(Date.now() + (1000 * 60 * 60))
         });
     }
@@ -80,59 +88,34 @@ export abstract class AccountUtils {
     protected async createTokenAndReturn(newUser: SzBxModel.User.IModelUser): Promise<SzBxModel.User.IModelUserToken[]> {
         await this.createToken(newUser);
         const user:  SzBxModel.User.IModelUser[] = await SzBxModel.User.User.select(newUser);
-        return await SzBxModel.User.Token.select({userUuid: user[0]!.uuid});
+        const token = await SzBxModel.User.Token.select({userUuid: user[0]!.uuid});
+        return token;
     }
 
-    protected async sendEmailVerification(searchUser: SzBxModel.User.IModelUser) {
-        const user:  SzBxModel.User.IModelUser[] = await SzBxModel.User.User.select(searchUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_SEND_EMAIL_VERIFICATION,
-                message: MessageError.USER_NOT_FOUND
-            };
-
-        const token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select({userUuid: user[0]!.uuid});
-        if (!token || token.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_SEND_EMAIL_VERIFICATION,
-                message: MessageError.TOKEN_NOT_FOUND
-            };
-
+    protected async sendEmailVerification(user: SzBxModel.User.IModelUser, token: SzBxModel.User.IModelUserToken) {
         await SzbxTools.Mailer.sendMail({
             from: process.env.EMAIL_AUTH_USER,
-            to: user[0]!.email!,
+            to: user?.email!,
             subject: "Confirmation de votre compte",
-            text: "Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$ " + token[0]!.token
+            text: "Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$ " + token?.token
         });
     }
 
     protected async verifyTokenSignature(token: string) {
-        if (!SzbxTools.Token.tockenChecker(token))
+        if (!SzbxTools.Token.tokenChecker(token))
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_SIGNATURE,
                 message: MessageError.TOKEN_INVALID_SIGNATURE
             };
     }
 
-    protected async verifyTokenExpiration(code: string) {
-        let token: SzBxModel.User.IModelUserToken[] = await SzBxModel.User.Token.select({token: code});
-        if (!token || token.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_EXPIRATION,
-                message: MessageError.TOKEN_NOT_FOUND
-            };
+    protected async verifyTokenExpiration(token: SzBxModel.User.IModelUserToken) {
 
-        if (token[0]!.expireAt! < new Date()) {
-            await SzBxModel.User.Token.delete({token: code});
-            await this.createToken({uuid: token[0]!.userUuid});
-            token = await SzBxModel.User.Token.select({userUuid: token[0]!.userUuid});
-            if (!token || token.length === 0)
-                throw {
-                    code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_EXPIRATION,
-                    message: MessageError.TOKEN_NOT_FOUND_AFTER_GENERATE
-                };
-
-            await this.sendEmailVerification({uuid: token[0]!.userUuid});
+        if (token?.expireAt! < new Date()) {
+            await this.createToken({uuid: token!.userUuid});
+            // const newToken : SzBxModel.User.IModelUserToken[] = await this.getTokenBySearch({userUuid: token?.userUuid});
+            // const user: SzBxModel.User.IModelUser[] = await SzBxModel.User.User.select({uuid: token?.userUuid});
+            // await this.sendEmailVerification(user[0]!, newToken[0]!);
 
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_TOKEN_EXPIRATION,
@@ -141,20 +124,8 @@ export abstract class AccountUtils {
         }
     }
 
-    protected async verifyUser(code: string) {
-        const token: SzBxModel.User.IModelUserToken[]  = await SzBxModel.User.Token.select({token: code});
-        if (!token || token.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_VERIFY_USER,
-                message: MessageError.TOKEN_NOT_FOUND
-            };
-
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select({uuid: token[0]!.userUuid});
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_VERIFY_USER,
-                message: MessageError.USER_NOT_FOUND
-            };
+    protected async setVerifyUser(token: SzBxModel.User.IModelUserToken) {
+        const user: SzBxModel.User.IModelUser[] = await this.getUserBySearch({uuid: token?.userUuid});
         if (user[0]!.isVerified)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_USER,
@@ -162,18 +133,18 @@ export abstract class AccountUtils {
             };
         else {
             await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isVerified: true});
-            await SzBxModel.User.Token.delete({token: code});
+            await SzBxModel.User.Token.delete(token);
         }
     }
 
-    protected async verifyLogin(searchUser: SzBxModel.User.IModelUser, password: string) {
+    protected async verifyLoginAndReturnUser(searchUser: SzBxModel.User.IModelUser, password: string) : Promise<SzBxModel.User.IModelUser> {
         const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
-
         if (!user || user.length === 0)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
                 message: searchUser?.username ? "Invalid username" : "Invalid email"
             };
+
         if (!SzbxTools.PasswordEncrypt.compare(password, user[0]!.password!))
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
@@ -184,103 +155,74 @@ export abstract class AccountUtils {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_LOGIN,
                 message: MessageError.USER_NOT_VERIFIED
             };
+        return user[0]!;
     }
 
-    protected async verifyIfBlacklisted(searchUser: SzBxModel.User.IModelUser) {
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_VERIFY_BLACKLIST,
-                message: MessageError.USER_NOT_FOUND
-            };
-        if (user[0]!.isBlackListed)
+    protected async verifyIfBlacklisted(user: SzBxModel.User.IModelUser) {
+        if (user!.isBlackListed)
             throw {
                 code: CodeError.ACCOUNT_UTILS_VERIFY_BLACKLIST,
                 message: MessageError.USER_IS_BLACKLISTED
             };
     }
 
-    protected async updateUserIsConnected(searchUser: SzBxModel.User.IModelUser) {
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_UPDATE_USER_IS_CONNECTED,
-                message: MessageError.USER_NOT_FOUND
-            };
-        await SzBxModel.User.User.update({uuid: user[0]!.uuid}, {isConnected: true});
+    protected async updateUserIsConnected(user: SzBxModel.User.IModelUser) {
+        await SzBxModel.User.User.update({uuid: user.uuid}, {isConnected: true});
     }
 
-    protected async addNewIpOrUpdate(searchUser: SzBxModel.User.IModelUser, ip: string) {
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_ADD_NEW_IP_OR_UPDATE,
-                message: MessageError.USER_NOT_FOUND
-            };
+    protected async addNewIpOrUpdate(user: SzBxModel.User.IModelUser, ip: string) {
         const userIP: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.Ip.select({
-            ip,
-            userUuid: user[0]!.uuid
+            ip: ip,
+            userUuid: user.uuid
         });
         if (!userIP || userIP.length === 0) {
             await SzBxModel.User.Ip.insert({
                 ip,
-                userUuid: user[0]!.uuid,
+                userUuid: user?.uuid,
                 active: true
             });
         } else {
             await SzBxModel.User.Ip.update({
                 ip,
-                userUuid: user[0]!.uuid,
+                userUuid: user?.uuid,
             }, {active: true});
         }
     }
 
-    protected async addNewMacAddressOrUpdate(searchUser: SzBxModel.User.IModelUser, macAddress: string) {
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_ADD_NEW_MACADDRESS_OR_UPDATE,
-                message: MessageError.USER_NOT_FOUND
-            };
+    protected async addNewMacAddressOrUpdate(user: SzBxModel.User.IModelUser, macAddress: string) {
         const userMacAddress: SzBxModel.User.IModelUserIp[] = await SzBxModel.User.MacAddress.select({
             macAddress,
-            userUuid: user[0]!.uuid
+            userUuid: user!.uuid
         });
         if (!userMacAddress || userMacAddress.length === 0) {
             await SzBxModel.User.MacAddress.insert({
                 macAddress,
-                userUuid: user[0]!.uuid,
+                userUuid: user.uuid,
                 active: true
             });
         } else {
             await SzBxModel.User.MacAddress.update({
                 macAddress,
-                userUuid: user[0]!.uuid,
+                userUuid: user.uuid,
             }, {active: true});
         }
     }
 
-    protected async addNewDeviceOrUpdate(searchUser: SzBxModel.User.IModelUser, device: string) {
-        const user: SzBxModel.User.IModelUser[]  = await SzBxModel.User.User.select(searchUser);
-        if (!user || user.length === 0)
-            throw {
-                code: CodeError.ACCOUNT_UTILS_ADD_NEW_DEVICE_OR_UPDATE,
-                message: MessageError.USER_NOT_FOUND
-            };
+    protected async addNewDeviceOrUpdate(user: SzBxModel.User.IModelUser, device: string) {
         const userDevice: SzBxModel.User.IModelUserDevice[] = await SzBxModel.User.Device.select({
             device,
-            userUuid: user[0]!.uuid
+            userUuid: user.uuid
         });
         if (!userDevice || userDevice.length === 0) {
             await SzBxModel.User.Device.insert({
                 device,
-                userUuid: user[0]!.uuid,
+                userUuid: user.uuid,
                 active: true
             });
         } else {
             await SzBxModel.User.Device.update({
                 device,
-                userUuid: user[0]!.uuid,
+                userUuid: user.uuid,
             }, {active: true});
         }
     }

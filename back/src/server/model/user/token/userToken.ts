@@ -1,4 +1,4 @@
-import {SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
+import {ErrorDatabase, SkillzboxDatabaseKnex} from "../../../database/skillzboxDatabaseKnex";
 import {SzBxModel} from "../../szbxModel";
 import IModelUserToken = SzBxModel.User.IModelUserToken;
 
@@ -7,24 +7,44 @@ export class UserToken {
 
     public static select(token: IModelUserToken): Promise<IModelUserToken[]> {
         return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).select()
-            .where(token);
+            .where(token)
+            .then((tokens: IModelUserToken[]) => {
+                return tokens;
+            }).catch((err: ErrorDatabase) => {
+                throw {
+                    code: err?.code,
+                    message: SkillzboxDatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    sql: err?.sql,
+                }
+            });
     }
 
     public static insert(token: IModelUserToken) : IModelUserToken | never {
-        return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).insert(token)
+        return SkillzboxDatabaseKnex.getInstance().insert(token).into(UserToken.TABLE_NAME)
             .then(() => {
                 return token;
             })
-            .catch((err: any) => {
-                throw err;
+            .catch((err: ErrorDatabase) => {
+                throw {
+                    code: err?.code,
+                    message: SkillzboxDatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    sql: err?.sql,
+                }
             });
     }
 
     public static delete(token: IModelUserToken) {
         return SkillzboxDatabaseKnex.getInstance()(UserToken.TABLE_NAME).delete()
             .where(token)
-            .catch((err: any) => {
-                throw err;
+            .then(() => {
+                return token;
+            })
+            .catch((err: ErrorDatabase) => {
+                throw {
+                    code: err?.code,
+                    message: SkillzboxDatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    sql: err?.sql,
+                }
             });
     }
 }
