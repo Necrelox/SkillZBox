@@ -33,6 +33,7 @@ import styles from 'styles/pages/Login.module.scss';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<IModal>({
     message: '',
@@ -56,6 +57,7 @@ const Login: NextPage = () => {
       setUserInfos,
       userInfos,
       dispatch,
+      setIsButtonDisabled,
     );
   };
 
@@ -110,6 +112,7 @@ const Login: NextPage = () => {
               size={ButtonSize.MEDIUM}
               style={ButtonStyle.FILLED}
               isSubmitButton
+              isDisabled={isButtonDisabled}
             />
           </div>
         </form>
