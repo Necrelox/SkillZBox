@@ -1,0 +1,48 @@
+@import 'src/styles/vars.scss';
+
+.profilePicture {
+  position: relative;
+
+  .mask {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid $blue;
+    border-radius: 50%;
+
+    .image {
+      border-radius: 50%;
+      background-color: $white;
+    }
+  }
+
+  .small {
+    width: 40px;
+    height: 40px;
+
+    .image {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .large {
+    width: 80px;
+    height: 80px;
+
+    .image {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  .status {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .statusSizeLarge {
+    right: 5px;
+  }
+}
