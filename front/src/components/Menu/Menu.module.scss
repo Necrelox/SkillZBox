@@ -1,0 +1,105 @@
+@import 'src/styles/vars.scss';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: end;
+  width: 100%;
+  height: max-content;
+  background-color: $tuna;
+  box-shadow: 0 0 20px $shadow;
+
+  @media screen and (min-width: $tablet) {
+    flex-direction: column;
+    align-self: unset;
+    width: max-content;
+    height: 100%;
+  }
+
+  .menuItem {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 20px;
+    cursor: pointer;
+
+    @media screen and (min-width: $tablet) {
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .icon {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 25px;
+      color: $grey;
+      cursor: pointer;
+      transition: 0.2s;
+
+      @media screen and (min-width: $tablet) {
+        margin: 20px 0;
+      }
+
+      .text {
+        position: absolute;
+        top: -40px;
+        z-index: -1;
+        opacity: 0;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: $black;
+        background-color: $grey;
+        transition: 0.1s;
+
+        @media screen and (min-width: $tablet) {
+          top: -30px;
+        }
+      }
+
+      &:hover {
+        color: $blue;
+
+        .text {
+          z-index: 2;
+          opacity: 1;
+        }
+      }
+    }
+
+    .active {
+      border: 2px solid transparent;
+      border-bottom-color: $blue;
+
+      @media screen and (min-width: $tablet) {
+        width: 100%;
+        border: 2px solid transparent;
+        border-left-color: $blue;
+      }
+    }
+  }
+
+  .hidden {
+    display: none;
+
+    @media screen and (min-width: $tablet) {
+      display: flex;
+    }
+  }
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: $blue;
+}
+
+.hiddenMenu {
+  display: none;
+}
