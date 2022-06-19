@@ -214,11 +214,10 @@ export class UserController extends UserUtils {
             await super.checkIfUserIsNotAlreadyFriend(tokenFKUser.uuid!, userRequested.uuid!);
             await super.checkUserSendingHasAlreadySendToTheUserRequested(tokenFKUser.uuid!, userRequested.uuid!);
             let message = await super.checkIfUserRequestHasAlreadySendRequestToTheUserSendTheRequest(tokenFKUser.uuid!, userRequested.uuid!);
-            if (message !== "") {
+            if (message === "") { // todo
                 await super.addFriendRequest(tokenFKUser.userUuid!, userRequested.uuid!);
                 message = "Friend request sent !";
             }
-
             res.status(200).send({
                 code: "OK",
                 message
