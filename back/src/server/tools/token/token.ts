@@ -13,7 +13,7 @@ export class Token {
             .digest('hex');
     }
 
-    public static tokenChecker(token: string) {
+    public static signatureChecker(token: string) {
         const [header, body, signature]: string[] = token.split('.');
 
         const recreateSignature: string = createHmac('sha256', 'szbx')

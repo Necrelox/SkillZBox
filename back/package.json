@@ -4,7 +4,6 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "install": "npm i",
     "build": "npx tsc",
     "start": "tsc && node prod/app.js",
     "test": "jest -c jest.config.json",
@@ -21,7 +20,6 @@
     "express-rate-limit": "^6.3.0",
     "faker": "^5.5.3",
     "helmet": "^5.0.2",
-    "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.6",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.3"

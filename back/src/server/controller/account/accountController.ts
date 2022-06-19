@@ -1,10 +1,9 @@
 import {AccountUtils} from "./utils/accountUtils";
-
 import {Router, IRouter, Request, Response} from "express";
-import {SzbxTools} from "../../tools/szbxTools";
-import {SzBxModel} from "../../model/szbxModel";
+import * as Tools from "../../tools";
+import * as Models from "../../model";
 
-export class AccountController extends AccountUtils{
+export class AccountController extends AccountUtils {
     private _router: IRouter = Router();
 
     constructor() {
@@ -30,52 +29,51 @@ export class AccountController extends AccountUtils{
     private async postMethodSignup(req: Request, res: Response) {
         try {
             await super.checkPostContainMailANDUserANDPassword(req.body);
-            SzbxTools.Mailer.checkEmailHasBadSyntax(req.body.email);
-            SzbxTools.Mailer.checkEmailIsTemporary(req.body.email);
+            Tools.Mailer.checkEmailHasBadSyntax(req.body.email);
+            Tools.Mailer.checkEmailIsTemporary(req.body.email);
             await super.checkSyntaxUsername(req.body.username);
+            await super.checkLengthUsername(req.body.username);
+            await super.checkLengthPassword(req.body.password);
+            await super.checkSyntaxPassword(req.body.password);
             await super.createUser({
                 email: req.body.email,
                 username: req.body.username,
-                password: SzbxTools.PasswordEncrypt.encrypt(req.body.password)
+                password: Tools.PasswordEncrypt.encrypt(req.body.password)
             })
-            const user: SzBxModel.User.IModelUser[] = await super.getUserBySearch({
+            const user: Models.User.IUser = await super.getUserByReflect({
                 email: req.body.email,
                 username: req.body.username,
             });
-            await super.createToken(user[0]!);
-            // const token: SzBxModel.User.IModelUserToken[] = await super.getTokenBySearch({userUuid: user[0]!.uuid});
-            // await super.sendEmailVerification(user[0]!, token[0]!);
+            await super.createToken(user!);
+            // const token: SzBxModel.User.IToken = await super.getTokenByReflect({userUuid: user[0]!.uuid});
+            // await super.sendEmailVerification(user!, token!);
 
             res.status(200).send({
-                content: {
-                    code: 'OK',
-                    message: 'User and Token created successfully.'
-                }
+                code: 'OK',
+                message: 'User and Token created successfully.'
             });
         } catch (error: any) {
             res.status(500).send({
-                content: error
+                error
             });
         }
     }
 
     private async postMethodVerify(req: Request, res: Response) {
         try {
-            const code = req.body.code;
-            await super.verifyTokenSignature(code);
-            const token: SzBxModel.User.IModelUserToken[] = await super.getTokenBySearch({token: code});
-            await super.verifyTokenExpiration(token[0]!);
-            await super.setVerifyUser(token[0]!);
+            const bearerToken = req.headers.authorization;
+            await super.verifyTokenSignature(bearerToken?.split(' ')[1]!);
+            const token: Models.User.IToken = await super.getTokenByReflect({token: bearerToken?.split(' ')[1]!});
+            await super.verifyTokenExpirationAndSendMail(token!);
+            await super.setVerifyUser(token!);
 
             res.status(200).send({
-                content: {
-                    code: 'OK',
-                    message: 'User verified successfully.'
-                }
+                code: 'OK',
+                message: 'User verified successfully.'
             });
         } catch (error: any) {
             res.status(500).send({
-                content: error
+                error
             });
         }
     }
@@ -83,24 +81,20 @@ export class AccountController extends AccountUtils{
     private async postMethodLogin(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
-            const searchUser: SzBxModel.User.IModelUser = await super.tranformPostBodyToUserSearch(req.body);
-            const user: SzBxModel.User.IModelUser = await super.verifyLoginAndReturnUser(searchUser, req.body.password);
-            await super.verifyIfBlacklisted(user);
-            await super.updateUserIsConnected(user);
+            const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
+            const user: Models.User.IUser = await super.verifyLoginAndReturnUser(userReflect, req.body.password);
+            await super.updateUserByReflect(user, {isConnected: true});
             await super.createToken(user);
-            const token: SzBxModel.User.IModelUserToken[] = await super.getTokenBySearch({userUuid: user.uuid});
+            const token: Models.User.IToken = await super.getTokenByReflect({userUuid: user.uuid});
             res.status(200).send({
-                content: {
-                    code: 'OK',
-                    message: 'User logged successfully.',
-                    userUuid: user.uuid,
-                    token : token
-                }
+                code: 'OK',
+                message: 'User logged successfully.',
+                token: token.token
             });
 
         } catch (error: any) {
             res.status(500).send({
-                content: error
+                error
             });
         }
     }
@@ -108,29 +102,24 @@ export class AccountController extends AccountUtils{
     private async postMethodLoginCli(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
-            const searchUser: SzBxModel.User.IModelUser = await super.tranformPostBodyToUserSearch(req.body);
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
-            const user: SzBxModel.User.IModelUser = await super.verifyLoginAndReturnUser(searchUser, req.body.password);
-            await super.verifyIfBlacklisted(user);
+            const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
+            const user: Models.User.IUser = await super.verifyLoginAndReturnUser(userReflect, req.body.password);
             await super.addNewIpOrUpdate(user, req.body.ip);
             await super.addNewMacAddressOrUpdate(user, req.body.macAddress);
             await super.addNewDeviceOrUpdate(user, req.body.deviceType);
-            await super.updateUserIsConnected(user);
+            await super.updateUserByReflect(user, {isConnected: true});
             await super.createToken(user);
-            const token: SzBxModel.User.IModelUserToken[] = await super.getTokenBySearch({userUuid: user.uuid});
+            const token: Models.User.IToken = await super.getTokenByReflect({userUuid: user.uuid});
 
             res.status(200).send({
-                content: {
-                    code: 'OK',
-                    message: 'User logged successfully.',
-                    userUuid: user.uuid,
-                    token: token[0]!.token
-                }
+                code: 'OK',
+                message: 'User logged successfully.',
+                token: token.token
             });
-
         } catch (error: any) {
             res.status(500).send({
-                content: error
+                error
             });
         }
     }

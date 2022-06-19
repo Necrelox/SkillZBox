@@ -1,5 +1,5 @@
-import {SkillzboxDatabaseKnex} from "./database/skillzboxDatabaseKnex";
-import {SzbxController} from "./controller/szbxController";
+import {DatabaseKnex} from "./database/DatabaseKnex";
+import * as Controller from "./controller";
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -29,12 +29,12 @@ export class Server {
         this.app.use(express.urlencoded({ extended: false }));
         this.app.set('title', 'Skillzbox - API');
         this.initializeRoutes();
-        SkillzboxDatabaseKnex.initializeDatabasePool();
+        DatabaseKnex.initializeDatabasePool();
     }
 
     private initializeRoutes() {
-        this.app.use("/account", new SzbxController.AccountController().getRouter());
-        // this.app.use("/user", new SzbxController.UserController().getRouter());
+        this.app.use("/account", new Controller.AccountController().getRouter());
+        this.app.use("/user", new Controller.UserController().getRouter());
 
     }
 
