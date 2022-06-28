@@ -2,6 +2,7 @@ import {AccountUtils} from "./utils/accountUtils";
 import {Router, IRouter, Request, Response} from "express";
 import * as Tools from "../../tools";
 import * as Models from "../../model";
+import * as DBQueries from '../../database';
 
 export class AccountController extends AccountUtils {
     private _router: IRouter = Router();
@@ -38,16 +39,12 @@ export class AccountController extends AccountUtils {
                 super.checkLengthPassword(req.body.password),
                 super.checkSyntaxPassword(req.body.password)]);
 
-            await super.createUser({
+            await DBQueries.AccountQueries.createAccountTransaction({
                 email: req.body.email,
                 username: req.body.username,
                 password: Tools.PasswordEncrypt.encrypt(req.body.password)
             })
-            const user: Models.User.IUser = await super.getUserByReflect({
-                email: req.body.email,
-                username: req.body.username,
-            });
-            await super.createToken(user!);
+
             // const token: SzBxModel.User.IToken = await super.getTokenByReflect({userUuid: user[0]!.uuid});
             // await super.sendEmailVerification(user!, token!);
 

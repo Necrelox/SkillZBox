@@ -1,4 +1,7 @@
-import {knex} from 'knex';
+import {Knex, knex} from 'knex';
+import Transaction = Knex.Transaction;
+
+export type {Transaction};
 
 export interface ErrorDatabase extends Error {
     code?: string;
