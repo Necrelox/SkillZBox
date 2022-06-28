@@ -56,40 +56,6 @@ export abstract class AccountUtils extends ControllerUtils {
         }
     }
 
-    protected async checkSyntaxUsername(username: string) {
-        const regex: RegExp = /^\w+$/;
-        if (!regex.test(username))
-            throw {
-                code: CodeError.CHECK_SYNTAXE_USERNAME,
-                message: MessageError.USERNAME_BAD_SYNTAX
-            }
-    }
-
-    protected async checkLengthUsername(username: string) {
-        if (username.length < 4 || username.length > 20)
-            throw {
-                code: CodeError.CHECK_LENGTH_USERNAME,
-                message: MessageError.USERNAME_LENGTH_BAD
-            };
-    }
-
-    protected async checkLengthPassword(password: string) {
-        if (password.length < 6 || password.length > 20)
-            throw {
-                code: CodeError.CHECK_LENGTH_PASSWORD,
-                message: MessageError.PASSWORD_LENGTH_BAD
-            };
-    }
-
-    protected async checkSyntaxPassword(password: string) {
-        const regex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-        if (!regex.test(password))
-            throw {
-                code: CodeError.CHECK_SYNTAXE_PASSWORD,
-                message: MessageError.PASSWORD_BAD_SYNTAX
-            }
-    }
-
     protected async checkUserPassword(passwordToCheck: string, passwordOfUser: Buffer) {
         if (!Tools.PasswordEncrypt.compare(passwordToCheck, passwordOfUser))
             throw {
