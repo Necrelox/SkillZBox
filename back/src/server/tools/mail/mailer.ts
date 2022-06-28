@@ -7,7 +7,7 @@ import {Transporter} from "nodemailer";
 
 export class Mailer {
 
-    public static checkEmailHasBadSyntax(email: string) {
+    public static async checkEmailHasBadSyntax(email: string) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(email))
             throw {
@@ -16,7 +16,7 @@ export class Mailer {
         };
     }
 
-    public static checkEmailIsTemporary(email: string) {
+    public static async checkEmailIsTemporary(email: string) {
         if ((emailTempo['default']).includes(email.split("@")[1]))
             throw {
             code: CodeError.CHECK_EMAIL_IS_TEMPORARY,

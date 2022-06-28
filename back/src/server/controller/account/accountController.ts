@@ -29,12 +29,15 @@ export class AccountController extends AccountUtils {
     private async postMethodSignup(req: Request, res: Response) {
         try {
             await super.checkPostContainMailANDUserANDPassword(req.body);
-            Tools.Mailer.checkEmailHasBadSyntax(req.body.email);
-            Tools.Mailer.checkEmailIsTemporary(req.body.email);
-            await super.checkSyntaxUsername(req.body.username);
-            await super.checkLengthUsername(req.body.username);
-            await super.checkLengthPassword(req.body.password);
-            await super.checkSyntaxPassword(req.body.password);
+
+            await Promise.all([
+                Tools.Mailer.checkEmailHasBadSyntax(req.body.email),
+                Tools.Mailer.checkEmailIsTemporary(req.body.email),
+                super.checkSyntaxUsername(req.body.username),
+                super.checkLengthUsername(req.body.username),
+                super.checkLengthPassword(req.body.password),
+                super.checkSyntaxPassword(req.body.password)]);
+
             await super.createUser({
                 email: req.body.email,
                 username: req.body.username,
@@ -105,9 +108,11 @@ export class AccountController extends AccountUtils {
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
             const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
             const user: Models.User.IUser = await super.verifyLoginAndReturnUser(userReflect, req.body.password);
+
             await super.addNewIpOrUpdate(user, req.body.ip);
             await super.addNewMacAddressOrUpdate(user, req.body.macAddress);
             await super.addNewDeviceOrUpdate(user, req.body.deviceType);
+
             await super.updateUserByReflect(user, {isConnected: true});
             await super.createToken(user);
             const token: Models.User.IToken = await super.getTokenByReflect({userUuid: user.uuid});
