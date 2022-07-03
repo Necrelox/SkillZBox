@@ -1,6 +1,6 @@
-import {DatabaseKnex, Transaction, ErrorDatabase} from '../../DatabaseKnex'
-import {User} from "../../../model";
-import * as Tools from "../../../tools";
+import {DatabaseKnex, Transaction, ErrorDatabase} from '../../DatabaseKnex';
+import {User} from '../../../model';
+import * as Tools from '../../../tools';
 
 enum CodeError {
     GET_USER_BY_REFLECT = 'AccountQueries::createAccountTransaction',
@@ -25,7 +25,7 @@ export class AccountQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -39,7 +39,7 @@ export class AccountQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -144,7 +144,7 @@ export class AccountQueries {
                 throw {
                     code: CodeError.GET_USER_BY_REFLECT,
                     message: MessageError.GET_USER_BY_REFLECT
-                }
+                };
             }
 
             await AccountQueries.deleteTokenTransaction({userUuid: user[0]!.uuid}, trx);
@@ -161,7 +161,7 @@ export class AccountQueries {
                 code: err?.code,
                 message,
                 sql: err?.sql,
-            }
+            };
         });
     }
 
@@ -175,7 +175,7 @@ export class AccountQueries {
                 throw {
                     code: CodeError.GET_USER_BY_REFLECT,
                     message: MessageError.GET_USER_BY_REFLECT
-                }
+                };
             } else {
                 if (user[0]!.isVerified) {
                     throw {
@@ -199,7 +199,7 @@ export class AccountQueries {
                 code: err?.code,
                 message,
                 sql: err?.sql,
-            }
+            };
         });
     }
 
@@ -229,7 +229,7 @@ export class AccountQueries {
                 throw {
                     code: CodeError.GET_USER_BY_REFLECT,
                     message: MessageError.GET_USER_BY_REFLECT
-                }
+                };
             }
             return token[0];
         }).then((token: User.IToken) => {
@@ -240,7 +240,7 @@ export class AccountQueries {
                 code: err?.code,
                 message,
                 sql: err?.sql,
-            }
+            };
         });
     }
 
@@ -289,7 +289,7 @@ export class AccountQueries {
                 throw {
                     code: CodeError.GET_USER_BY_REFLECT,
                     message: MessageError.GET_USER_BY_REFLECT
-                }
+                };
             }
             return token[0];
         }).
@@ -301,7 +301,7 @@ export class AccountQueries {
                     code: err?.code,
                     message,
                     sql: err?.sql,
-                }
+                };
             });
         }
     }

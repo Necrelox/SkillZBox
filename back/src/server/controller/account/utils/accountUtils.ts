@@ -1,7 +1,7 @@
 import * as Models from '../../../model';
 import * as DBQueries from '../../../database';
 import * as Tools from '../../../tools';
-import {ControllerUtils} from "../../utils/controllerUtils";
+import {ControllerUtils} from '../../utils/controllerUtils';
 
 enum MessageError {
     CHECK_POST_CONTAIN_MAIL_OR_USERNAME_AND_PASSWORD = 'Missing parameter.',
@@ -50,7 +50,7 @@ export abstract class AccountUtils extends ControllerUtils {
         if (!postData.email || !postData.username || !postData.password)
             throw {
                 code: CodeError.CHECK_POST_CONTAIN_MAIL_AND_USERNAME_AND_PASSWORD,
-                message: MessageError.CHECK_POST_CONTAIN_MAIL_AND_USERNAME_AND_PASSWORD + (postData.email ? '' : " email") + (postData.username ? '' : ' username') + (postData.password ? '' : ' password') + '.'
+                message: MessageError.CHECK_POST_CONTAIN_MAIL_AND_USERNAME_AND_PASSWORD + (postData.email ? '' : ' email') + (postData.username ? '' : ' username') + (postData.password ? '' : ' password') + '.'
             };
     }
 
@@ -59,7 +59,7 @@ export abstract class AccountUtils extends ControllerUtils {
             throw {
                 code: CodeError.CHECK_POST_CONTAIN_IP_AND_MACADDRESS_AND_DEVICE_TYPE,
                 message: MessageError.CHECK_POST_CONTAIN_IP_AND_MACADDRESS_AND_DEVICE_TYPE + (postData.ip ? '' : ' ip') + (postData.macAddress ? '' : ' macAddress') + (postData.deviceType ? '' : ' deviceType') + '.'
-            }
+            };
     }
 
     /** ----- ACCOUNT ------ */
@@ -93,7 +93,7 @@ export abstract class AccountUtils extends ControllerUtils {
         if (!user || user.length === 0)
             throw {
                 code: CodeError.VERIFY_LOGIN_AND_RETURN_USER,
-                message: searchUser?.username ? "Invalid username" : "Invalid email"
+                message: searchUser?.username ? 'Invalid username' : 'Invalid email'
             };
 
         await Promise.all([
@@ -109,8 +109,8 @@ export abstract class AccountUtils extends ControllerUtils {
         await Tools.Mailer.sendMail({
             from: process.env.EMAIL_AUTH_USER,
             to: user?.email!,
-            subject: "Confirmation de votre compte",
-            text: "Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$ " + token?.token
+            subject: 'Confirmation de votre compte',
+            text: 'Veuillez confirmer votre compte en cliquant sur le lien suivant : $$$$$ ' + token?.token
         });
     }
 

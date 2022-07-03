@@ -1,5 +1,5 @@
-import * as Models from "../../model";
-import * as DBQueries from "../../database";
+import * as Models from '../../model';
+import * as DBQueries from '../../database';
 
 export enum CodeError {
     GET_TOKEN_BY_REFLECT = 'ControllerUtils::getTokenByReflect',
@@ -28,17 +28,17 @@ export abstract class ControllerUtils {
             throw {
                 code: CodeError.GET_USER_BY_REFLECT,
                 message: MessageError.GET_USER_BY_REFLECT
-            }
+            };
         return user[0]!;
     }
 
     protected async checkSyntaxUsername(username: string) {
-        const regex: RegExp = /^\w+$/;
+        const regex = /^\w+$/;
         if (!regex.test(username))
             throw {
                 code: CodeError.CHECK_SYNTAX_USERNAME,
                 message: MessageError.CHECK_SYNTAX_USERNAME
-            }
+            };
     }
 
     protected async checkLengthUsername(username: string) {
@@ -58,12 +58,12 @@ export abstract class ControllerUtils {
     }
 
     protected async checkSyntaxPassword(password: string) {
-        const regex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
         if (!regex.test(password))
             throw {
                 code: CodeError.CHECK_SYNTAX_PASSWORD,
                 message: MessageError.CHECK_SYNTAX_PASSWORD
-            }
+            };
     }
 
     /** TOKEN */
@@ -74,7 +74,7 @@ export abstract class ControllerUtils {
             throw {
                 code: CodeError.GET_TOKEN_BY_REFLECT,
                 message: MessageError.GET_TOKEN_BY_REFLECT
-            }
+            };
         return token[0]!;
     }
 

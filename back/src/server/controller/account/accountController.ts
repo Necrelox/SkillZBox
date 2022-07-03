@@ -1,7 +1,7 @@
-import {AccountUtils} from "./utils/accountUtils";
-import {Router, IRouter, Request, Response} from "express";
-import * as Tools from "../../tools";
-import * as Models from "../../model";
+import {AccountUtils} from './utils/accountUtils';
+import {Router, IRouter, Request, Response} from 'express';
+import * as Tools from '../../tools';
+import * as Models from '../../model';
 import * as DBQueries from '../../database';
 
 export class AccountController extends AccountUtils {
@@ -43,7 +43,7 @@ export class AccountController extends AccountUtils {
                 email: req.body.email,
                 username: req.body.username,
                 password: Tools.PasswordEncrypt.encrypt(req.body.password)
-            })
+            });
 
             // const token: SzBxModel.User.IToken = await super.getTokenByReflect({userUuid: user[0]!.uuid});
             // await super.sendEmailVerification(user!, token!);

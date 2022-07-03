@@ -1,7 +1,7 @@
-import * as Models from "../../../model";
-import * as DBQueries from "../../../database";
-import {ControllerUtils} from "../../utils/controllerUtils";
-import * as Tools from "../../../tools";
+import * as Models from '../../../model';
+import * as DBQueries from '../../../database';
+import {ControllerUtils} from '../../utils/controllerUtils';
+import * as Tools from '../../../tools';
 
 interface reqBody {
     password: string;
@@ -33,7 +33,7 @@ export abstract class UserUtils extends ControllerUtils {
             throw {
                 code: CodeError.CHECK_POST_CONTAIN_USER_REQUESTED,
                 message: MessageError.CHECK_POST_CONTAIN_USER_REQUESTED
-            }
+            };
     }
 
     protected async checkPostContainFriend(postBody: any) {
@@ -41,7 +41,7 @@ export abstract class UserUtils extends ControllerUtils {
             throw {
                 code: CodeError.CHECK_POST_CONTAIN_FRIEND,
                 message: MessageError.CHECK_POST_CONTAIN_FRIEND
-            }
+            };
     }
 
 
@@ -49,19 +49,19 @@ export abstract class UserUtils extends ControllerUtils {
         await DBQueries.UserQueries.addFriend({
             user: userUuid,
             friend: friendUuid
-        })
+        });
     }
 
     protected async checkIfUserIsNotAlreadyFriend(user: Buffer, friend: Buffer) {
         const friends : Models.User.IFriend[] = await DBQueries.UserQueries.getFriend({
             user,
             friend
-        })
+        });
         if (friends.length !== 0)
             throw {
                 code: CodeError.CHECK_IF_USER_IS_NOT_ALREADY_FRIEND,
                 message: MessageError.CHECK_IF_USER_IS_NOT_ALREADY_FRIEND
-            }
+            };
     }
 
     /** FRIEND REQUEST */
@@ -69,30 +69,30 @@ export abstract class UserUtils extends ControllerUtils {
         await DBQueries.UserQueries.addFriendRequest({
             userSendingRequest: userUuid,
             userRequested: userRequestedUuid
-        })
+        });
     }
 
     protected async deleteUserFriendRequestSendingAndReceived(userSendingRequest: Buffer, userRequested: Buffer) {
         await DBQueries.UserQueries.deleteFriendRequest({
             userSendingRequest,
             userRequested
-        })
+        });
         await DBQueries.UserQueries.deleteFriendRequest({
             userSendingRequest: userRequested,
             userRequested: userSendingRequest
-        })
+        });
     }
 
     protected async checkUserSendingHasAlreadySendToTheUserRequested(userSending: Buffer, userRequested: Buffer) {
         const friendRequest: Models.User.IFriendRequest[] = await DBQueries.UserQueries.getFriendRequest({
             userSendingRequest: userSending,
             userRequested: userRequested
-        })
+        });
         if (friendRequest.length !== 0)
             throw {
                 code: CodeError.CHECK_USER_SENDING_HAS_ALREADY_SEND_TO_THE_USER_REQUESTED,
                 message: MessageError.CHECK_USER_SENDING_HAS_ALREADY_SEND_TO_THE_USER_REQUESTED
-            }
+            };
     }
 
     protected async checkIfUserRequestHasAlreadySendRequestToTheUserSendTheRequest(userSendingRequest: Buffer, userRequested: Buffer) : Promise<string> {
@@ -115,7 +115,7 @@ export abstract class UserUtils extends ControllerUtils {
             throw {
                 code: CodeError.CHECK_IF_USER_REQUESTED_NAME_IS_NOT_SAME_TO_HIM_SELF,
                 message: MessageError.CHECK_IF_USER_REQUESTED_NAME_IS_NOT_SAME_TO_HIM_SELF
-            }
+            };
     }
 
     protected async transformBodyToUserForUpdate(body: reqBody) : Promise<Models.User.IUser> {

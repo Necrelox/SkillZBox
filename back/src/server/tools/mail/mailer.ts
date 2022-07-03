@@ -1,9 +1,9 @@
-import * as emailTempo from "./emailTempo.json";
+import * as emailTempo from './emailTempo.json';
 import * as nodemailer from 'nodemailer';
-import {MessageError} from "./enum/messageError";
-import {CodeError} from "./enum/codeError";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
-import {Transporter} from "nodemailer";
+import {MessageError} from './enum/messageError';
+import {CodeError} from './enum/codeError';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import {Transporter} from 'nodemailer';
 
 export class Mailer {
 
@@ -17,7 +17,7 @@ export class Mailer {
     }
 
     public static async checkEmailIsTemporary(email: string) {
-        if ((emailTempo['default']).includes(email.split("@")[1]))
+        if ((emailTempo['default']).includes(email.split('@')[1]))
             throw {
             code: CodeError.CHECK_EMAIL_IS_TEMPORARY,
             message: MessageError.EMAIL_IS_TEMPORARY

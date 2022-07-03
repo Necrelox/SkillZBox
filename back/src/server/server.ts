@@ -1,5 +1,5 @@
-import {DatabaseKnex} from "./database/DatabaseKnex";
-import * as Controller from "./controller";
+import {DatabaseKnex} from './database/DatabaseKnex';
+import * as Controller from './controller';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -33,8 +33,8 @@ export class Server {
     }
 
     private initializeRoutes() {
-        this.app.use("/account", new Controller.AccountController().getRouter());
-        this.app.use("/user", new Controller.UserController().getRouter());
+        this.app.use('/account', new Controller.AccountController().getRouter());
+        this.app.use('/user', new Controller.UserController().getRouter());
 
     }
 

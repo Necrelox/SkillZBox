@@ -1,9 +1,9 @@
-import {Request, Response, NextFunction} from "express";
-import * as Tools from "../../tools";
-import * as Models from "../../model";
-import * as DBQueries from '../../database'
-import {CodeError} from "./enum/codeError";
-import {MessageError} from "./enum/messageError";
+import {Request, Response, NextFunction} from 'express';
+import * as Tools from '../../tools';
+import * as Models from '../../model';
+import * as DBQueries from '../../database';
+import {CodeError} from './enum/codeError';
+import {MessageError} from './enum/messageError';
 
 export class BearerToken {
     private static async getTokenByReflect(tokenReflect: string): Promise<Models.User.IToken> {
@@ -12,7 +12,7 @@ export class BearerToken {
             throw {
                 code: CodeError.GET_TOKEN_BY_REFLECT,
                 message: MessageError.TOKEN_NOT_FOUND
-            }
+            };
         return token[0]!;
     }
 

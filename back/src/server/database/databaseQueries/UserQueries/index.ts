@@ -1,6 +1,6 @@
-import {DatabaseKnex, Transaction, ErrorDatabase} from '../../DatabaseKnex'
-import {User} from "../../../model";
-import * as Models from "../../../model";
+import {DatabaseKnex, Transaction, ErrorDatabase} from '../../DatabaseKnex';
+import {User} from '../../../model';
+import * as Models from '../../../model';
 
 enum CodeError {
     UPDATE_USER_TRANSACTION = 'UserQueries::updateUserTransaction',
@@ -17,7 +17,7 @@ export class UserQueries {
     public static async getUserByFKFriendRequestOnSending(friendRequest: Models.User.IFriendRequest): Promise<Models.User.IFriendRequestFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND_REQUESTS')
             .where(friendRequest)
-            .join('USER', 'USER.uuid', "=", 'USER_FRIEND_REQUESTS.userSendingRequest')
+            .join('USER', 'USER.uuid', '=', 'USER_FRIEND_REQUESTS.userSendingRequest')
             .then((friendRequests: Models.User.IFriendRequestFKUser[]) => {
                 return friendRequests;
             }).catch((err: ErrorDatabase) => {
@@ -25,14 +25,14 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
     public static async getUserByFKFriendRequestOnRequested(friendRequest: Models.User.IFriendRequest): Promise<Models.User.IFriendRequestFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND_REQUESTS')
             .where(friendRequest)
-            .join('USER', 'USER.uuid', "=", 'USER_FRIEND_REQUESTS.userRequested')
+            .join('USER', 'USER.uuid', '=', 'USER_FRIEND_REQUESTS.userRequested')
             .then((friendRequests: Models.User.IFriendRequestFKUser[]) => {
                 return friendRequests;
             }).catch((err: ErrorDatabase) => {
@@ -40,14 +40,14 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
     public static async getUserByFKToken(token: User.IToken): Promise<User.ITokenFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_TOKEN')
             .where(token)
-            .join('USER', 'USER.uuid', "=", 'USER_TOKEN.userUuid')
+            .join('USER', 'USER.uuid', '=', 'USER_TOKEN.userUuid')
             .then((tokens: User.ITokenFKUser[]) => {
                 return tokens;
             }).catch((err: ErrorDatabase) => {
@@ -55,14 +55,14 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
     public static async getFriendsByFKUser(user: User.IUser): Promise<User.IFriend[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND')
             .where(user)
-            .join('USER', 'USER.uuid', "=", 'USER_FRIEND.friend')
+            .join('USER', 'USER.uuid', '=', 'USER_FRIEND.friend')
             .then((friends: User.IFriend[]) => {
                 return friends;
             }).catch((err: ErrorDatabase) => {
@@ -70,7 +70,7 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -84,7 +84,7 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -98,7 +98,7 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -130,7 +130,7 @@ export class UserQueries {
     private static async getUserByFKTokenTransaction(token: User.IToken, trx: Transaction): Promise<User.ITokenFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_TOKEN')
             .where(token)
-            .join('USER', 'USER.uuid', "=", 'USER_TOKEN.userUuid')
+            .join('USER', 'USER.uuid', '=', 'USER_TOKEN.userUuid')
             .transaction(trx)
             .then((tokens: User.ITokenFKUser[]) => {
                 return tokens;
@@ -139,7 +139,7 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -153,7 +153,7 @@ export class UserQueries {
                     code: err?.code,
                     message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
                     sql: err?.sql,
-                }
+                };
             });
     }
 
@@ -166,7 +166,7 @@ export class UserQueries {
                 throw {
                     code: CodeError.UPDATE_USER_TRANSACTION,
                     message: MessageError.NO_USER_FOUND_BY_TOKEN,
-                }
+                };
             }
 
             await UserQueries.updateUserTransaction(userUpdate, {
@@ -182,7 +182,7 @@ export class UserQueries {
                 code: err?.code,
                 message,
                 sql: err?.sql,
-            }
+            };
         });
     }
 }
