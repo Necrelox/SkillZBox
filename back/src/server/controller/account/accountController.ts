@@ -62,10 +62,12 @@ export class AccountController extends AccountUtils {
     private async postMethodVerify(req: Request, res: Response) {
         try {
             const bearerToken = req.headers.authorization;
+
             await super.verifyTokenSignature(bearerToken?.split(' ')[1]!);
             const token: Models.User.IToken = await super.getTokenByReflect({token: bearerToken?.split(' ')[1]!});
             await super.verifyTokenExpirationAndSendMail(token!);
-            await super.setVerifyUser(token!);
+
+            await DBQueries.AccountQueries.setVerifiedUserTransaction(token!.userUuid!);
 
             res.status(200).send({
                 code: 'OK',
@@ -82,10 +84,9 @@ export class AccountController extends AccountUtils {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
-            const user: Models.User.IUser = await super.verifyLoginAndReturnUser(userReflect, req.body.password);
-            await super.updateUserByReflect(user, {isConnected: true});
-            await super.createToken(user);
-            const token: Models.User.IToken = await super.getTokenByReflect({userUuid: user.uuid});
+            const user: Models.User.IUser = await super.verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(userReflect, req.body.password);
+            const token = await DBQueries.AccountQueries.loginUserAndGetTokenTransaction(user);
+
             res.status(200).send({
                 code: 'OK',
                 message: 'User logged successfully.',
@@ -104,15 +105,8 @@ export class AccountController extends AccountUtils {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
             const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
-            const user: Models.User.IUser = await super.verifyLoginAndReturnUser(userReflect, req.body.password);
-
-            await super.addNewIpOrUpdate(user, req.body.ip);
-            await super.addNewMacAddressOrUpdate(user, req.body.macAddress);
-            await super.addNewDeviceOrUpdate(user, req.body.deviceType);
-
-            await super.updateUserByReflect(user, {isConnected: true});
-            await super.createToken(user);
-            const token: Models.User.IToken = await super.getTokenByReflect({userUuid: user.uuid});
+            const user: Models.User.IUser = await super.verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(userReflect, req.body.password);
+            const token = await DBQueries.AccountQueries.loginCLIUserAndGetTokenTransaction(user, req.body.ip, req.body.macAddress, req.body.deviceType);
 
             res.status(200).send({
                 code: 'OK',
