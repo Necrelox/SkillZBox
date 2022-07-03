@@ -13,5 +13,8 @@ export const Endpoint = {
     HOME: '/',
     LOGIN: '/login',
     REGISTER: '/register',
+    PROFILE: '/profile',
+    LOGOUT: '/logout',
+    ROOM: '/room',
   },
 };
