@@ -1,17 +1,29 @@
 import * as Models from "../../model";
 import * as DBQueries from "../../database";
-import {CodeError} from "./enum/codeError";
-import {MessageError} from "./enum/messageError";
+
+export enum CodeError {
+    GET_TOKEN_BY_REFLECT = 'ControllerUtils::getTokenByReflect',
+    GET_USER_BY_REFLECT = 'ControllerUtils::getUserByReflect',
+    CHECK_SYNTAX_USERNAME = 'ControllerUtils::checkSyntaxUsername',
+    CHECK_LENGTH_USERNAME = 'ControllerUtils::checkLengthUsername',
+    CHECK_LENGTH_PASSWORD = 'ControllerUtils::checkLengthPassword',
+    CHECK_SYNTAX_PASSWORD = 'ControllerUtils::checkSyntaxPassword',
+}
+
+export enum MessageError {
+    GET_TOKEN_BY_REFLECT = 'Token not found.',
+    GET_USER_BY_REFLECT = 'User not found.',
+    CHECK_SYNTAX_USERNAME = 'Username contains invalid characters. Has to be alphanumeric.',
+    CHECK_LENGTH_USERNAME = 'Username length is too short or too long. (min: 4, max: 20)',
+    CHECK_LENGTH_PASSWORD = 'Password length is too short or too long. (min: 6, max: 20)',
+    CHECK_SYNTAX_PASSWORD = 'Password do contain one majuscule and one number minimum.',
+}
 
 export abstract class ControllerUtils {
 
     /** USER */
-    protected async updateUserByReflect(user: Models.User.IUser, userReflect: Models.User.IUser) {
-        await DBQueries.UserQuery.User.update({uuid: user.uuid}, userReflect);
-    }
-
     protected async getUserByReflect(userReflect: Models.User.IUser): Promise<Models.User.IUser> {
-        const user: Models.User.IUser[] = await DBQueries.UserQuery.User.select(userReflect);
+        const user: Models.User.IUser[] = await DBQueries.AccountQueries.getUser(userReflect);
         if (!user || user.length === 0)
             throw {
                 code: CodeError.GET_USER_BY_REFLECT,
@@ -55,12 +67,9 @@ export abstract class ControllerUtils {
     }
 
     /** TOKEN */
-    protected async getUserByFKTokenByBearerToken(bearerToken: string): Promise<Models.User.ITokenFKUser> {
-        return (await DBQueries.UserQuery.Token.selectFK({token: bearerToken}))[0]!;
-    }
 
     protected async getTokenByReflect(tokenReflect: Models.User.IToken): Promise<Models.User.IToken> {
-        const token: Models.User.IToken[] = await DBQueries.UserQuery.Token.select(tokenReflect);
+        const token: Models.User.IToken[] = await DBQueries.AccountQueries.getToken(tokenReflect);
         if (!token || token.length === 0)
             throw {
                 code: CodeError.GET_TOKEN_BY_REFLECT,

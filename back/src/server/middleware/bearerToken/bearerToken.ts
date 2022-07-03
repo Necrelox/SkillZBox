@@ -7,7 +7,7 @@ import {MessageError} from "./enum/messageError";
 
 export class BearerToken {
     private static async getTokenByReflect(tokenReflect: string): Promise<Models.User.IToken> {
-        const token: Models.User.IToken[] = await DBQueries.UserQuery.Token.select({token: tokenReflect});
+        const token: Models.User.IToken[] = await DBQueries.AccountQueries.getToken({token: tokenReflect});
         if (!token || token.length === 0)
             throw {
                 code: CodeError.GET_TOKEN_BY_REFLECT,

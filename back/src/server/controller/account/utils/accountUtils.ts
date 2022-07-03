@@ -138,8 +138,8 @@ export abstract class AccountUtils extends ControllerUtils {
     }
 
     protected async createToken(user: Models.User.IUser) {
-        await DBQueries.UserQuery.Token.delete({userUuid: user?.uuid});
-        await DBQueries.UserQuery.Token.insert({
+        await DBQueries.UserQueries.deleteToken({userUuid: user?.uuid});
+        await DBQueries.UserQueries.addToken({
             token: Tools.Token.generateToken(user?.uuid!),
             userUuid: user?.uuid,
             expireAt: new Date(Date.now() + (1000 * 60 * 60))
