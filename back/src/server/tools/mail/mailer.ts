@@ -1,9 +1,17 @@
 import * as emailTempo from './emailTempo.json';
 import * as nodemailer from 'nodemailer';
-import {MessageError} from './enum/messageError';
-import {CodeError} from './enum/codeError';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import {Transporter} from 'nodemailer';
+
+export enum CodeError {
+    CHECK_EMAIL_HAS_BAD_SYNTAX = 'Mailer::checkEmailHasBadSyntax',
+    CHECK_EMAIL_IS_TEMPORARY = 'Mailer::checkEmailIsTemporary',
+}
+
+export enum MessageError {
+    EMAIL_BAD_SYNTAX = 'Email has bad syntax.',
+    EMAIL_IS_TEMPORARY = 'Email is temporary mail.',
+}
 
 export class Mailer {
 

@@ -1,6 +1,6 @@
-import {DatabaseKnex, Transaction, ErrorDatabase} from '../../DatabaseKnex';
-import {User} from '../../../model';
-import * as Tools from '../../../tools';
+import {DatabaseKnex, Transaction, ErrorDatabase} from 'server/database/DatabaseKnex';
+import {User} from 'server/model';
+import * as Tools from 'server/tools';
 
 enum CodeError {
     GET_USER_BY_REFLECT = 'AccountQueries::createAccountTransaction',

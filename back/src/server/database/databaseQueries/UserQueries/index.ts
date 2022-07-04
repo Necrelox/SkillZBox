@@ -1,6 +1,6 @@
-import {DatabaseKnex, Transaction, ErrorDatabase} from '../../DatabaseKnex';
-import {User} from '../../../model';
-import * as Models from '../../../model';
+import {DatabaseKnex, Transaction, ErrorDatabase} from 'server/database/DatabaseKnex';
+import {User} from 'server/model';
+import * as Models from 'server/model';
 
 enum CodeError {
     UPDATE_USER_TRANSACTION = 'UserQueries::updateUserTransaction',

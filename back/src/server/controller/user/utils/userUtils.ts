@@ -1,7 +1,7 @@
-import * as Models from '../../../model';
-import * as DBQueries from '../../../database';
-import {ControllerUtils} from '../../utils/controllerUtils';
-import * as Tools from '../../../tools';
+import * as Models from 'server/model';
+import * as DBQueries from 'server/database';
+import {ControllerUtils} from 'server/controller/utils/controllerUtils';
+import * as Tools from 'server/tools';
 
 interface reqBody {
     password: string;

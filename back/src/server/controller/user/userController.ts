@@ -1,8 +1,8 @@
 import {Router, IRouter, Request, Response, NextFunction} from 'express';
-import {UserUtils} from './utils/userUtils';
-import {BearerToken} from '../../middleware/bearerToken/bearerToken';
-import * as Models from '../../model';
-import * as DBQueries from '../../database';
+import {UserUtils} from 'server/controller/user/utils/userUtils';
+import {BearerToken} from 'server/middleware/bearerToken/bearerToken';
+import * as Models from 'server/model';
+import * as DBQueries from 'server/database';
 
 export class UserController extends UserUtils {
     private _router: IRouter = Router();

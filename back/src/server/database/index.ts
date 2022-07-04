@@ -1,2 +1,2 @@
-export {AccountQueries} from './databaseQueries/AccountQueries';
-export {UserQueries} from './databaseQueries/UserQueries';
+export {AccountQueries} from 'server/database/databaseQueries/AccountQueries';
+export {UserQueries} from 'server/database/databaseQueries/UserQueries';
