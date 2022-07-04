@@ -1,7 +1,7 @@
-import * as Models from 'server/model';
-import * as DBQueries from 'server/database';
-import * as Tools from 'server/tools';
-import {ControllerUtils} from 'server/controller/utils/controllerUtils';
+import * as Models from '../../../model';
+import * as DBQueries from '../../../database';
+import * as Tools from '../../../tools';
+import {ControllerUtils} from '../../utils/controllerUtils';
 
 enum MessageError {
     CHECK_POST_CONTAIN_MAIL_OR_USERNAME_AND_PASSWORD = 'Missing parameter.',

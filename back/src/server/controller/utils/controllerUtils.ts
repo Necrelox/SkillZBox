@@ -1,5 +1,5 @@
-import * as Models from 'server/model';
-import * as DBQueries from 'server/database';
+import * as Models from '../../model';
+import * as DBQueries from '../../database';
 
 export enum CodeError {
     GET_TOKEN_BY_REFLECT = 'ControllerUtils::getTokenByReflect',

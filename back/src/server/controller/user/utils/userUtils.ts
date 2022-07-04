@@ -1,7 +1,7 @@
-import * as Models from 'server/model';
-import * as DBQueries from 'server/database';
-import {ControllerUtils} from 'server/controller/utils/controllerUtils';
-import * as Tools from 'server/tools';
+import * as Models from '../../../model';
+import * as DBQueries from '../../../database';
+import * as Tools from '../../../tools';
+import {ControllerUtils} from '../../utils/controllerUtils';
 
 interface ReqBody {
     password: string;
@@ -119,7 +119,7 @@ export abstract class UserUtils extends ControllerUtils {
             };
     }
 
-    protected async transformBodyToUserForUpdate(body: reqBody) : Promise<Models.User.IUser> {
+    protected async transformBodyToUserForUpdate(body: ReqBody) : Promise<Models.User.IUser> {
         const user: Models.User.IUser = {};
         if ('email' in body) {
             await Tools.Mailer.checkEmailHasBadSyntax(body.email!);

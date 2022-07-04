@@ -1,8 +1,8 @@
-import {AccountUtils} from 'server/controller/account/utils/accountUtils';
+import {AccountUtils} from './utils/accountUtils';
 import {Router, IRouter, Request, Response} from 'express';
-import * as Tools from 'server/tools';
-import * as Models from 'server/model';
-import * as DBQueries from 'server/database';
+import * as Tools from '../../tools';
+import * as Models from '../../model';
+import * as DBQueries from '../../database';
 
 export class AccountController extends AccountUtils {
     private _router: IRouter = Router();

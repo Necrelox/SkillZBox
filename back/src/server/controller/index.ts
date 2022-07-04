@@ -1,2 +1,2 @@
-export {AccountController} from 'server/controller/account/accountController';
-export {UserController} from 'server/controller/user/userController';
+export {AccountController} from './account/accountController';
+export {UserController} from './user/userController';

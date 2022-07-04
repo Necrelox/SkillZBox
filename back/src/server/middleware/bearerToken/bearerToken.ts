@@ -1,7 +1,7 @@
 import {Request, Response, NextFunction} from 'express';
-import * as Tools from 'server/tools';
-import * as Models from 'server/model';
-import * as DBQueries from 'server/database';
+import * as Tools from '../../tools';
+import * as Models from '../../model';
+import * as DBQueries from '../../database';
 
 export enum CodeError {
     GET_TOKEN_BY_REFLECT = 'BearerToken::getTokenByReflect',
