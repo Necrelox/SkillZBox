@@ -10,10 +10,8 @@ enum MessageError {
     NO_USER_FOUND_BY_TOKEN = 'No user found by token.',
 }
 
-
 export class UserQueries {
-    /** Sample Queries */
-
+    /** Simple Queries */
     public static async getUserByFKFriendRequestOnSending(friendRequest: Models.User.IFriendRequest): Promise<Models.User.IFriendRequestFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND_REQUESTS')
             .where(friendRequest)
