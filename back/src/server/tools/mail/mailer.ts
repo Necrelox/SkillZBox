@@ -25,7 +25,7 @@ export class Mailer {
     }
 
     public static async checkEmailIsTemporary(email: string) {
-        if ((emailTempo['default']).includes(email.split('@')[1]))
+        if ((emailTempo.default).includes(email.split('@')[1]))
             throw {
             code: CodeError.CHECK_EMAIL_IS_TEMPORARY,
             message: MessageError.EMAIL_IS_TEMPORARY
