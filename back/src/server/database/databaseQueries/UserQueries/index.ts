@@ -138,11 +138,11 @@ export class UserQueries {
         return DatabaseKnex.getInstance().update(userReflect).into('USER').where(where).transacting(trx);
     }
 
-    public static async updateUserByTokenTransaction(userUpdate: User.IUser, token: User.IToken) {
+    public static async updateUserByTokenTransaction(userUpdate: User.IUser, tokenForSearch: User.IToken) {
         const knex = await DatabaseKnex.getInstance();
         return knex.transaction(async (trx: Transaction) => {
 
-            const tokenFKUsers: User.ITokenFKUser[] = await UserQueries.getUserByFKTokenTransaction(token, trx);
+            const tokenFKUsers: User.ITokenFKUser[] = await UserQueries.getUserByFKTokenTransaction(tokenForSearch, trx);
             if (tokenFKUsers.length === 0) {
                 throw {
                     code: CodeError.UPDATE_USER_TRANSACTION,
