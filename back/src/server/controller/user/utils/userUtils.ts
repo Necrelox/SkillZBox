@@ -3,7 +3,7 @@ import * as DBQueries from 'server/database';
 import {ControllerUtils} from 'server/controller/utils/controllerUtils';
 import * as Tools from 'server/tools';
 
-interface reqBody {
+interface ReqBody {
     password: string;
     email: string;
     username: string;
@@ -87,7 +87,7 @@ export abstract class UserUtils extends ControllerUtils {
     protected async checkUserSendingHasAlreadySendToTheUserRequested(userSending: Buffer, userRequested: Buffer) {
         const friendRequest: Models.User.IFriendRequest[] = await DBQueries.UserQueries.getFriendRequest({
             userSendingRequest: userSending,
-            userRequested: userRequested
+            userRequested
         });
         if (friendRequest.length !== 0)
             throw {
