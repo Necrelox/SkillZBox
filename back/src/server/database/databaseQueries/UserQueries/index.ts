@@ -59,9 +59,9 @@ export class UserQueries {
             });
     }
 
-    public static async getFriendsByFKUser(user: User.IUser): Promise<User.IFriend[]> {
+    public static async getFriendsByFKUserUuid(where: Buffer): Promise<User.IFriend[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND')
-            .where(user)
+            .where('USER_FRIEND.user', where)
             .join('USER', 'USER.uuid', '=', 'USER_FRIEND.friend')
             .then((friends: User.IFriend[]) => {
                 return friends;
@@ -128,33 +128,14 @@ export class UserQueries {
 
     /** Transaction Queries */
     private static async getUserByFKTokenTransaction(token: User.IToken, trx: Transaction): Promise<User.ITokenFKUser[]> {
-        return DatabaseKnex.getInstance().select().into('USER_TOKEN')
-            .where(token)
+        return DatabaseKnex.getInstance().select().from('USER_TOKEN')
             .join('USER', 'USER.uuid', '=', 'USER_TOKEN.userUuid')
-            .transaction(trx)
-            .then((tokens: User.ITokenFKUser[]) => {
-                return tokens;
-            }).catch((err: ErrorDatabase) => {
-                throw {
-                    code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
-                    sql: err?.sql,
-                };
-            });
+            .where(token)
+            .transacting(trx);
     }
 
-    private static async updateUserTransaction(userUpdate: User.IUser, where: User.IUser, trx: Transaction) {
-        return DatabaseKnex.getInstance().update(userUpdate).into('USER').where(where)
-            .transaction(trx)
-            .then(() => {
-                return userUpdate;
-            }).catch((err: ErrorDatabase) => {
-                throw {
-                    code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
-                    sql: err?.sql,
-                };
-            });
+    private static async updateUserTransaction(userReflect: User.IUser, where: User.IUser, trx: Transaction) {
+        return DatabaseKnex.getInstance().update(userReflect).into('USER').where(where).transacting(trx);
     }
 
     public static async updateUserByTokenTransaction(userUpdate: User.IUser, token: User.IToken) {

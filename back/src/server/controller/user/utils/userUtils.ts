@@ -7,6 +7,7 @@ interface reqBody {
     password: string;
     email: string;
     username: string;
+    activityMessage: string;
 }
 
 export enum CodeError {
@@ -97,8 +98,8 @@ export abstract class UserUtils extends ControllerUtils {
 
     protected async checkIfUserRequestHasAlreadySendRequestToTheUserSendTheRequest(userSendingRequest: Buffer, userRequested: Buffer) : Promise<string> {
         const friendRequest: Models.User.IFriendRequest[] = await DBQueries.UserQueries.getFriendRequest({
-            userSendingRequest: userSendingRequest,
-            userRequested: userRequested
+            userSendingRequest: userRequested,
+            userRequested: userSendingRequest
         });
         if (friendRequest.length !== 0) {
             await this.addFriend(userSendingRequest, userRequested);
@@ -134,6 +135,9 @@ export abstract class UserUtils extends ControllerUtils {
             await this.checkLengthPassword(body.password);
             await this.checkSyntaxPassword(body.password);
             user.password = Tools.PasswordEncrypt.encrypt(body.password);
+        }
+        if ('activityMessage' in body) {
+            user.activityMessage = body.activityMessage;
         }
         return user;
     }

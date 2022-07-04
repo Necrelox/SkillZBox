@@ -146,9 +146,7 @@ export class UserController extends UserUtils {
                 token: (req.headers.authorization)?.split(' ')[1]!
             });
 
-            const friendsFKUsers: Models.User.IFriendFKUser[] = await DBQueries.UserQueries.getFriendsByFKUser({
-                uuid: tokenFKUser[0]!.uuid!
-            });
+            const friendsFKUsers: Models.User.IFriendFKUser[] = await DBQueries.UserQueries.getFriendsByFKUserUuid(tokenFKUser[0]!.uuid!);
 
             res.status(200).send({
                 code: 'OK',
@@ -204,16 +202,16 @@ export class UserController extends UserUtils {
                 token: (req.headers.authorization)?.split(' ')[1]!
             });
 
-            const meRequested: Models.User.IFriendRequestFKUser[] = await DBQueries.UserQueries.getUserByFKFriendRequestOnRequested({
+            const meRequestedBy: Models.User.IFriendRequestFKUser[] = await DBQueries.UserQueries.getUserByFKFriendRequestOnSending({
                 userRequested: tokenFKUser[0]!.uuid!
             });
-            const meSentRequests: Models.User.IFriendRequestFKUser[] = await DBQueries.UserQueries.getUserByFKFriendRequestOnSending({
+            const meSentRequestsTo: Models.User.IFriendRequestFKUser[] = await DBQueries.UserQueries.getUserByFKFriendRequestOnRequested({
                 userSendingRequest: tokenFKUser[0]!.uuid!
             });
             res.status(200).send({
                 code: 'OK',
                 message: 'Get friends request list.',
-                meRequestedBy: meRequested.map((item: Models.User.IFriendRequestFKUser) => {
+                meRequestedBy: meRequestedBy.map((item: Models.User.IFriendRequestFKUser) => {
                     return {
                         username: item.username,
                         activityMessage: item.activityMessage,
@@ -221,7 +219,7 @@ export class UserController extends UserUtils {
                         createdAt: item.createdAt,
                     };
                 }),
-                meSentRequestsTo: meSentRequests.map((item: Models.User.IFriendRequestFKUser) => {
+                meSentRequestsTo: meSentRequestsTo.map((item: Models.User.IFriendRequestFKUser) => {
                     return {
                         username: item.username,
                         activityMessage: item.activityMessage,
@@ -248,7 +246,7 @@ export class UserController extends UserUtils {
             await super.checkUserSendingHasAlreadySendToTheUserRequested(tokenFKUser[0]!.uuid!, userRequested.uuid!);
 
             let message = await super.checkIfUserRequestHasAlreadySendRequestToTheUserSendTheRequest(tokenFKUser[0]!.uuid!, userRequested.uuid!);
-            if (message === '') {
+            if (!message) {
                 await super.addFriendRequest(tokenFKUser[0]!.userUuid!, userRequested.uuid!);
                 message = 'Friend request sent !';
             }

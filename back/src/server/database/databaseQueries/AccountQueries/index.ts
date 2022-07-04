@@ -147,14 +147,13 @@ export class AccountQueries {
                 };
             }
 
-            await AccountQueries.deleteTokenTransaction({userUuid: user[0]!.uuid}, trx);
+            // await AccountQueries.deleteTokenTransaction({userUuid: user[0]!.uuid}, trx);
 
             await AccountQueries.addTokenTransaction({
                 token: Tools.Token.generateToken(user[0]!.uuid!),
                 userUuid: user[0]!.uuid,
                 expireAt: new Date(Date.now() + (1000 * 60 * 60))
             }, trx);
-        }).then(() => {
         }).catch((err: ErrorDatabase) => {
             const message = DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!) ?? err?.message;
             throw {
