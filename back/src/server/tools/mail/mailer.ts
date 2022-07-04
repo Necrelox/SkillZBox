@@ -24,10 +24,8 @@ export class Mailer {
     }
 
     public static async checkEmailIsTemporary(email: string) {
-        // emailTempo is a json file that contains all the temporary emails
-        // set type of emailTempo to any to avoid error
-        const emailTempo: any = require('./emailTempo.json');
-        if ((emailTempo).includes(email.split('@')[1]))
+        const emailTempo: string[] = require('./emailTempo.json');
+        if ((emailTempo).includes(email.split('@')[1]!))
             throw {
                 code: CodeError.CHECK_EMAIL_IS_TEMPORARY,
                 message: MessageError.EMAIL_IS_TEMPORARY
