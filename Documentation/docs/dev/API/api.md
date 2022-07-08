@@ -26,14 +26,15 @@
                     - email: string
     
                 - Retour:
-                    - content: object // à détailler
+                    - code: string
+                    - message: string
     
         - /SkillZBox/verify (Vérification d'un compte et connection)
             - POST
                 - Paramètres:
                     - code: string
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
                     - token: string
     
@@ -48,7 +49,7 @@
                     - deviceType: string
     
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
                     - token: string
 
@@ -61,20 +62,20 @@
                     - password: string
                     - 
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
                     - token: string
         ```
     
     ??? info "User"
-        
+
         ```
         - /SkillZBox/user/me (Informations de l'utilisateur)
             - GET
                 - Paramètres Header:
                     - token: string
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
                     - user: object
             - PUT
@@ -85,392 +86,398 @@
                     - password: string
                     - email: string
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
-                    - user: object
             
     
         - /SkillZBox/user/me/logo (Logo de l'utilisateur)
             - GET
                 - Paramètres Header:
                     - token: string
-                - Paramètre:
-                    - uuid_user: string
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
-                    - user_logo: array[object]
+                    - userLogo: array[object]
             - POST
                 - Paramètres Header:
                     - token: string
                 - Paramètres:
-                    - uuid_user: string
                     - logo: string
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
-            - PUT
+            - Delete
                 - Paramètres Header:
                     - token: string
                 - Paramètres:
-                    - uuid_user: string
-                    - ?user_logo_uuid_delete: boolean
+                    - userLogoUuid: boolean
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
     
-        - /SkillZBox/user/user-friend (Liste des amis)
-            - GET
+        - /SkillZBox/user/user-friends (Liste des amis)
+            - GET (récupère les amis)
+                - Paramètres Header:
+                    - token: string
+                - Retour:
+                    - code: string
+                    - message: string
+                    - friends: array[object]
+            - DELETE (delete un amis)
                 - Paramètres Header:
                     - token: string
                 - Paramètre:
-                    - uuid_user: string
-                    - ?user_friend_uuid: string
+                    - friend: Buffer
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
-                    - list user: array[object]
-            - POST
+
+        -  /SkillZBox/user/user-friends-requests (Liste des demandes amis)
+            - GET (récupère les demandes amis envoyé et reçus)
+                - Paramètres Header:
+                    - token: string
+                - Retour:
+                    - code: string
+                    - message: string
+                    - meSentRequestsTo: array[object]
+                    - meRequestedBy: array[object]
+            - POST (ajoute une demande d'amis ou accepte une demande d'amis)
+                - Paramètres Header:
+                    - token: string
+                - Paramètres:
+                    - userRequested: Buffer
+                - Retour:
+                    - code: string
+                    - message: string
+            - DELETE (refuse une demande amis)
                 - Paramètres Header:
                     - token: string
                 - Paramètre:
-                    - uuid_user: string
-                    - uuid_user_friend: string
+                    - userRequested: Buffer
                 - Retour:
-                    - status: string
+                    - code: string
                     - message: string
-            - DELETE
-                - Paramètres Header:
-                    - token: string
-                - Paramètre:
-                    - uuid_user: string
-                    - uuid_user_friend: string
-                - Retour:
-                    - status: string
-                    - message: string
+
         ```
-    
     ??? info "Categories and Tag"
-    
-        ```
-        - /SkillZBox/categorie (Categories)
-           - GET
-                - Paramètre Header:
-                    - token: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - categories: array[object]
-    
-        - /SkillZBox/tag (Tags)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - tags: array[object]
-        ```
-    
-    ??? info "Room"
-    
-        ```
-        - /SkillZBox/room (Room)
-            - POST (Création)
-                - Paramètre Header :
-                   - token: string
-                - Paramètre :
-                    - uuid_user: string
-                    - categorie_uuid: string
-                    - tag_uuid: string
-                - Retour :
-                    - status: string
-                    - message: string
-           - GET
-               - Paramètre Header :
-                    - token: string
-               - Paramètre : 
-                    - ?uuid_user: string
-                    - ?categorie_uuid: string
-                    - ?tag_uuid: string
-               - Retour :
-                    - status: string
-                    - message: string
-                    - room: object
-           - PUT
-               - Paramètre Header :
-                    - token: string
-               - Paramètre :
-                    - room_uuid: string
-               - Retour :
-                    - status: string
-                    - message: string
         
-        - /SkillZBox/room/users (Room User)
-            - GET
-                - Paramètre Header :
-                    - token: string
-                - Paramètre :
-                    - room_uuid: string
-                    - ?uuid_user: string
-                - Retour :
-                    - status: string
-                    - message: string
-                    - users: array[object]
-           - POST
-                - Paramètre Header :
-                    - token: string
-                - Paramètre :
-                    - room_uuid: string
-                    - uuid_user: string
-                    - is_room_master: boolean
-                - Retour :
-                    - status: string
-                    - message: string
-    
-        - /SkillZBox/room/message (Tchat de la room)
-            - POST
-                - Paramètre Header :
-                    - token : string
-                - Paramètre :
-                    - room_uuid : string 
-                    - user_uuid : string
-                    - has_files : string
-                    - file: string
-                    - message : string
-                - Retour :
-                    - status : string
-                    - message : string
-            - GET 
-                - Paramètre Header :
-                    - token : string
-                - Paramètre :
-                    - room_uuid
-                - Retour:
-                    - status : string
-                    - message : string
-                    - tchat : array[object]
-            - POST
-                - Paramètre Header :
-                    - token : string
-                - Paramètre :
-                    - room_uuid : string
-                    - user_uuid : string
-                    - message_uuid : string
-    
-        - /SkillZBox/room/files (Liste des fichiers d'une room)
-            - GET
-                - Paramètre Header :
-                    - token: string
-                - Paramètre :
-                    - room_uuid: string
-                    - ?room_message_uuid: string
-                - Retour :
-                    - status: string
-                    - message: string
-                    - files: array[object]
-    
-        - /SkillZBox/room/categories (Liste des categories d'une room)
-            - GET
-                - Paramètre Header :
-                    - token : string
-                - Paramètre :
-                    - room_uuid : string
-                - Retour :
-                    - status : string
-                    - message : string
-                    - categories : array[object]
-    
-        - /SkillZBox/room/tags (Liste des tags d'une room)
-            - GET
-                - Paramètre Header :
-                    - token : string
-                - Paramètre :
-                    - room_uuid : string
-               - Retour :
-                    - status : string
-                    - message : string
-                    - tags : array[object]
-    
-        - /SkillZBox/room/report (Signaler un utilisateur)
-            - POST
-                - Paramètre Header :
-                    - token : string
-                - Paramètre :
-                    - user_send_report_uuid : string
-                    - user_reported_uuid : string
-                    - reason : string
-                - Retour :
-                    - status : string
-                    - message : string
-        ``` 
-    
+           ```
+           - /SkillZBox/categorie (Categories)
+              - GET
+                   - Paramètre Header:
+                       - token: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - categories: array[object]
+        
+           - /SkillZBox/tag (Tags)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - tags: array[object]
+           ```
+
+    ??? info "Room"
+           ```
+           - /SkillZBox/room (Room)
+               - POST (Création)
+                   - Paramètre Header :
+                      - token: string
+                   - Paramètre :
+                       - user: Buffer
+                       - categorie_uuid: string
+                       - tagUuid: string
+                   - Retour :
+                       - code: string
+                       - message: string
+              - GET
+                  - Paramètre Header :
+                       - token: string
+                  - Paramètre : 
+                       - ?uuid_user: string
+                       - ?categorie_uuid: string
+                       - ?tag_uuid: string
+                  - Retour :
+                       - code: string
+                       - message: string
+                       - room: object
+              - PUT
+                  - Paramètre Header :
+                       - token: string
+                  - Paramètre :
+                       - room_uuid: string
+                  - Retour :
+                       - code: string
+                       - message: string
+            
+           - /SkillZBox/room/users (Room User)
+               - GET
+                   - Paramètre Header :
+                       - token: string
+                   - Paramètre :
+                       - room_uuid: string
+                       - ?uuid_user: string
+                   - Retour :
+                       - code: string
+                       - message: string
+                       - users: array[object]
+              - POST
+                   - Paramètre Header :
+                       - token: string
+                   - Paramètre :
+                       - room_uuid: string
+                       - uuid_user: string
+                       - is_room_master: boolean
+                   - Retour :
+                       - code: string
+                       - message: string
+        
+           - /SkillZBox/room/message (Tchat de la room)
+               - POST
+                   - Paramètre Header :
+                       - token : string
+                   - Paramètre :
+                       - room_uuid : string 
+                       - user_uuid : string
+                       - has_files : string
+                       - file: string
+                       - message : string
+                   - Retour :
+                       - code : string
+                       - message : string
+               - GET 
+                   - Paramètre Header :
+                       - token : string
+                   - Paramètre :
+                       - room_uuid
+                   - Retour:
+                       - code : string
+                       - message : string
+                       - tchat : array[object]
+               - POST
+                   - Paramètre Header :
+                       - token : string
+                   - Paramètre :
+                       - room_uuid : string
+                       - user_uuid : string
+                       - message_uuid : string
+        
+           - /SkillZBox/room/files (Liste des fichiers d'une room)
+               - GET
+                   - Paramètre Header :
+                       - token: string
+                   - Paramètre :
+                       - room_uuid: string
+                       - ?room_message_uuid: string
+                   - Retour :
+                       - code: string
+                       - message: string
+                       - files: array[object]
+        
+           - /SkillZBox/room/categories (Liste des categories d'une room)
+               - GET
+                   - Paramètre Header :
+                       - token : string
+                   - Paramètre :
+                       - room_uuid : string
+                   - Retour :
+                       - code : string
+                       - message : string
+                       - categories : array[object]
+        
+           - /SkillZBox/room/tags (Liste des tags d'une room)
+               - GET
+                   - Paramètre Header :
+                       - token : string
+                   - Paramètre :
+                       - room_uuid : string
+                  - Retour :
+                       - code : string
+                       - message : string
+                       - tags : array[object]
+        
+           - /SkillZBox/room/report (Signaler un utilisateur)
+               - POST
+                   - Paramètre Header :
+                       - token : string
+                   - Paramètre :
+                       - user_send_report_uuid : string
+                       - user_reported_uuid : string
+                       - reason : string
+                   - Retour :
+                       - code : string
+                       - message : string
+           ```
     ??? info "Admin"
     
-        ```
-        - /SkillZBox/admin/user (User)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - users: array[object]
-            - PUT
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - uuid_user: string
-                    - ?username: string
-                    - ?email: string
-                    - ?password: string
-                    - ?role: boolean
-                    - ?is_verified: boolean
-                - Retour:
-                    - status: string
-                    - message: string
-            - DELETE
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-    
-        - /SkillZBox/admin/report (Report)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - reports: array[object]
-            - DELETE
-                - Paramètre Header:
-                    - token: string
-                - Paramètre:
-                    - uuid_user: string
-                    - reason: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - reports: array[object]
-    
-        - /SkillZBox/admin/user/logo (Logo user)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - logo: array[object]
-            - PUT
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - uuid_user: string
-                    - user_log_uuid: string
-                    - ?seed: string
-                    - ?path: string
-                    - ?active: boolean
-                - Retour:
-                    - status: string
-                    - message: string
-    
-        - /SkillZBox/admin/user-ip (User ip)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_ip: array[object]
-    
-        - /SkillZBox/admin/user-macadress (User macadress)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_macadress: array[object]
-    
-        - /SkillZBox/admin/user-friend (User friend)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_friend: array[object]
-    
-        - /SkillZBox/admin/user-device (User device)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_device: array[object]
+           ```
+           - /SkillZBox/admin/user (User)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - users: array[object]
+               - PUT
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - uuid_user: string
+                       - ?username: string
+                       - ?email: string
+                       - ?password: string
+                       - ?role: boolean
+                       - ?is_verified: boolean
+                   - Retour:
+                       - code: string
+                       - message: string
+               - DELETE
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
         
-        - /SkillZBox/admin/user-history (User history)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - ?uuid_user: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_history: array[object]
+           - /SkillZBox/admin/report (Report)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - reports: array[object]
+               - DELETE
+                   - Paramètre Header:
+                       - token: string
+                   - Paramètre:
+                       - uuid_user: string
+                       - reason: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - reports: array[object]
         
-        - /SkillZBox/admin/user-history-message (User history message)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - user_history_uuid: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_history_message: array[object]
-    
-        - /SkillZBox/admin/user-history-action (User history action)
-            - GET
-                - Paramètre Header:
-                    - token: string
-                    - mac_address: string
-                - Paramètre:
-                    - user_history_uuid: string
-                - Retour:
-                    - status: string
-                    - message: string
-                    - user_history_action: array[object]
-        ```
+           - /SkillZBox/admin/user/logo (Logo user)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - logo: array[object]
+               - PUT
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - uuid_user: string
+                       - user_log_uuid: string
+                       - ?seed: string
+                       - ?path: string
+                       - ?active: boolean
+                   - Retour:
+                       - code: string
+                       - message: string
+        
+           - /SkillZBox/admin/user-ip (User ip)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_ip: array[object]
+        
+           - /SkillZBox/admin/user-macadress (User macadress)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_macadress: array[object]
+        
+           - /SkillZBox/admin/user-friend (User friend)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_friend: array[object]
+        
+           - /SkillZBox/admin/user-device (User device)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_device: array[object]
+            
+           - /SkillZBox/admin/user-history (User history)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - ?uuid_user: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_history: array[object]
+            
+           - /SkillZBox/admin/user-history-message (User history message)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - user_history_uuid: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_history_message: array[object]
+        
+           - /SkillZBox/admin/user-history-action (User history action)
+               - GET
+                   - Paramètre Header:
+                       - token: string
+                       - mac_address: string
+                   - Paramètre:
+                       - user_history_uuid: string
+                   - Retour:
+                       - code: string
+                       - message: string
+                       - user_history_action: array[object]
+           ```

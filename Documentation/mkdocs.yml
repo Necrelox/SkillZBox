@@ -1,4 +1,4 @@
-site_name: PasDeNom documentation
+site_name: SkillZBox documentation
 nav:
   - Vue global:
       - Accueil: index.md
