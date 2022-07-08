@@ -11,15 +11,18 @@ import { storeCommonServerSideData } from 'helpers/store';
 import { wrapper } from 'redux/store';
 
 // components
-import Input from 'components/Input/Input';
-import Button from 'components/Button/Button';
-import User from 'components/User/User';
 import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
-import { UserStatus } from 'components/User/user.enum';
+import Modal, { fillAndOpenModalContent } from 'components/Modal/Modal';
 import { InputName, InputType } from 'components/Input/input.enum';
+import { IModal } from 'components/Modal/Modal.interface';
+import { ModalTypes } from 'components/Modal/modal.enum';
+import { UserStatus } from 'components/User/user.enum';
+import Button from 'components/Button/Button';
+import Input from 'components/Input/Input';
+import User from 'components/User/User';
 
 // functions
-import { userInfosHandler } from 'functions/register/register';
+import { checkUserInfos, userInfosHandler } from 'functions/register/register';
 
 // interfaces
 import { UserInfosRegister } from 'interfaces/UserInfos.interface';
@@ -28,6 +31,11 @@ import { UserInfosRegister } from 'interfaces/UserInfos.interface';
 import styles from 'styles/pages/Profile.module.scss';
 
 const UserProfile: NextPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<IModal>({
+    message: '',
+    type: ModalTypes.UNKNOWN,
+  });
   const [userInfos, setUserInfos] = useState<UserInfosRegister>({
     username: '',
     email: '',
@@ -37,6 +45,22 @@ const UserProfile: NextPage = () => {
 
   const onUserInfosChange = (event: FormEvent<HTMLInputElement>) => {
     userInfosHandler(event, setUserInfos);
+  };
+
+  const submitEditProfileForm = async (event: FormEvent) => {
+    try {
+      event.preventDefault();
+      checkUserInfos(userInfos);
+    } catch (error: any) {
+      fillAndOpenModalContent(
+        {
+          message: error.message,
+          type: ModalTypes.ERROR,
+        },
+        setIsModalOpen,
+        setModalContent,
+      );
+    }
   };
 
   return (
@@ -52,7 +76,7 @@ const UserProfile: NextPage = () => {
           />
         </div>
 
-        <form className={styles.formContainer}>
+        <form className={styles.formContainer} onSubmit={submitEditProfileForm}>
           <div className={styles.marginContainer}>
             <Input
               inputName={InputName.USERNAME}
@@ -106,6 +130,7 @@ const UserProfile: NextPage = () => {
             />
           </div>
         </form>
+        <Modal isOpen={isModalOpen} modalContent={modalContent} />
       </div>
     </Layout>
   );

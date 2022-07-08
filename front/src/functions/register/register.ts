@@ -59,6 +59,10 @@ const hasForbidenCharacters = (value: string) => {
   return !regex.test(value);
 };
 
+const checkUsernameLength = (username: string) => {
+  return username.length < 3 || username.length > 20;
+};
+
 export const checkUserInfos = (userInfos: UserInfosRegister) => {
   if (isUserInfosValid(userInfos)) {
     throw new Error('Veuillez remplir tous les champs');
@@ -67,6 +71,12 @@ export const checkUserInfos = (userInfos: UserInfosRegister) => {
   if (hasForbidenCharacters(userInfos.username)) {
     throw new Error(
       "Le nom d'utilisateur ne peut pas contenir de caractères spéciaux",
+    );
+  }
+
+  if (checkUsernameLength(userInfos.username)) {
+    throw new Error(
+      "Le nom d'utilisateur doit contenir entre 3 et 20 caractères",
     );
   }
 
