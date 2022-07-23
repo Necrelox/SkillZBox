@@ -22,7 +22,7 @@ export enum MessageError {
 export abstract class ControllerUtils {
 
     /** USER */
-    protected async getUserByReflect(userReflect: Models.User.IUser): Promise<Models.User.IUser> {
+    protected async getUserByReflect(userReflect: Partial<Models.User.IUser>): Promise<Models.User.IUser> {
         const user: Models.User.IUser[] = await DBQueries.AccountQueries.getUser(userReflect);
         if (!user || user.length === 0)
             throw {
@@ -68,7 +68,7 @@ export abstract class ControllerUtils {
 
     /** TOKEN */
 
-    protected async getTokenByReflect(tokenReflect: Models.User.IToken): Promise<Models.User.IToken> {
+    protected async getTokenByReflect(tokenReflect: Partial<Models.User.IToken>): Promise<Models.User.IToken> {
         const token: Models.User.IToken[] = await DBQueries.AccountQueries.getToken(tokenReflect);
         if (!token || token.length === 0)
             throw {

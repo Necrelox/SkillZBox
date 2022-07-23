@@ -1,5 +1,5 @@
 export interface IRoom {
-    createdAt?: Date;
-    optionLimitUser?: number;
-    uuid?: Buffer;
+    createdAt: Date;
+    optionLimitUser: number;
+    uuid: Buffer;
 }

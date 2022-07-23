@@ -119,8 +119,8 @@ export abstract class UserUtils extends ControllerUtils {
             };
     }
 
-    protected async transformBodyToUserForUpdate(body: ReqBody) : Promise<Models.User.IUser> {
-        const user: Models.User.IUser = {};
+    protected async transformBodyToUserForUpdate(body: ReqBody) : Promise<Partial<Models.User.IUser>> {
+        const user: Partial<Models.User.IUser> = {};
         if ('email' in body) {
             await Tools.Mailer.checkEmailHasBadSyntax(body.email!);
             await Tools.Mailer.checkEmailIsTemporary(body.email!);

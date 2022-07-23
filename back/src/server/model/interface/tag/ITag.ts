@@ -1,5 +1,5 @@
 export interface ITag {
     name: string;
-    createdAt?: Date;
-    uuid?: Buffer;
+    createdAt: Date;
+    uuid: Buffer;
 }

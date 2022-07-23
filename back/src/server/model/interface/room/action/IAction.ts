@@ -1,5 +1,5 @@
 export interface IAction {
-    createdAt?: Date;
+    createdAta: Date;
     action: string;
     roomUserUuid: string;
 }
