@@ -1,4 +1,4 @@
 export interface IHasTag {
-    roomUuid?: string;
-    tagUuid?: string;
+    roomUuid: string;
+    tagUuid: string;
 }

@@ -29,8 +29,8 @@ enum CodeError {
 export abstract class AccountUtils extends ControllerUtils {
 
     /** ------- POST ------- */
-    protected async transformPostBodyToUserReflect(postBody: Models.User.IUser): Promise<Models.User.IUser> {
-        const userReflect: Models.User.IUser = {};
+    protected async transformPostBodyToUserReflect(postBody: Models.User.IUser): Promise<Partial<Models.User.IUser>> {
+        const userReflect: Partial<Models.User.IUser> = {};
         if (postBody.email)
             userReflect.email = postBody.email;
         if (postBody.username)
@@ -88,7 +88,7 @@ export abstract class AccountUtils extends ControllerUtils {
             };
     }
 
-    protected async verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(searchUser: Models.User.IUser, password: string): Promise<Models.User.IUser> {
+    protected async verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(searchUser: Partial<Models.User.IUser>, password: string): Promise<Models.User.IUser> {
         const user: Models.User.IUser[] = await DBQueries.AccountQueries.getUser(searchUser);
         if (!user || user.length === 0)
             throw {
@@ -137,7 +137,7 @@ export abstract class AccountUtils extends ControllerUtils {
             };
     }
 
-    protected async createToken(user: Models.User.IUser) {
+    protected async createToken(user: Partial<Models.User.IUser>) {
         await DBQueries.UserQueries.deleteToken({userUuid: user?.uuid});
         await DBQueries.UserQueries.addToken({
             token: Tools.Token.generateToken(user?.uuid!),

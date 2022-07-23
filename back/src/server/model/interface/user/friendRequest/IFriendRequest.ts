@@ -1,6 +1,6 @@
 export interface IFriendRequest {
-    createdAt?: Date;
-    userSendingRequest?: Buffer;
-    userRequested?: Buffer;
-    uuid?: Buffer;
+    createdAt: Date;
+    userSendingRequest: Buffer;
+    userRequested: Buffer;
+    uuid: Buffer;
 }

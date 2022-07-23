@@ -12,7 +12,7 @@ enum MessageError {
 
 export class UserQueries {
     /** Simple Queries */
-    public static async getUserByFKFriendRequestOnSending(friendRequest: Models.User.IFriendRequest): Promise<Models.User.IFriendRequestFKUser[]> {
+    public static async getUserByFKFriendRequestOnSending(friendRequest: Partial<Models.User.IFriendRequest>): Promise<Models.User.IFriendRequestFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND_REQUESTS')
             .where(friendRequest)
             .join('USER', 'USER.uuid', '=', 'USER_FRIEND_REQUESTS.userSendingRequest')
@@ -27,7 +27,7 @@ export class UserQueries {
             });
     }
 
-    public static async getUserByFKFriendRequestOnRequested(friendRequest: Models.User.IFriendRequest): Promise<Models.User.IFriendRequestFKUser[]> {
+    public static async getUserByFKFriendRequestOnRequested(friendRequest: Partial<Models.User.IFriendRequest>): Promise<Models.User.IFriendRequestFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND_REQUESTS')
             .where(friendRequest)
             .join('USER', 'USER.uuid', '=', 'USER_FRIEND_REQUESTS.userRequested')
@@ -42,7 +42,7 @@ export class UserQueries {
             });
     }
 
-    public static async getUserByFKToken(token: User.IToken): Promise<User.ITokenFKUser[]> {
+    public static async getUserByFKToken(token: Partial<User.IToken>): Promise<User.ITokenFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_TOKEN')
             .where(token)
             .join('USER', 'USER.uuid', '=', 'USER_TOKEN.userUuid')
@@ -57,7 +57,7 @@ export class UserQueries {
             });
     }
 
-    public static async getFriendsByFKUserUuid(where: Buffer): Promise<User.IFriend[]> {
+    public static async getFriendsByFKUserUuid(where: Buffer): Promise<User.IFriendFKUser[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND')
             .where('USER_FRIEND.user', where)
             .join('USER', 'USER.uuid', '=', 'USER_FRIEND.friend')
@@ -72,7 +72,7 @@ export class UserQueries {
             });
     }
 
-    public static async getFriend(friend: User.IFriend) : Promise<User.IFriend[]> {
+    public static async getFriend(friend: Partial<User.IFriend>) : Promise<User.IFriend[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND')
             .where(friend)
             .then((friends: User.IFriend[]) => {
@@ -86,7 +86,7 @@ export class UserQueries {
             });
     }
 
-    public static async getFriendRequest(friendRequest: User.IFriendRequest) : Promise<User.IFriendRequest[]> {
+    public static async getFriendRequest(friendRequest: Partial<User.IFriendRequest>) : Promise<User.IFriendRequest[]> {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND_REQUESTS')
             .where(friendRequest)
             .then((friendRequests: User.IFriendRequest[]) => {
@@ -100,43 +100,43 @@ export class UserQueries {
             });
     }
 
-    public static async deleteFriend(where: User.IFriend) {
+    public static async deleteFriend(where: Partial<User.IFriend>) {
         return DatabaseKnex.getInstance().delete().from('USER_FRIEND').where(where);
     }
 
-    public static async deleteFriendRequest(friendRequest: User.IFriendRequest) {
+    public static async deleteFriendRequest(friendRequest: Partial<User.IFriendRequest>) {
         return DatabaseKnex.getInstance().delete().from('USER_FRIEND_REQUESTS').where(friendRequest);
     }
 
-    public static async addFriendRequest(friendRequest: User.IFriendRequest) {
+    public static async addFriendRequest(friendRequest: Partial<User.IFriendRequest>) {
         return DatabaseKnex.getInstance().insert(friendRequest).into('USER_FRIEND_REQUESTS');
     }
 
-    public static async addFriend(friend: User.IFriend) {
+    public static async addFriend(friend: Partial<User.IFriend>) {
         return DatabaseKnex.getInstance().insert(friend).into('USER_FRIEND');
     }
 
-    public static async deleteToken(token: User.IToken) {
+    public static async deleteToken(token: Partial<User.IToken>) {
         return DatabaseKnex.getInstance().delete().from('USER_TOKEN').where(token);
     }
 
-    public static async addToken(token: User.IToken) {
+    public static async addToken(token: Partial<User.IToken>) {
         return DatabaseKnex.getInstance().insert(token).into('USER_TOKEN');
     }
 
     /** Transaction Queries */
-    private static async getUserByFKTokenTransaction(token: User.IToken, trx: Transaction): Promise<User.ITokenFKUser[]> {
+    private static async getUserByFKTokenTransaction(token: Partial<User.IToken>, trx: Transaction): Promise<User.ITokenFKUser[]> {
         return DatabaseKnex.getInstance().select().from('USER_TOKEN')
             .join('USER', 'USER.uuid', '=', 'USER_TOKEN.userUuid')
             .where(token)
             .transacting(trx);
     }
 
-    private static async updateUserTransaction(userReflect: User.IUser, where: User.IUser, trx: Transaction) {
+    private static async updateUserTransaction(userReflect: Partial<User.IUser>, where: Partial<User.IUser>, trx: Transaction) {
         return DatabaseKnex.getInstance().update(userReflect).into('USER').where(where).transacting(trx);
     }
 
-    public static async updateUserByTokenTransaction(userUpdate: User.IUser, tokenForSearch: User.IToken) {
+    public static async updateUserByTokenTransaction(userUpdate: Partial<User.IUser>, tokenForSearch: Partial<User.IToken>) {
         const knex = await DatabaseKnex.getInstance();
         return knex.transaction(async (trx: Transaction) => {
 

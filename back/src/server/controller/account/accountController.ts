@@ -83,7 +83,7 @@ export class AccountController extends AccountUtils {
     private async postMethodLogin(req: Request, res: Response) {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
-            const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
+            const userReflect: Partial<Models.User.IUser> = await super.transformPostBodyToUserReflect(req.body);
             const user: Models.User.IUser = await super.verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(userReflect, req.body.password);
             const token = await DBQueries.AccountQueries.loginUserAndGetTokenTransaction(user.uuid!);
 
@@ -104,7 +104,7 @@ export class AccountController extends AccountUtils {
         try {
             await super.checkPostContainMailORUsernameANDPassword(req.body);
             await super.checkPostContainIpANDMacAddressANDDeviceType(req.body);
-            const userReflect: Models.User.IUser = await super.transformPostBodyToUserReflect(req.body);
+            const userReflect: Partial<Models.User.IUser> = await super.transformPostBodyToUserReflect(req.body);
             const user: Models.User.IUser = await super.verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(userReflect, req.body.password);
             const token = await DBQueries.AccountQueries.loginCLIUserAndGetTokenTransaction(user.uuid!, req.body.ip, req.body.macAddress, req.body.deviceType);
 
