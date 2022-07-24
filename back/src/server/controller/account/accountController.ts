@@ -61,13 +61,12 @@ export class AccountController extends AccountUtils {
 
     private async postMethodVerify(req: Request, res: Response) {
         try {
-            const bearerToken = req.headers.authorization;
+            const bearerToken : string = (req.headers.authorization) != undefined ? req.headers.authorization.split(' ')[1] || '' : '';
+            await super.verifyTokenSignature(bearerToken);
+            const token: Models.User.IToken = await super.getTokenByReflect({token: bearerToken});
+            await super.verifyTokenExpirationAndSendMail(token);
 
-            await super.verifyTokenSignature(bearerToken?.split(' ')[1]!);
-            const token: Models.User.IToken = await super.getTokenByReflect({token: bearerToken?.split(' ')[1]!});
-            await super.verifyTokenExpirationAndSendMail(token!);
-
-            await DBQueries.AccountQueries.setVerifiedUserTransaction(token!.userUuid!);
+            await DBQueries.AccountQueries.setVerifiedUserTransaction(token.userUuid);
 
             res.status(200).send({
                 code: 'OK',
