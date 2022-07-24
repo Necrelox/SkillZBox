@@ -21,7 +21,7 @@ export class UserQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -36,7 +36,7 @@ export class UserQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -51,7 +51,7 @@ export class UserQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -61,12 +61,12 @@ export class UserQueries {
         return DatabaseKnex.getInstance().select().into('USER_FRIEND')
             .where('USER_FRIEND.user', where)
             .join('USER', 'USER.uuid', '=', 'USER_FRIEND.friend')
-            .then((friends: User.IFriend[]) => {
+            .then((friends: User.IFriendFKUser[]) => {
                 return friends;
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -80,7 +80,7 @@ export class UserQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -94,7 +94,7 @@ export class UserQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -149,14 +149,13 @@ export class UserQueries {
             }
 
             await UserQueries.updateUserTransaction(userUpdate, {
-                uuid: tokenFKUsers[0]!.userUuid,
+                uuid: (tokenFKUsers[0] as User.ITokenFKUser).userUuid,
             }, trx);
 
 
-        }).then((token: User.IToken) => {
-            return token;
-        }).catch((err: ErrorDatabase) => {
-            const message = DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!) ?? err?.message;
+        })
+        .catch((err: ErrorDatabase) => {
+            const message = DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string) ?? err?.message;
             throw {
                 code: err?.code,
                 message,

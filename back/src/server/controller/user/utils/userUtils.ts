@@ -29,7 +29,7 @@ export enum MessageError {
 export abstract class UserUtils extends ControllerUtils {
 
     /** POST */
-    protected async checkPostContainUserRequested(postBody: any) {
+    protected async checkPostContainUserRequested(postBody: { userRequested: string }) {
         if (!('userRequested' in postBody))
             throw {
                 code: CodeError.CHECK_POST_CONTAIN_USER_REQUESTED,
@@ -37,7 +37,7 @@ export abstract class UserUtils extends ControllerUtils {
             };
     }
 
-    protected async checkPostContainFriend(postBody: any) {
+    protected async checkPostContainFriend(postBody: { friend: string }) {
         if (!('friend' in postBody))
             throw {
                 code: CodeError.CHECK_POST_CONTAIN_FRIEND,
@@ -122,13 +122,13 @@ export abstract class UserUtils extends ControllerUtils {
     protected async transformBodyToUserForUpdate(body: ReqBody) : Promise<Partial<Models.User.IUser>> {
         const user: Partial<Models.User.IUser> = {};
         if ('email' in body) {
-            await Tools.Mailer.checkEmailHasBadSyntax(body.email!);
-            await Tools.Mailer.checkEmailIsTemporary(body.email!);
+            await Tools.Mailer.checkEmailHasBadSyntax(body.email);
+            await Tools.Mailer.checkEmailIsTemporary(body.email);
             user.email = body.email;
         }
         if ('username' in body) {
-            await this.checkSyntaxUsername(body.username!);
-            await this.checkLengthUsername(body.username!);
+            await this.checkSyntaxUsername(body.username);
+            await this.checkLengthUsername(body.username);
             user.username = body.username;
         }
         if ('password' in body) {
