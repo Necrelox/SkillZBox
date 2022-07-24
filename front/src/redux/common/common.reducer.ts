@@ -2,7 +2,7 @@
 import { ActionName, CommonActionTypes } from './common.types';
 import { Error } from './interfaces/error.interface';
 
-interface CommonState {
+export interface CommonState {
   errors: Error[];
   baseURL: string;
 }

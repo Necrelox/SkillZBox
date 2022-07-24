@@ -117,7 +117,7 @@ export const submitRegisterFormUserInfos = async (
   resetUserInfos(setUserInfos);
 
   if (!content.code || (!content.message && !content.token)) {
-    throw new Error("Une erreur s'est produite lors de l'authentification");
+    throw new Error("Une erreur s'est produite. Veuillez réessayer");
   }
 
   return content;

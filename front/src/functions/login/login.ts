@@ -15,7 +15,7 @@ import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 
 // helpers
 import { Endpoint } from 'helpers/endpoints';
-import { checkPasswordLength } from 'helpers/utils';
+import { checkPasswordLength, storeUserToken } from 'helpers/utils';
 
 // interfaces
 import { UserInfosLogin } from 'interfaces/UserInfos.interface';
@@ -81,15 +81,15 @@ export const submitLoginFormUserInfos = async (
           },
     ),
   });
-  const { content } = await response.json();
+  const { code, message, token } = await response.json();
 
   resetUserInfos(setUserInfos);
 
-  if (!content.code || (!content.message && !content.token)) {
+  if (!code || (!message && !token)) {
     throw new Error("Une erreur s'est produite lors de l'authentification");
   }
 
-  return content;
+  return { code, message, token };
 };
 
 export const ApiResponseHandler = (
@@ -128,6 +128,7 @@ export const submitLoginForm = async (
     ApiResponseHandler(code, message, setIsModalOpen, setModalContent);
     if (token) {
       dispatch(setUserTokenAction(token));
+      storeUserToken(token);
     }
     setIsButtonDisabled(false);
   } catch (error: any) {

@@ -17,6 +17,7 @@ export enum ApiHeader {
   ACCEPT = 'Accept',
   AUTHORIZATION = 'Authorization',
   USER_AGENT = 'User-Agent',
+  URL_ENCODED = 'application/x-www-form-urlencoded',
 }
 
 export enum ApiResponseCode {

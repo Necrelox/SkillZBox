@@ -2,11 +2,17 @@ export const Endpoint = {
   api: {
     ACCOUNT_REGISTER: 'account/signup',
     ACCOUNT_LOGIN: 'account/login',
+    USER: {
+      ME: 'user/me',
+    }
   },
 
   local: {
     REGISTER: 'api/register',
     LOGIN: 'api/login',
+    USER: {
+      ME: '/api/user/me',
+    }
   },
 
   routes: {

@@ -1,28 +1,32 @@
-import type { NextPage } from 'next';
-import { FormEvent, useState } from 'react';
+import { NextPage } from 'next';
+import { FormEvent, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // components
 import Layout from 'components/Layout/Layout';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';
+import { getUserData } from 'helpers/utils';
 
 // redux
-import { wrapper } from 'redux/store';
+import { AppState, wrapper } from 'redux/store';
+import { setUserDataAction } from 'redux/user/user.actions';
 
 // components
 import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
-import Modal, { fillAndOpenModalContent } from 'components/Modal/Modal';
 import { InputName, InputType } from 'components/Input/input.enum';
 import { IModal } from 'components/Modal/Modal.interface';
 import { ModalTypes } from 'components/Modal/modal.enum';
 import { UserStatus } from 'components/User/user.enum';
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
+import Modal from 'components/Modal/Modal';
 import User from 'components/User/User';
 
 // functions
-import { checkUserInfos, userInfosHandler } from 'functions/register/register';
+import { userInfosHandler } from 'functions/register/register';
+import { submitUpdateProfileForm } from 'functions/profile/profile';
 
 // interfaces
 import { UserInfosRegister } from 'interfaces/UserInfos.interface';
@@ -31,36 +35,47 @@ import { UserInfosRegister } from 'interfaces/UserInfos.interface';
 import styles from 'styles/pages/Profile.module.scss';
 
 const UserProfile: NextPage = () => {
+  const dispatch = useDispatch();
+  const { common, user } = useSelector((state: AppState) => state);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<IModal>({
     message: '',
     type: ModalTypes.UNKNOWN,
   });
   const [userInfos, setUserInfos] = useState<UserInfosRegister>({
-    username: '',
-    email: '',
+    username: user.username,
+    email: user.email,
     password: '',
     passwordConfirm: '',
   });
+
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const userInfoFromDatabase = await getUserData(common, dispatch);
+      if (userInfoFromDatabase) {
+        dispatch(setUserDataAction(userInfoFromDatabase));
+      }
+    };
+
+    fetchUserInfos();
+  }, []);
 
   const onUserInfosChange = (event: FormEvent<HTMLInputElement>) => {
     userInfosHandler(event, setUserInfos);
   };
 
   const submitEditProfileForm = async (event: FormEvent) => {
-    try {
-      event.preventDefault();
-      checkUserInfos(userInfos);
-    } catch (error: any) {
-      fillAndOpenModalContent(
-        {
-          message: error.message,
-          type: ModalTypes.ERROR,
-        },
-        setIsModalOpen,
-        setModalContent,
-      );
-    }
+    submitUpdateProfileForm(
+      event,
+      setIsModalOpen,
+      setModalContent,
+      setUserInfos,
+      userInfos,
+      setIsButtonDisabled,
+      user.token,
+    );
   };
 
   return (
@@ -70,9 +85,9 @@ const UserProfile: NextPage = () => {
 
         <div className={styles.marginContainer}>
           <User
-            message="Je suis le message"
+            message={user.activityMessage}
             status={UserStatus.ONLINE}
-            username={userInfos.username || 'Bernardo Croquette'}
+            username={user.username}
           />
         </div>
 
@@ -126,10 +141,12 @@ const UserProfile: NextPage = () => {
               text="Modifier"
               size={ButtonSize.MEDIUM}
               style={ButtonStyle.FILLED}
+              isDisabled={isButtonDisabled}
               isSubmitButton
             />
           </div>
         </form>
+
         <Modal isOpen={isModalOpen} modalContent={modalContent} />
       </div>
     </Layout>

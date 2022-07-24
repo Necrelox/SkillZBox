@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 // icons
@@ -33,9 +34,11 @@ const Menu: FC = () => {
       })}
     >
       <div className={classNames(styles.menuItem, styles.hidden)}>
-        <a href={Endpoint.routes.HOME}>
-          <Image src={LogoImage} height={50} width={40} />
-        </a>
+        <Link href={Endpoint.routes.HOME}>
+          <a>
+            <Image src={LogoImage} height={50} width={40} />
+          </a>
+        </Link>
       </div>
 
       <div className={styles.menuItem}>
@@ -45,9 +48,11 @@ const Menu: FC = () => {
           })}
         >
           <p className={styles.text}>Accueil</p>
-          <a href={Endpoint.routes.HOME}>
-            <IoHome />
-          </a>
+          <Link href={Endpoint.routes.HOME}>
+            <a>
+              <IoHome />
+            </a>
+          </Link>
         </div>
 
         <div
@@ -56,9 +61,11 @@ const Menu: FC = () => {
           })}
         >
           <p className={styles.text}>Messages</p>
-          <a href="#">
-            <IoChatboxEllipses />
-          </a>
+          <Link href="#">
+            <a>
+              <IoChatboxEllipses />
+            </a>
+          </Link>
         </div>
 
         <div
@@ -67,9 +74,11 @@ const Menu: FC = () => {
           })}
         >
           <p className={styles.text}>Profil</p>
-          <a href={Endpoint.routes.PROFILE}>
-            <FaUserAlt />
-          </a>
+          <Link href={Endpoint.routes.PROFILE}>
+            <a>
+              <FaUserAlt />
+            </a>
+          </Link>
         </div>
 
         <div
@@ -78,9 +87,11 @@ const Menu: FC = () => {
           })}
         >
           <p className={styles.text}>Déconnexion</p>
-          <a href={Endpoint.routes.LOGOUT}>
-            <FiLogOut />
-          </a>
+          <Link href={Endpoint.routes.LOGOUT}>
+            <a>
+              <FiLogOut />
+            </a>
+          </Link>
         </div>
       </div>
 

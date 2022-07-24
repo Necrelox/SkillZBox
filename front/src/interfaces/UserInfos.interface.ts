@@ -9,3 +9,10 @@ export interface UserInfosRegister {
   password: string;
   passwordConfirm: string;
 }
+
+export interface UserInfos {
+  activityMessage: string;
+  email: string;
+  isConnected: boolean;
+  username: string;
+}
