@@ -1,0 +1,50 @@
+@import 'src/styles/vars.scss';
+
+.container {
+  position: relative;
+  display: flex;
+  border-radius: 15px;
+  background-color: $gunPowder;
+
+  .label,
+  .fileName {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'Euclid Medium', sans-serif;
+  }
+
+  .label {
+    flex: 0.5;
+    padding: 15px 10px 15px 25px;
+    border-radius: 15px 0 0 15px;
+    background-color: $blue;
+    color: $white;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: $darkBlue;
+    }
+  }
+
+  .fileName {
+    flex: 1;
+    padding: 15px;
+    padding-right: 40px;
+    color: $grey;
+  }
+
+  .icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: $grey;
+  }
+
+  .input {
+    display: none;
+  }
+}
