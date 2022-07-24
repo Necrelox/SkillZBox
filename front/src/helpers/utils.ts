@@ -49,25 +49,27 @@ export const getUserData = async (
   const userToken = getUserToken();
 
   if (userToken) {
+    const response = await fetch(`${common.baseURL}${Endpoint.local.USER.ME}`, {
+      method: ApiMethod.GET,
+      headers: {
+        [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
+        [ApiHeader.AUTHORIZATION]: `Bearer ${userToken}`,
+      },
+    });
+
+    const data = await response.json();
+    if (data.content?.message === 'Token expired.') {
+      throw new Error('Token expired.');
+    }
+
     dispatch(setUserTokenAction(userToken));
+    const { username, email, activityMessage, isConnected } = data.user;
+
+    return {
+      username,
+      email,
+      activityMessage,
+      isConnected,
+    };
   }
-
-  const response = await fetch(`${common.baseURL}${Endpoint.local.USER.ME}`, {
-    method: ApiMethod.GET,
-    headers: {
-      [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
-      [ApiHeader.AUTHORIZATION]: `Bearer ${userToken}`,
-    },
-    body: null,
-  });
-
-  const data = await response.json();
-  const { username, email, activityMessage, isConnected } = data.user;
-
-  return {
-    username,
-    email,
-    activityMessage,
-    isConnected,
-  };
 };

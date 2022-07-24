@@ -1,17 +1,15 @@
 import { NextPage } from 'next';
 import { FormEvent, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // components
 import Layout from 'components/Layout/Layout';
 
 // helpers
 import { storeCommonServerSideData } from 'helpers/store';
-import { getUserData } from 'helpers/utils';
 
 // redux
 import { AppState, wrapper } from 'redux/store';
-import { setUserDataAction } from 'redux/user/user.actions';
 
 // components
 import { ButtonSize, ButtonStyle } from 'components/Button/button.enum';
@@ -35,8 +33,7 @@ import { UserInfosRegister } from 'interfaces/UserInfos.interface';
 import styles from 'styles/pages/Profile.module.scss';
 
 const UserProfile: NextPage = () => {
-  const dispatch = useDispatch();
-  const { common, user } = useSelector((state: AppState) => state);
+  const { user } = useSelector((state: AppState) => state);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,22 +42,20 @@ const UserProfile: NextPage = () => {
     type: ModalTypes.UNKNOWN,
   });
   const [userInfos, setUserInfos] = useState<UserInfosRegister>({
-    username: user.username,
-    email: user.email,
+    username: '',
+    email: '',
     password: '',
     passwordConfirm: '',
   });
 
   useEffect(() => {
-    const fetchUserInfos = async () => {
-      const userInfoFromDatabase = await getUserData(common, dispatch);
-      if (userInfoFromDatabase) {
-        dispatch(setUserDataAction(userInfoFromDatabase));
-      }
-    };
-
-    fetchUserInfos();
-  }, []);
+    setUserInfos({
+      username: user.username,
+      email: user.email,
+      password: '',
+      passwordConfirm: '',
+    });
+  }, [user]);
 
   const onUserInfosChange = (event: FormEvent<HTMLInputElement>) => {
     userInfosHandler(event, setUserInfos);
