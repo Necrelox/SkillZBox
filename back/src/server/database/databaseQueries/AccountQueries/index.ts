@@ -23,7 +23,7 @@ export class AccountQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -37,7 +37,7 @@ export class AccountQueries {
             }).catch((err: ErrorDatabase) => {
                 throw {
                     code: err?.code,
-                    message: DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!),
+                    message: DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string),
                     sql: err?.sql,
                 };
             });
@@ -146,12 +146,12 @@ export class AccountQueries {
                 };
             }
             await AccountQueries.addTokenTransaction({
-                token: Tools.Token.generateToken(user[0]!.uuid!),
-                userUuid: user[0]!.uuid,
+                token: Tools.Token.generateToken(user[0]?.uuid as Buffer),
+                userUuid: user[0]?.uuid,
                 expireAt: new Date(Date.now() + (1000 * 60 * 60))
             }, trx);
         }).catch((err: ErrorDatabase) => {
-            const message = DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!) ?? err?.message;
+            const message = DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string) ?? err?.message;
             throw {
                 code: err?.code,
                 message,
@@ -171,7 +171,7 @@ export class AccountQueries {
                     message: MessageError.GET_USER_BY_REFLECT
                 };
             } else {
-                if (user[0]!.isVerified) {
+                if (user[0]?.isVerified) {
                     throw {
                         code: CodeError.SET_VERIFY_USER,
                         message: MessageError.SET_VERIFY_USER
@@ -180,15 +180,13 @@ export class AccountQueries {
                     await AccountQueries.updateUserTransaction({
                         isVerified: true,
                     }, {
-                        uuid: user[0]!.uuid,
+                        uuid: user[0]?.uuid,
                     }, trx);
-                    await AccountQueries.deleteTokenTransaction({userUuid: user[0]!.uuid}, trx);
+                    await AccountQueries.deleteTokenTransaction({userUuid: user[0]?.uuid}, trx);
                 }
             }
-        }).then((trx: Transaction) => {
-            return trx;
         }).catch((err: ErrorDatabase) => {
-            const message = DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!) ?? err?.message;
+            const message = DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string) ?? err?.message;
             throw {
                 code: err?.code,
                 message,
@@ -210,7 +208,7 @@ export class AccountQueries {
             }, trx);
 
             await AccountQueries.addTokenTransaction({
-                token: Tools.Token.generateToken(userUuid!),
+                token: Tools.Token.generateToken(userUuid),
                 userUuid,
                 expireAt: new Date(Date.now() + (1000 * 60 * 60))
             }, trx);
@@ -224,11 +222,11 @@ export class AccountQueries {
                     message: MessageError.GET_USER_BY_REFLECT
                 };
             }
-            return token[0];
+            return token[0] as User.IToken;
         }).then((token: User.IToken) => {
             return token;
         }).catch((err: ErrorDatabase) => {
-            const message = DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!) ?? err?.message;
+            const message = DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string) ?? err?.message;
             throw {
                 code: err?.code,
                 message,
@@ -251,7 +249,7 @@ export class AccountQueries {
             }, trx);
 
             await AccountQueries.addTokenTransaction({
-                token: Tools.Token.generateToken(userUuid!),
+                token: Tools.Token.generateToken(userUuid),
                 userUuid,
                 expireAt: new Date(Date.now() + (1000 * 60 * 60))
             }, trx);
@@ -281,12 +279,12 @@ export class AccountQueries {
                     message: MessageError.GET_USER_BY_REFLECT
                 };
             }
-            return token[0];
+            return token[0] as User.IToken;
         }).
             then((token: User.IToken) => {
                 return token;
             }).catch((err: ErrorDatabase) => {
-                const message = DatabaseKnex.createBetterSqlMessageError(err?.code!, err?.sqlMessage!) ?? err?.message;
+                const message = DatabaseKnex.createBetterSqlMessageError(err?.code as string, err?.sqlMessage as string) ?? err?.message;
                 throw {
                     code: err?.code,
                     message,

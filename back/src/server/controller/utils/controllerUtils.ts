@@ -29,7 +29,7 @@ export abstract class ControllerUtils {
                 code: CodeError.GET_USER_BY_REFLECT,
                 message: MessageError.GET_USER_BY_REFLECT
             };
-        return user[0]!;
+        return user[0] as Models.User.IUser;
     }
 
     protected async checkSyntaxUsername(username: string) {
@@ -75,7 +75,7 @@ export abstract class ControllerUtils {
                 code: CodeError.GET_TOKEN_BY_REFLECT,
                 message: MessageError.GET_TOKEN_BY_REFLECT
             };
-        return token[0]!;
+        return token[0] as Models.User.IToken;
     }
 
 }

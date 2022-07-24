@@ -24,11 +24,11 @@ export class BearerToken {
                 code: CodeError.GET_TOKEN_BY_REFLECT,
                 message: MessageError.TOKEN_NOT_FOUND
             };
-        return token[0]!;
+        return token[0] as Models.User.IToken;
     }
 
     private static async verifyExpiration(token: Models.User.IToken) {
-        if (token!.expireAt! < new Date())
+        if (token.expireAt < new Date())
             throw {
                 code: CodeError.VERIFY_TOKEN_EXPIRATION,
                 message: MessageError.TOKEN_EXPIRED
@@ -45,12 +45,12 @@ export class BearerToken {
 
     public static async checkToken(req: Request, res: Response, next: NextFunction) {
         try {
-            const bearerToken = (req.headers.authorization);
-            await BearerToken.verifySignature(bearerToken!.split(' ')[1]!);
-            const token: Models.User.IToken = await BearerToken.getTokenByReflect(bearerToken!.split(' ')[1]!);
+            const bearerToken = req.headers.authorization?.split(' ')[1] as string;
+            await BearerToken.verifySignature(bearerToken);
+            const token: Models.User.IToken = await BearerToken.getTokenByReflect(bearerToken);
             await BearerToken.verifyExpiration(token);
             next();
-        } catch (error: any) {
+        } catch (error) {
             res.status(401).json({
                 content: error
             });

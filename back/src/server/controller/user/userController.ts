@@ -64,19 +64,19 @@ export class UserController extends UserUtils {
     private async getMethodMe(req: Request, res: Response) {
         try {
             const tokenFKUser: Models.User.ITokenFKUser[] = await DBQueries.UserQueries.getUserByFKToken({
-                token: (req.headers.authorization)?.split(' ')[1]!
+                token: (req.headers.authorization)?.split(' ')[1]
             });
             res.status(200).send({
                 code: 'OK',
                 user: {
-                    username: tokenFKUser[0]!.username,
-                    email: tokenFKUser[0]!.email,
-                    activityMessage: tokenFKUser[0]!.activityMessage,
-                    isConnected: tokenFKUser[0]!.isConnected,
-                    createdAt: tokenFKUser[0]!.createdAt,
+                    username: (tokenFKUser[0])?.username,
+                    email: (tokenFKUser[0])?.email,
+                    activityMessage: (tokenFKUser[0])?.activityMessage,
+                    isConnected: (tokenFKUser[0])?.isConnected,
+                    createdAt: (tokenFKUser[0])?.createdAt,
                 }
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -86,7 +86,7 @@ export class UserController extends UserUtils {
             if (Object.keys(req.body).length > 0) {
                 const userReflect = await super.transformBodyToUserForUpdate(req.body);
                 await DBQueries.UserQueries.updateUserByTokenTransaction(userReflect, {
-                    token: (req.headers.authorization)?.split(' ')[1]!
+                    token: (req.headers.authorization)?.split(' ')[1]
                 });
             } else {
                 res.status(200).send({
@@ -98,7 +98,7 @@ export class UserController extends UserUtils {
                 code: 'OK',
                 message: 'User updated.'
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -110,7 +110,7 @@ export class UserController extends UserUtils {
             res.status(200).send({
                 code: 'OK',
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -121,7 +121,7 @@ export class UserController extends UserUtils {
             res.status(200).send({
                 code: 'OK',
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -133,7 +133,7 @@ export class UserController extends UserUtils {
                 code: 'OK',
 
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -143,10 +143,10 @@ export class UserController extends UserUtils {
     private async getMethodMeUserFriend(req: Request, res: Response) {
         try {
             const tokenFKUser: Models.User.ITokenFKUser[] = await DBQueries.UserQueries.getUserByFKToken({
-                token: (req.headers.authorization)?.split(' ')[1]!
+                token: (req.headers.authorization)?.split(' ')[1]
             });
 
-            const friendsFKUsers: Models.User.IFriendFKUser[] = await DBQueries.UserQueries.getFriendsByFKUserUuid(tokenFKUser[0]!.uuid!);
+            const friendsFKUsers: Models.User.IFriendFKUser[] = await DBQueries.UserQueries.getFriendsByFKUserUuid((tokenFKUser[0])?.uuid as Buffer);
 
             res.status(200).send({
                 code: 'OK',
@@ -161,7 +161,7 @@ export class UserController extends UserUtils {
                     };
                 })
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -170,27 +170,27 @@ export class UserController extends UserUtils {
         try {
             await super.checkPostContainFriend(req.body);
             const tokenFKUser: Models.User.ITokenFKUser[] = await DBQueries.UserQueries.getUserByFKToken({
-                token: (req.headers.authorization)?.split(' ')[1]!
+                token: (req.headers.authorization)?.split(' ')[1]
             });
             const friend: Models.User.IUser = await super.getUserByReflect({
                 username: req.body.friend
             });
 
             await DBQueries.UserQueries.deleteFriend({
-                user: friend.uuid!,
-                friend: tokenFKUser[0]!.uuid!
+                user: friend.uuid,
+                friend: (tokenFKUser[0])?.uuid
             });
 
             await DBQueries.UserQueries.deleteFriend({
-                friend: friend.uuid!,
-                user: tokenFKUser[0]!.uuid!
+                friend: friend.uuid,
+                user: (tokenFKUser[0])?.uuid
             });
 
             res.status(200).send({
                 code: 'OK',
                 message: 'Friend deleted.'
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -199,14 +199,14 @@ export class UserController extends UserUtils {
     private async getMethodMeUserFriendRequest(req: Request, res: Response) {
         try {
             const tokenFKUser: Models.User.ITokenFKUser[] = await DBQueries.UserQueries.getUserByFKToken({
-                token: (req.headers.authorization)?.split(' ')[1]!
+                token: (req.headers.authorization)?.split(' ')[1]
             });
 
             const meRequestedBy: Models.User.IFriendRequestFKUser[] = await DBQueries.UserQueries.getUserByFKFriendRequestOnSending({
-                userRequested: tokenFKUser[0]!.uuid!
+                userRequested: (tokenFKUser[0])?.uuid
             });
             const meSentRequestsTo: Models.User.IFriendRequestFKUser[] = await DBQueries.UserQueries.getUserByFKFriendRequestOnRequested({
-                userSendingRequest: tokenFKUser[0]!.uuid!
+                userSendingRequest: (tokenFKUser[0])?.uuid
             });
             res.status(200).send({
                 code: 'OK',
@@ -228,7 +228,7 @@ export class UserController extends UserUtils {
                     };
                 })
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -237,24 +237,24 @@ export class UserController extends UserUtils {
         try {
             await super.checkPostContainUserRequested(req.body);
             const tokenFKUser: Models.User.ITokenFKUser[] = await DBQueries.UserQueries.getUserByFKToken({
-                token: (req.headers.authorization)?.split(' ')[1]!
+                token: (req.headers.authorization)?.split(' ')[1]
             });
             const userRequested: Models.User.IUser = await super.getUserByReflect({username: req.body.userRequested});
-            await super.checkIfUserRequestedNameIsNotSameToHimSelf(tokenFKUser[0]!.username!, userRequested.username!);
+            await super.checkIfUserRequestedNameIsNotSameToHimSelf((tokenFKUser[0])?.username as string, userRequested.username);
 
-            await super.checkIfUserIsNotAlreadyFriend(tokenFKUser[0]!.uuid!, userRequested.uuid!);
-            await super.checkUserSendingHasAlreadySendToTheUserRequested(tokenFKUser[0]!.uuid!, userRequested.uuid!);
+            await super.checkIfUserIsNotAlreadyFriend((tokenFKUser[0])?.uuid as Buffer, userRequested.uuid);
+            await super.checkUserSendingHasAlreadySendToTheUserRequested((tokenFKUser[0])?.uuid as Buffer, userRequested.uuid);
 
-            let message = await super.checkIfUserRequestHasAlreadySendRequestToTheUserSendTheRequest(tokenFKUser[0]!.uuid!, userRequested.uuid!);
+            let message = await super.checkIfUserRequestHasAlreadySendRequestToTheUserSendTheRequest((tokenFKUser[0])?.uuid as Buffer, userRequested.uuid);
             if (!message) {
-                await super.addFriendRequest(tokenFKUser[0]!.userUuid!, userRequested.uuid!);
+                await super.addFriendRequest((tokenFKUser[0])?.userUuid as Buffer, userRequested.uuid);
                 message = 'Friend request sent !';
             }
             res.status(200).send({
                 code: 'OK',
                 message
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
@@ -263,16 +263,16 @@ export class UserController extends UserUtils {
         try {
             await super.checkPostContainUserRequested(req.body);
             const tokenFKUser: Models.User.ITokenFKUser[] = await DBQueries.UserQueries.getUserByFKToken({
-                token: (req.headers.authorization)?.split(' ')[1]!
+                token: (req.headers.authorization)?.split(' ')[1]
             });
             const userRequested: Models.User.IUser = await super.getUserByReflect({username: req.body.userRequested});
-            await super.checkIfUserRequestedNameIsNotSameToHimSelf(tokenFKUser[0]!.username!, userRequested.username!);
-            await super.deleteUserFriendRequestSendingAndReceived(tokenFKUser[0]!.uuid!, userRequested.uuid!);
+            await super.checkIfUserRequestedNameIsNotSameToHimSelf((tokenFKUser[0])?.username as string, userRequested.username);
+            await super.deleteUserFriendRequestSendingAndReceived((tokenFKUser[0])?.uuid as Buffer, userRequested.uuid);
             res.status(200).send({
                 code: 'OK',
                 message: 'Friend request deleted.'
             });
-        } catch (error: any) {
+        } catch (error) {
             res.status(500).send({error});
         }
     }
