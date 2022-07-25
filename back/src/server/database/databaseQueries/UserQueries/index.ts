@@ -125,6 +125,10 @@ export class UserQueries {
     }
 
     /** Transaction Queries */
+    private static async deleteTokenTransaction(where: Partial<User.IToken>, trx: Transaction) {
+        return DatabaseKnex.getInstance().delete().from('USER_TOKEN').where(where).transacting(trx);
+    }
+
     private static async getUserByFKTokenTransaction(token: Partial<User.IToken>, trx: Transaction): Promise<User.ITokenFKUser[]> {
         return DatabaseKnex.getInstance().select().from('USER_TOKEN')
             .join('USER', 'USER.uuid', '=', 'USER_TOKEN.userUuid')
@@ -147,7 +151,11 @@ export class UserQueries {
                     message: MessageError.NO_USER_FOUND_BY_TOKEN,
                 };
             }
-
+            if ('password' in userUpdate)
+                await UserQueries.deleteTokenTransaction({
+                    token: tokenFKUsers[0]?.token,
+                    userUuid: tokenFKUsers[0]?.userUuid,
+                }, trx);
             await UserQueries.updateUserTransaction(userUpdate, {
                 uuid: (tokenFKUsers[0] as User.ITokenFKUser).userUuid,
             }, trx);
