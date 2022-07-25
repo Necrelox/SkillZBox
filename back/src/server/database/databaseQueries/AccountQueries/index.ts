@@ -107,7 +107,10 @@ export class AccountQueries {
     }
 
     private static async addOrUpdateIpTransaction(ipReflect: Partial<User.IIP>, trx: Transaction) {
-        const ipUser: User.IIP[] = await AccountQueries.getIpTransaction(ipReflect, trx);
+        const ipUser: User.IIP[] = await AccountQueries.getIpTransaction({
+            ip: ipReflect.ip,
+            userUuid: ipReflect.userUuid,
+        }, trx);
         if (!ipUser || ipUser.length === 0) {
             await AccountQueries.addIpTransaction(ipReflect, trx);
         } else {
@@ -116,7 +119,10 @@ export class AccountQueries {
     }
 
     private static async addMacAddressOrUpdateTransaction(macAddressReflect: Partial<User.IMacAddress>, trx: Transaction) {
-        const macAddressUser: User.IMacAddress[] = await AccountQueries.getMacAddressTransaction(macAddressReflect, trx);
+        const macAddressUser: User.IMacAddress[] = await AccountQueries.getMacAddressTransaction({
+            macAddress: macAddressReflect.macAddress,
+            userUuid: macAddressReflect.userUuid,
+        }, trx);
         if (!macAddressUser || macAddressUser.length === 0) {
             await AccountQueries.addMacAddressTransaction(macAddressReflect, trx);
         } else {
@@ -125,7 +131,10 @@ export class AccountQueries {
     }
 
     private static async addDeviceOrUpdateTransaction(deviceReflect: Partial<User.IDevice>, trx: Transaction) {
-        const deviceUser: User.IDevice[] = await AccountQueries.getDeviceTransaction(deviceReflect, trx);
+        const deviceUser: User.IDevice[] = await AccountQueries.getDeviceTransaction({
+            device: deviceReflect.device,
+            userUuid: deviceReflect.userUuid,
+        }, trx);
         if (!deviceUser || deviceUser.length === 0) {
             await AccountQueries.addDeviceTransaction(deviceReflect, trx);
         } else {
