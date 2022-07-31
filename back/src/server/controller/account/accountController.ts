@@ -32,6 +32,12 @@ export class AccountController extends AccountUtils {
         this._router.post('/logout', async (req: Request, res: Response) => {
             await this.postMethodLogout(req, res);
         });
+        this._router.use('/check-token', async (req: Request, res: Response, next: NextFunction) => {
+            await MiddlewareManager.middlewares(req, res, next);
+        });
+        this._router.get('/check-token', async (req: Request, res: Response) => {
+            await this.getMethodCheckToken(req, res);
+        });
     }
 
     private async postMethodSignup(req: Request, res: Response) {
@@ -133,6 +139,19 @@ export class AccountController extends AccountUtils {
             res.status(200).send({
                 code: 'OK',
                 message: 'User logout successfully.',
+            });
+        } catch (error) {
+            res.status(500).send({
+                error
+            });
+        }
+    }
+
+    private async getMethodCheckToken(_req: Request, res: Response) {
+        try {
+            res.status(200).send({
+                code: 'OK',
+                message: 'Token is valid.',
             });
         } catch (error) {
             res.status(500).send({
