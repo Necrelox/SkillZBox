@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch as ReactDispatch } from 'react';
+import { Dispatch as ReactDispatch, SetStateAction } from 'react';
 import { AnyAction, Dispatch } from 'redux';
 
 // components
@@ -48,20 +48,42 @@ export const getUserToken = () => {
   return localStorage.getItem('USER_TOKEN');
 };
 
+async function callApi(
+  url: string,
+  method: ApiMethod,
+  headers: HeadersInit | undefined,
+  body?: any,
+): Promise<any> {
+  // body and return promise can be changed by a type parent (like UserData extends parent, so u can use parent on type)
+  return await fetch(url, {
+    method,
+    headers,
+    body: JSON.stringify(body),
+  });
+}
+
 export const getUserData = async (
   common: CommonState,
   dispatch: Dispatch<AnyAction>,
 ) => {
   const userToken = getUserToken();
-
   if (userToken) {
-    const response = await fetch(`${common.baseURL}${Endpoint.local.USER.ME}`, {
-      method: ApiMethod.GET,
-      headers: {
+    const response = await callApi(
+      `${common.baseURL}${Endpoint.local.USER.ME}`,
+      ApiMethod.GET,
+      {
         [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
         [ApiHeader.AUTHORIZATION]: `Bearer ${userToken}`,
       },
-    });
+    );
+
+    // await fetch(`${common.baseURL}${Endpoint.local.USER.ME}`, {
+    //   method: ApiMethod.GET,
+    //   headers: {
+    //     [ApiHeader.CONTENT_TYPE]: ApiHeader.APPLICATION_JSON,
+    //     [ApiHeader.AUTHORIZATION]: `Bearer ${userToken}`,
+    //   },
+    // });
 
     const data = await response.json();
     if (data.content?.message === 'Token expired.') {
