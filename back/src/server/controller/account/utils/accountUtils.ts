@@ -29,7 +29,7 @@ enum CodeError {
 export abstract class AccountUtils extends ControllerUtils {
 
     /** ------- POST ------- */
-    protected async transformPostBodyToUserReflect(postBody: Models.User.IUser): Promise<Partial<Models.User.IUser>> {
+    protected async transformPostBodyToUserReflect(postBody: {email ?: string, username?: string}): Promise<Partial<Models.User.IUser>> {
         const userReflect: Partial<Models.User.IUser> = {};
         if (postBody.email)
             userReflect.email = postBody.email;
@@ -88,12 +88,12 @@ export abstract class AccountUtils extends ControllerUtils {
             };
     }
 
-    protected async verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(searchUser: Partial<Models.User.IUser>, password: string): Promise<Models.User.IUser> {
-        const user: Models.User.IUser[] = await DBQueries.AccountQueries.getUser(searchUser);
+    protected async verifyUserPasswordAndVerifiedAndBlacklistedAndReturnUser(userReflectToFind: Partial<Models.User.IUser>, password: string): Promise<Models.User.IUser> {
+        const user: Models.User.IUser[] = await DBQueries.AccountQueries.getUser(userReflectToFind);
         if (!user || user.length === 0)
             throw {
                 code: CodeError.VERIFY_LOGIN_AND_RETURN_USER,
-                message: searchUser?.username ? 'Invalid username' : 'Invalid email'
+                message: userReflectToFind?.username ? 'Invalid username' : 'Invalid email'
             };
 
         await Promise.all([

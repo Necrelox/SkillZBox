@@ -1,8 +1,9 @@
 import {AccountUtils} from './utils/accountUtils';
-import {Router, IRouter, Request, Response} from 'express';
+import {Router, IRouter, Request, Response, NextFunction} from 'express';
 import * as Tools from '../../tools';
 import * as Models from '../../model';
 import * as DBQueries from '../../database';
+import {BearerToken} from '../../middleware/bearerToken/bearerToken';
 
 export class AccountController extends AccountUtils {
     private _router: IRouter = Router();
@@ -24,6 +25,12 @@ export class AccountController extends AccountUtils {
         });
         this._router.post('/login-cli', async (req: Request, res: Response) => {
             await this.postMethodLoginCli(req, res);
+        });
+        this._router.use('/logout', async (req: Request, res: Response, next: NextFunction) => {
+            await BearerToken.checkToken(req, res, next);
+        });
+        this._router.post('/logout', async (req: Request, res: Response) => {
+            await this.postMethodLogout(req, res);
         });
     }
 
@@ -111,6 +118,21 @@ export class AccountController extends AccountUtils {
                 code: 'OK',
                 message: 'User logged successfully.',
                 token: token.token
+            });
+        } catch (error) {
+            res.status(500).send({
+                error
+            });
+        }
+    }
+
+    private async postMethodLogout(req: Request, res: Response) {
+        try {
+            const bearerToken : string = req.headers.authorization?.split(' ')[1] as string;
+            await DBQueries.AccountQueries.logoutUserTransaction(bearerToken);
+            res.status(200).send({
+                code: 'OK',
+                message: 'User logout successfully.',
             });
         } catch (error) {
             res.status(500).send({
