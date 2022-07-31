@@ -112,36 +112,38 @@ export const submitRegisterFormUserInfos = async (
     },
     body: JSON.stringify(userInfos),
   });
-  const { content } = await response.json();
+  const data = await response.json();
 
   resetUserInfos(setUserInfos);
 
-  if (!content.code || (!content.message && !content.token)) {
+  if (data.error) {
+    throw new Error(data.error.message);
+  }
+
+  if (!data.code || (!data.message && !data.token)) {
     throw new Error("Une erreur s'est produite. Veuillez réessayer");
   }
 
-  return content;
+  return data;
 };
 
 export const ApiResponseHandler = (
   code: string,
   message: string,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
 ) => {
   fillAndOpenModalContent(
     {
+      isOpen: true,
       message: message,
       type: code === ApiResponseCode.OK ? ModalTypes.SUCCESS : ModalTypes.ERROR,
     },
-    setIsModalOpen,
     setModalContent,
   );
 };
 
 export const submitRegisterForm = async (
   event: FormEvent,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
   setUserInfos: Dispatch<SetStateAction<UserInfosRegister>>,
   userInfos: UserInfosRegister,
@@ -155,16 +157,16 @@ export const submitRegisterForm = async (
       userInfos,
       setUserInfos,
     );
-    ApiResponseHandler(code, message, setIsModalOpen, setModalContent);
+    ApiResponseHandler(code, message, setModalContent);
     setIsButtonDisabled(false);
   } catch (error: any) {
     setIsButtonDisabled(false);
     fillAndOpenModalContent(
       {
+        isOpen: true,
         message: error.message,
         type: ModalTypes.ERROR,
       },
-      setIsModalOpen,
       setModalContent,
     );
   }

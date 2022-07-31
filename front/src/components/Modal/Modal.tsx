@@ -11,48 +11,51 @@ import { ModalTypes } from './modal.enum';
 import styles from './Modal.module.scss';
 
 interface Props {
-  isOpen: boolean;
   modalContent: IModal;
 }
 
-const openModal = (setIsModalOpen: Dispatch<SetStateAction<boolean>>) => {
-  setIsModalOpen(true);
+const openModal = (setModalContent: Dispatch<SetStateAction<IModal>>) => {
+  setModalContent((prevValue) => ({
+    ...prevValue,
+    isOpen: true,
+  }));
 };
 
-const closeModal = (setIsModalOpen: Dispatch<SetStateAction<boolean>>) => {
-  setIsModalOpen(false);
+const closeModal = (setModalContent: Dispatch<SetStateAction<IModal>>) => {
+  setModalContent((prevValue) => ({
+    ...prevValue,
+    isOpen: false,
+  }));
 };
 
-const showModal = (setIsModalOpen: Dispatch<SetStateAction<boolean>>) => {
-  openModal(setIsModalOpen);
+const showModal = (setModalContent: Dispatch<SetStateAction<IModal>>) => {
+  openModal(setModalContent);
   setTimeout(() => {
-    closeModal(setIsModalOpen);
+    closeModal(setModalContent);
   }, 3000);
 };
 
 const resetModalContent = (
   setModalContent: Dispatch<SetStateAction<IModal>>,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
 ) => {
-  setModalContent({ message: '', type: ModalTypes.UNKNOWN });
-  closeModal(setIsModalOpen);
+  setModalContent({ isOpen: false, message: '', type: ModalTypes.UNKNOWN });
+  closeModal(setModalContent);
 };
 
 export const fillAndOpenModalContent = (
   modalContent: IModal,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
 ) => {
-  resetModalContent(setModalContent, setIsModalOpen);
+  resetModalContent(setModalContent);
   setModalContent(modalContent);
-  showModal(setIsModalOpen);
+  showModal(setModalContent);
 };
 
-const Modal: FC<Props> = ({ isOpen, modalContent }) => {
+const Modal: FC<Props> = ({ modalContent }) => {
   return (
     <div
       className={classNames(styles.container, styles[modalContent.type], {
-        [styles.isOpen]: isOpen,
+        [styles.isOpen]: modalContent.isOpen,
       })}
     >
       <p className={styles.modalText}>{modalContent.message}</p>

@@ -46,7 +46,6 @@ export const sendUpdateProfilFormToAPI = async (
 
 export const submitUpdateProfileForm = async (
   event: FormEvent,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
   setUserInfos: Dispatch<SetStateAction<UserInfosRegister>>,
   userInfos: UserInfosRegister,
@@ -62,16 +61,16 @@ export const submitUpdateProfileForm = async (
       setUserInfos,
       userToken,
     );
-    ApiResponseHandler(code, message, setIsModalOpen, setModalContent);
+    ApiResponseHandler(code, message, setModalContent);
     setIsButtonDisabled(false);
   } catch (error: any) {
     setIsButtonDisabled(false);
     fillAndOpenModalContent(
       {
+        isOpen: true,
         message: error.message,
         type: ModalTypes.ERROR,
       },
-      setIsModalOpen,
       setModalContent,
     );
   }

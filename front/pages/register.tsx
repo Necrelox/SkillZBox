@@ -34,8 +34,8 @@ import styles from 'styles/pages/Register.module.scss';
 
 const Register: NextPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<IModal>({
+    isOpen: false,
     message: '',
     type: ModalTypes.UNKNOWN,
   });
@@ -54,7 +54,6 @@ const Register: NextPage = () => {
   const onFormSubmit = async (event: FormEvent) => {
     submitRegisterForm(
       event,
-      setIsModalOpen,
       setModalContent,
       setUserInfos,
       userInfos,
@@ -144,7 +143,7 @@ const Register: NextPage = () => {
             />
           </div>
         </form>
-        <Modal isOpen={isModalOpen} modalContent={modalContent} />
+        <Modal modalContent={modalContent} />
       </div>
     </Layout>
   );

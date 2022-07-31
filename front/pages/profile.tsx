@@ -36,8 +36,8 @@ const UserProfile: NextPage = () => {
   const { user } = useSelector((state: AppState) => state);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<IModal>({
+    isOpen: false,
     message: '',
     type: ModalTypes.UNKNOWN,
   });
@@ -64,7 +64,6 @@ const UserProfile: NextPage = () => {
   const submitEditProfileForm = async (event: FormEvent) => {
     submitUpdateProfileForm(
       event,
-      setIsModalOpen,
       setModalContent,
       setUserInfos,
       userInfos,
@@ -142,7 +141,7 @@ const UserProfile: NextPage = () => {
           </div>
         </form>
 
-        <Modal isOpen={isModalOpen} modalContent={modalContent} />
+        <Modal modalContent={modalContent} />
       </div>
     </Layout>
   );

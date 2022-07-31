@@ -1,11 +1,17 @@
+import { SetStateAction, Dispatch as ReactDispatch } from 'react';
 import { AnyAction, Dispatch } from 'redux';
+
+// components
+import { ModalTypes } from 'components/Modal/modal.enum';
+import { fillAndOpenModalContent } from 'components/Modal/Modal';
+import { IModal } from 'components/Modal/Modal.interface';
 
 // enums
 import { ApiHeader, ApiMethod } from 'enums/protocol.enum';
 
 // redux
 import { CommonState } from 'redux/common/common.reducer';
-import { setUserTokenAction } from 'redux/user/user.actions';
+import { setUserDataAction, setUserTokenAction } from 'redux/user/user.actions';
 
 // helpers
 import { Endpoint } from 'helpers/endpoints';
@@ -71,5 +77,24 @@ export const getUserData = async (
       activityMessage,
       isConnected,
     };
+  }
+};
+
+export const autoLogin = async (
+  common: CommonState,
+  dispatch: Dispatch<AnyAction>,
+  setModalContent: ReactDispatch<SetStateAction<IModal>>,
+) => {
+  try {
+    const userInfoFromDatabase = await getUserData(common, dispatch);
+    if (!userInfoFromDatabase) return;
+    dispatch(setUserDataAction(userInfoFromDatabase));
+  } catch (error: any) {
+    const modalContent: IModal = {
+      isOpen: true,
+      message: error.message,
+      type: ModalTypes.ERROR,
+    };
+    fillAndOpenModalContent(modalContent, setModalContent);
   }
 };
