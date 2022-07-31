@@ -29,7 +29,7 @@ export const hasLowercaseInPassword = (password: string) => {
 };
 
 export const hasNumberInPassword = (password: string) => {
-  const regex: RegExp = /\d/g;
+  const regex = /\d/g;
   return regex.test(password);
 };
 
