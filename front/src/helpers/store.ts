@@ -13,7 +13,8 @@ export const storeCommonServerSideData = async (
   const { store, req } = context;
   const { dispatch } = store;
 
-  const protocol = HttpMethod.HTTPS;
+  const protocol =
+    process.env.ENV === 'development' ? HttpMethod.HTTP : HttpMethod.HTTPS;
 
   dispatch<AnyAction>(setBaseUrlAction(`${protocol}://${req.headers.host}`));
 };

@@ -24,8 +24,9 @@ const reducer = (state: any, action: any) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
-      ...action.payload, // apply delta from hydration
+      ...action.payload, // apply delta from hydration // need to investigate this
     };
+    if (state.user.token) nextState.user = state.user; // temporary fix for user state
 
     return nextState;
   }
@@ -36,7 +37,6 @@ const reducer = (state: any, action: any) => {
 const makeStore = () => {
   return createStore(
     reducer,
-    undefined,
     composeWithDevTools(applyMiddleware(thunkMiddleware)),
   );
 };

@@ -34,8 +34,8 @@ import styles from 'styles/pages/Login.module.scss';
 const Login: NextPage = () => {
   const dispatch = useDispatch();
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<IModal>({
+    isOpen: false,
     message: '',
     type: ModalTypes.UNKNOWN,
   });
@@ -52,7 +52,6 @@ const Login: NextPage = () => {
   const onFormSubmit = (event: FormEvent) => {
     submitLoginForm(
       event,
-      setIsModalOpen,
       setModalContent,
       setUserInfos,
       userInfos,
@@ -117,7 +116,7 @@ const Login: NextPage = () => {
           </div>
         </form>
       </div>
-      <Modal isOpen={isModalOpen} modalContent={modalContent} />
+      <Modal modalContent={modalContent} />
     </Layout>
   );
 };

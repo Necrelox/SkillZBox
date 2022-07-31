@@ -12,7 +12,7 @@ import { InputName, InputType } from './input.enum';
 import styles from './Input.module.scss';
 
 interface Props {
-  value: string | number | readonly string[] | undefined;
+  value: string;
   type: InputType;
   label?: string;
   placeholder?: string;

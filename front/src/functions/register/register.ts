@@ -59,6 +59,10 @@ const hasForbidenCharacters = (value: string) => {
   return !regex.test(value);
 };
 
+const checkUsernameLength = (username: string) => {
+  return username.length < 3 || username.length > 20;
+};
+
 export const checkUserInfos = (userInfos: UserInfosRegister) => {
   if (isUserInfosValid(userInfos)) {
     throw new Error('Veuillez remplir tous les champs');
@@ -67,6 +71,12 @@ export const checkUserInfos = (userInfos: UserInfosRegister) => {
   if (hasForbidenCharacters(userInfos.username)) {
     throw new Error(
       "Le nom d'utilisateur ne peut pas contenir de caractères spéciaux",
+    );
+  }
+
+  if (checkUsernameLength(userInfos.username)) {
+    throw new Error(
+      "Le nom d'utilisateur doit contenir entre 3 et 20 caractères",
     );
   }
 
@@ -102,36 +112,38 @@ export const submitRegisterFormUserInfos = async (
     },
     body: JSON.stringify(userInfos),
   });
-  const { content } = await response.json();
+  const data = await response.json();
 
   resetUserInfos(setUserInfos);
 
-  if (!content.code || (!content.message && !content.token)) {
-    throw new Error("Une erreur s'est produite lors de l'authentification");
+  if (data.error) {
+    throw new Error(data.error.message);
   }
 
-  return content;
+  if (!data.code || (!data.message && !data.token)) {
+    throw new Error("Une erreur s'est produite. Veuillez réessayer");
+  }
+
+  return data;
 };
 
 export const ApiResponseHandler = (
   code: string,
   message: string,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
 ) => {
   fillAndOpenModalContent(
     {
+      isOpen: true,
       message: message,
       type: code === ApiResponseCode.OK ? ModalTypes.SUCCESS : ModalTypes.ERROR,
     },
-    setIsModalOpen,
     setModalContent,
   );
 };
 
 export const submitRegisterForm = async (
   event: FormEvent,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
   setUserInfos: Dispatch<SetStateAction<UserInfosRegister>>,
   userInfos: UserInfosRegister,
@@ -145,16 +157,16 @@ export const submitRegisterForm = async (
       userInfos,
       setUserInfos,
     );
-    ApiResponseHandler(code, message, setIsModalOpen, setModalContent);
+    ApiResponseHandler(code, message, setModalContent);
     setIsButtonDisabled(false);
   } catch (error: any) {
     setIsButtonDisabled(false);
     fillAndOpenModalContent(
       {
+        isOpen: true,
         message: error.message,
         type: ModalTypes.ERROR,
       },
-      setIsModalOpen,
       setModalContent,
     );
   }

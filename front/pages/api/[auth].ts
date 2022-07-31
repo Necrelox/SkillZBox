@@ -33,7 +33,7 @@ export default async function handler(
         const data = await response.json();
         return res.status(200).json(data);
       } catch (error: any) {
-        return res.status(500).json({ content: error.message });
+        return res.status(500).json(error.message);
       }
 
     default:

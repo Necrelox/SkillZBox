@@ -15,7 +15,7 @@ import { ApiHeader, ApiMethod, ApiResponseCode } from 'enums/protocol.enum';
 
 // helpers
 import { Endpoint } from 'helpers/endpoints';
-import { checkPasswordLength } from 'helpers/utils';
+import { checkPasswordLength, storeUserToken } from 'helpers/utils';
 
 // interfaces
 import { UserInfosLogin } from 'interfaces/UserInfos.interface';
@@ -81,36 +81,34 @@ export const submitLoginFormUserInfos = async (
           },
     ),
   });
-  const { content } = await response.json();
+  const { code, message, token } = await response.json();
 
   resetUserInfos(setUserInfos);
 
-  if (!content.code || (!content.message && !content.token)) {
+  if (!code || (!message && !token)) {
     throw new Error("Une erreur s'est produite lors de l'authentification");
   }
 
-  return content;
+  return { code, message, token };
 };
 
 export const ApiResponseHandler = (
   code: string,
   message: string,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
 ) => {
   fillAndOpenModalContent(
     {
+      isOpen: true,
       message: message,
       type: code === ApiResponseCode.OK ? ModalTypes.SUCCESS : ModalTypes.ERROR,
     },
-    setIsModalOpen,
     setModalContent,
   );
 };
 
 export const submitLoginForm = async (
   event: FormEvent,
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   setModalContent: Dispatch<SetStateAction<IModal>>,
   setUserInfos: Dispatch<SetStateAction<UserInfosLogin>>,
   userInfos: UserInfosLogin,
@@ -125,19 +123,20 @@ export const submitLoginForm = async (
       userInfos,
       setUserInfos,
     );
-    ApiResponseHandler(code, message, setIsModalOpen, setModalContent);
+    ApiResponseHandler(code, message, setModalContent);
     if (token) {
       dispatch(setUserTokenAction(token));
+      storeUserToken(token);
     }
     setIsButtonDisabled(false);
   } catch (error: any) {
     setIsButtonDisabled(false);
     fillAndOpenModalContent(
       {
+        isOpen: true,
         message: error.message,
         type: ModalTypes.ERROR,
       },
-      setIsModalOpen,
       setModalContent,
     );
   }
