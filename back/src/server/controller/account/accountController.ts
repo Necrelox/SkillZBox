@@ -3,7 +3,7 @@ import {Router, IRouter, Request, Response, NextFunction} from 'express';
 import * as Tools from '../../tools';
 import * as Models from '../../model';
 import * as DBQueries from '../../database';
-import {BearerToken} from '../../middleware/bearerToken/bearerToken';
+import {MiddlewareManager} from "../../middleware";
 
 export class AccountController extends AccountUtils {
     private _router: IRouter = Router();
@@ -27,7 +27,7 @@ export class AccountController extends AccountUtils {
             await this.postMethodLoginCli(req, res);
         });
         this._router.use('/logout', async (req: Request, res: Response, next: NextFunction) => {
-            await BearerToken.checkToken(req, res, next);
+            await MiddlewareManager.middlewares(req, res, next);
         });
         this._router.post('/logout', async (req: Request, res: Response) => {
             await this.postMethodLogout(req, res);
