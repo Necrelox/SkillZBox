@@ -114,7 +114,10 @@ export class AccountQueries {
         if (!ipUser || ipUser.length === 0) {
             await AccountQueries.addIpTransaction(ipReflect, trx);
         } else {
-            await AccountQueries.updateIpTransaction({active: true}, ipReflect, trx);
+            await AccountQueries.updateIpTransaction({active: true}, {
+                ip: ipReflect.ip,
+                userUuid: ipReflect.userUuid,
+            }, trx);
         }
     }
 
@@ -126,7 +129,10 @@ export class AccountQueries {
         if (!macAddressUser || macAddressUser.length === 0) {
             await AccountQueries.addMacAddressTransaction(macAddressReflect, trx);
         } else {
-            await AccountQueries.updateMacAddressTransaction({active: true}, macAddressReflect, trx);
+            await AccountQueries.updateMacAddressTransaction({active: true}, {
+                macAddress: macAddressReflect.macAddress,
+                userUuid: macAddressReflect.userUuid,
+            }, trx);
         }
     }
 
@@ -138,7 +144,10 @@ export class AccountQueries {
         if (!deviceUser || deviceUser.length === 0) {
             await AccountQueries.addDeviceTransaction(deviceReflect, trx);
         } else {
-            await AccountQueries.updateDeviceTransaction({active: true}, deviceReflect, trx);
+            await AccountQueries.updateDeviceTransaction({active: true}, {
+                device: deviceReflect.device,
+                userUuid: deviceReflect.userUuid,
+            }, trx);
         }
     }
 

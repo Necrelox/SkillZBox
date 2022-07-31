@@ -140,6 +140,18 @@ export class UserQueries {
         return DatabaseKnex.getInstance().update(userReflect).into('USER').where(where).transacting(trx);
     }
 
+    private static async updateDeviceTransaction(deviceReflect: Partial<User.IDevice>, deviceReflectToFind: Partial<User.IDevice>, trx: Transaction) {
+        return DatabaseKnex.getInstance().update(deviceReflect).where(deviceReflectToFind).into('USER_DEVICE').transacting(trx);
+    }
+
+    private static async updateMacAddressTransaction(macAddressReflect: Partial<User.IMacAddress>, macAddressReflectToFind: Partial<User.IMacAddress>, trx: Transaction) {
+        return DatabaseKnex.getInstance().update(macAddressReflect).where(macAddressReflectToFind).into('USER_MACADDRESS').transacting(trx);
+    }
+
+    private static async updateIpTransaction(ipReflect: Partial<User.IIP>, ipReflectToFind: Partial<User.IIP>, trx: Transaction) {
+        return DatabaseKnex.getInstance().update(ipReflect).where(ipReflectToFind).into('USER_IP').transacting(trx);
+    }
+
     public static async updateUserByTokenTransaction(userUpdate: Partial<User.IUser>, tokenForSearch: Partial<User.IToken>) {
         const knex = await DatabaseKnex.getInstance();
         return knex.transaction(async (trx: Transaction) => {
@@ -151,11 +163,30 @@ export class UserQueries {
                     message: MessageError.NO_USER_FOUND_BY_TOKEN,
                 };
             }
-            if ('password' in userUpdate)
+            if ('password' in userUpdate) {
                 await UserQueries.deleteTokenTransaction({
                     token: tokenFKUsers[0]?.token,
                     userUuid: tokenFKUsers[0]?.userUuid,
                 }, trx);
+                await Promise.all([
+                    UserQueries.updateUserTransaction({isConnected: false}, {uuid: tokenFKUsers[0]?.userUuid}, trx),
+                    UserQueries.updateIpTransaction({active: false}, {
+                        userUuid: tokenFKUsers[0]?.userUuid,
+                        active: true,
+                    }, trx),
+                    UserQueries.updateDeviceTransaction({active: false}, {
+                        userUuid: tokenFKUsers[0]?.userUuid,
+                        active: true,
+                    }, trx),
+                    UserQueries.updateMacAddressTransaction({active: false}, {
+                        userUuid: tokenFKUsers[0]?.userUuid,
+                        active: true,
+                    }, trx),
+                    UserQueries.deleteTokenTransaction({
+                        userUuid: tokenFKUsers[0]?.userUuid
+                    }, trx)
+                ]);
+            }
             await UserQueries.updateUserTransaction(userUpdate, {
                 uuid: (tokenFKUsers[0] as User.ITokenFKUser).userUuid,
             }, trx);
