@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express';
+import {Request} from 'express';
 import * as Tools from '../../tools';
 import * as Models from '../../model';
 import * as DBQueries from '../../database';
@@ -14,7 +14,6 @@ export enum MessageError {
     TOKEN_EXPIRED = 'Token expired.',
     TOKEN_INVALID_SIGNATURE = 'Token invalid signature.',
 }
-
 
 export class BearerToken {
     private static async getTokenByReflect(tokenReflect: string): Promise<Models.User.IToken> {
@@ -43,17 +42,14 @@ export class BearerToken {
             };
     }
 
-    public static async checkToken(req: Request, res: Response, next: NextFunction) {
+    public static async checkToken(req: Request) {
         try {
             const bearerToken = req.headers.authorization?.split(' ')[1] as string;
             await BearerToken.verifySignature(bearerToken);
             const token: Models.User.IToken = await BearerToken.getTokenByReflect(bearerToken);
             await BearerToken.verifyExpiration(token);
-            next();
         } catch (error) {
-            res.status(401).json({
-                content: error
-            });
+            throw error;
         }
     }
 }

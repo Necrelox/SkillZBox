@@ -1,8 +1,9 @@
-import {Router, IRouter, Request, Response, NextFunction} from 'express';
-import {UserUtils} from './utils/userUtils';
-import {BearerToken} from '../../middleware/bearerToken/bearerToken';
 import * as Models from '../../model';
 import * as DBQueries from '../../database';
+import {UserUtils} from './utils/userUtils';
+import {MiddlewareManager} from "../../middleware";
+
+import {Router, IRouter, Request, Response, NextFunction} from 'express';
 
 export class UserController extends UserUtils {
     private _router: IRouter = Router();
@@ -14,7 +15,7 @@ export class UserController extends UserUtils {
 
     private initializeAccountController() {
         this._router.use('/me', async (req: Request, res: Response, next: NextFunction) => {
-            await BearerToken.checkToken(req, res, next);
+            await MiddlewareManager.middlewares(req, res, next);
         });
         this._router.get('/me', async (req: Request, res: Response) => {
             await this.getMethodMe(req, res);
@@ -22,9 +23,8 @@ export class UserController extends UserUtils {
         this._router.put('/me', async (req: Request, res: Response) => {
             await this.putMethodMe(req, res);
         });
-
         this._router.use('/me/logo', async (req: Request, res: Response, next: NextFunction) => {
-            await BearerToken.checkToken(req, res, next);
+            await MiddlewareManager.middlewares(req, res, next);
         });
         this._router.get('/me/logo', async (req: Request, res: Response) => {
             await this.getMethodMeLogo(req, res);
@@ -35,9 +35,8 @@ export class UserController extends UserUtils {
         this._router.delete('/me/logo', async (req: Request, res: Response) => {
             await this.deleteMethodMeLogo(req, res);
         });
-
         this._router.use('/me/friend', async (req: Request, res: Response, next: NextFunction) => {
-            await BearerToken.checkToken(req, res, next);
+            await MiddlewareManager.middlewares(req, res, next);
         });
         this._router.get('/me/friend', async (req: Request, res: Response) => {
             await this.getMethodMeUserFriend(req, res);
@@ -45,9 +44,8 @@ export class UserController extends UserUtils {
         this._router.delete('/me/friend', async (req: Request, res: Response) => {
             await this.deleteMethodMeUserFriend(req, res);
         });
-
         this._router.use('/me/friend-request', async (req: Request, res: Response, next: NextFunction) => {
-            await BearerToken.checkToken(req, res, next);
+            await MiddlewareManager.middlewares(req, res, next);
         });
         this._router.get('/me/friend-request', async (req: Request, res: Response) => {
             await this.getMethodMeUserFriendRequest(req, res);
